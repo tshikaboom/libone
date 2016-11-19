@@ -12,6 +12,8 @@
 
 #include "ONEDocument.h"
 
+#include <vector>
+
 using std::string;
 namespace libone {
 class GUID {
@@ -69,9 +71,29 @@ class FileChunkReference64x32 {
     uint32_t cb;
 };
 
+
+class FileNode {
+  public:
+    void parse(librevenge::RVNGInputStream *input);
+
+  private:
+    uint16_t FileNodeID;
+    uint16_t Size;
+    uint16_t ABCD;
+};
+
+
 class FileNodeListFragment {
   public:
     void parse(librevenge::RVNGInputStream *input);
+
+  private:
+    uint64_t uintMagic;
+    uint32_t FileNodeListID;
+    uint32_t nFragmentSequence;
+    std::vector<FileNode> rgFileNodes;
+    uint16_t nextFragment;
+    uint64_t footer;
 };
 }
 #endif // INCLUDED_LIBONE_LIBONE_H

@@ -34,6 +34,7 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	FileChunkReference64.cpp \
 	FileChunkReference64x32.cpp \
 	FileNodeListFragment.cpp \
+	FileNode.cpp \
 	libone_utils.h
 
 if OS_WIN32
