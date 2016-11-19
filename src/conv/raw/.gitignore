@@ -1,0 +1,9 @@
+.deps
+.libs
+*.lo
+*.la
+Makefile
+Makefile.in
+one2raw
+one2raw.exe
+one2raw.rc

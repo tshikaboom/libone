@@ -1,0 +1,9 @@
+.deps
+.libs
+*.lo
+*.la
+Makefile
+Makefile.in
+one2svg
+one2svg.exe
+one2svg.rc

@@ -1,0 +1,31 @@
+#include <winver.h>
+
+VS_VERSION_INFO VERSIONINFO
+  FILEVERSION @ONE_MAJOR_VERSION@,@ONE_MINOR_VERSION@,@ONE_MICRO_VERSION@,BUILDNUMBER
+  PRODUCTVERSION @ONE_MAJOR_VERSION@,@ONE_MINOR_VERSION@,@ONE_MICRO_VERSION@,0
+  FILEFLAGSMASK 0
+  FILEFLAGS 0
+  FILEOS VOS__WINDOWS32
+  FILETYPE VFT_DLL
+  FILESUBTYPE VFT2_UNKNOWN
+  BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+      BLOCK "040904B0"
+      BEGIN
+	VALUE "CompanyName", "The libone developer community"
+	VALUE "FileDescription", "libone"
+	VALUE "FileVersion", "@ONE_MAJOR_VERSION@.@ONE_MINOR_VERSION@.@ONE_MICRO_VERSION@.BUILDNUMBER"
+	VALUE "InternalName", "libone-0.0"
+	VALUE "LegalCopyright", "Copyright (C) 2016 Oskar Viljasaar, other contributors"
+	VALUE "OriginalFilename", "libone-0.0.dll"
+	VALUE "ProductName", "libone"
+	VALUE "ProductVersion", "@ONE_MAJOR_VERSION@.@ONE_MINOR_VERSION@.@ONE_MICRO_VERSION@"
+      END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+      VALUE "Translation", 0x409, 1200
+    END
+  END
+
