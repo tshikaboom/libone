@@ -73,6 +73,7 @@ class FileNodeListFragment {
   public:
     void parse(librevenge::RVNGInputStream *input);
 };
+}
 #endif // INCLUDED_LIBONE_LIBONE_H
 
 /* vim:set shiftwidth=2 softtabstop=2 expandtab: */

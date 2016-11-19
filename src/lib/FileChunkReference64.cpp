@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <cstring>
 #include <iostream>
 #include <iomanip>
@@ -10,8 +11,8 @@ using std::string;
 namespace libone {
 
 	void FileChunkReference64::parse(librevenge::RVNGInputStream *input) {
-		stp = readU64(input, false);
-		cb = readU64(input, false);
+		stp = libone::readU64(input, false);
+		cb = libone::readU64(input, false);
 	}
 	uint64_t FileChunkReference64::get_location() {
 		return stp;

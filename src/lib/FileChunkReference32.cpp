@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <cstring>
 #include <iostream>
 #include <iomanip>
@@ -5,12 +6,12 @@
 
 #include "libone_utils.h"
 
-using std::string;
+using std::stringstream;
 
 namespace libone {
 
 	void FileChunkReference32::parse(librevenge::RVNGInputStream *input) {
-		stp = readU32(input, false);
+		stp = libone::readU32(input, false);
 		cb = readU32(input, false);
 	}
 	uint32_t FileChunkReference32::get_location() {

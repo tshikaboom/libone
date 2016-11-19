@@ -16,7 +16,7 @@
 #include <librevenge-stream/librevenge-stream.h>
 
 #include <libone/libone.h>
-
+#include <libone/ONEDocument.h>
 #include "libone_utils.h"
 
 using boost::scoped_ptr;
