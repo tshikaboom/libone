@@ -27,14 +27,23 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_LIBADD = \
 libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_DEPENDENCIES = @LIBONE_WIN32_RESOURCE@
 libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_LDFLAGS = $(version_info) -export-dynamic -no-undefined
 libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
-	ONEDocument.cpp \
-	libone_utils.cpp \
-	guid.cpp \
+	CompactID.cpp \
+	CompactID.h \
+	ExtendedGUID.cpp \
+	ExtendedGUID.h \
 	FileChunkReference32.cpp \
 	FileChunkReference64.cpp \
 	FileChunkReference64x32.cpp \
-	FileNodeListFragment.cpp \
+	FileChunkReference.h \
 	FileNode.cpp \
+	FileNode.h \
+	FileNodeListFragment.cpp \
+	FileNodeListFragment.h \
+	GUID.cpp \
+	GUID.h \
+	ONEDocument.cpp \
+	libone_utils.cpp \
+	libone_types.h \
 	libone_utils.h
 
 if OS_WIN32
