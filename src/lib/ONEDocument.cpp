@@ -64,6 +64,8 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   GUID guidFileType;
   FileChunkReference32 chunk;
   FileChunkReference64x32 chunk6432;
+  FileChunkReference64x32 FileNodeListRoot;
+  FileNodeListFragment first_fragment;
 
   (void) document;
   // sanity check
@@ -126,8 +128,8 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   chunk6432.parse(input);
   std::cout << "fcrTransactionLog " << chunk6432.to_string() << '\n';
 
-  chunk6432.parse(input);
-  std::cout << "fcrFileNodeListRoot " << chunk6432.to_string() << '\n';
+  FileNodeListRoot.parse(input);
+  std::cout << "fcrFileNodeListRoot " << FileNodeListRoot.to_string() << '\n';
 
   chunk6432.parse(input);
   std::cout << "fcrFreeChunkList " << chunk6432.to_string() << '\n';
@@ -164,7 +166,14 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
     std::cout << "position " << input->tell() << '\n';
 
-    std::cout << "empty? " << readU64(input, true) << '\n';
+    std::cout << "test fileNodeList " << '\n';
+//    long old = input->tell();
+    input->seek (FileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
+    std::cout << FileNodeListRoot.get_location() << " seeking to " << input->tell() << '\n';
+    first_fragment.parse(input);
+    std::cout << first_fragment.to_string();
+
+
   return RESULT_UNKNOWN_ERROR;
 }
 catch (const FileAccessError &)

@@ -31,10 +31,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	CompactID.h \
 	ExtendedGUID.cpp \
 	ExtendedGUID.h \
-	FileChunkReference32.cpp \
-	FileChunkReference64.cpp \
-	FileChunkReference64x32.cpp \
 	FileChunkReference.h \
+	FileChunkReference.cpp \
 	FileNode.cpp \
 	FileNode.h \
 	FileNodeListFragment.cpp \
