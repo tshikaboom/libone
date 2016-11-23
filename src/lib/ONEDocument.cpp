@@ -65,7 +65,9 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   FileChunkReference32 chunk;
   FileChunkReference64x32 chunk6432;
   FileChunkReference64x32 FileNodeListRoot;
+  FileChunkReference64x32 TransactionLog;
   FileNodeListFragment first_fragment;
+  TransactionLogFragment log_fragment;
 
   (void) document;
   // sanity check
@@ -125,8 +127,8 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   chunk6432.parse(input);
   std::cout << "fcrHashedChunkList " << chunk6432.to_string() << '\n';
 
-  chunk6432.parse(input);
-  std::cout << "fcrTransactionLog " << chunk6432.to_string() << '\n';
+  TransactionLog.parse(input);
+  std::cout << "fcrTransactionLog " << TransactionLog.to_string() << '\n';
 
   FileNodeListRoot.parse(input);
   std::cout << "fcrFileNodeListRoot " << FileNodeListRoot.to_string() << '\n';
@@ -173,6 +175,10 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
     first_fragment.parse(input);
     std::cout << first_fragment.to_string();
 
+  std::cout << "trying transactions, jumping to " << TransactionLog.get_location() << '\n';
+  input->seek(TransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
+  log_fragment.parse(input);
+  std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
 
   return RESULT_UNKNOWN_ERROR;
 }

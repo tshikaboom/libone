@@ -16,30 +16,27 @@ using namespace std;
 
 
 namespace libone {
-/*
+
 class FileChunkReference {
   public:
-    FileChunkReference();
-    virtual ~FileChunkReference() = 0;
-    virtual void parse(librevenge::RVNGInputStream *input);
-    virtual string to_string();
+    virtual ~FileChunkReference() {}
+    virtual void parse(librevenge::RVNGInputStream *input) = 0;
+    virtual string to_string() = 0;
 };
-*/
-class FileChunkReference32 {
+
+class FileChunkReference32: public FileChunkReference {
   public:
-
     void parse(librevenge::RVNGInputStream *input);
-
+    string to_string();
     uint32_t get_location();
     uint32_t get_size();
-    string to_string();
 
   private:
     uint32_t stp = 0;
     uint32_t cb = 0;
 };
 
-class FileChunkReference64 {
+class FileChunkReference64: public FileChunkReference {
   public:
 
     void parse(librevenge::RVNGInputStream *input);

@@ -11,14 +11,14 @@
 #define INCLUDED_LIBONE_GUID_H
 
 #include <libone/libone.h>
-
+#include "libone_utils.h"
 
 namespace libone {
 class GUID {
 public:
 
     void parse(librevenge::RVNGInputStream *input);
-    string to_string();
+    std::string to_string();
 
   protected:
     uint32_t Data1;

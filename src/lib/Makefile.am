@@ -37,6 +37,10 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	FileNode.h \
 	FileNodeListFragment.cpp \
 	FileNodeListFragment.h \
+	TransactionEntry.h \
+	TransactionEntry.cpp \
+	TransactionLogFragment.h \
+	TransactionLogFragment.cpp \
 	GUID.cpp \
 	GUID.h \
 	ONEDocument.cpp \

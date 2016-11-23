@@ -10,6 +10,8 @@
 #ifndef INCLUDED_LIBONE_TRANSACTIONLOGFRAGMENT_H
 #define INCLUDED_LIBONE_TRANSACTIONLOGFRAGMENT_H
 #include <vector>
+
+
 #include "libone_utils.h"
 
 
@@ -18,10 +20,11 @@ namespace libone {
 class TransactionLogFragment {
   public:
     void parse(librevenge::RVNGInputStream *input);
+    std::string to_string();
 
   private:
-    std::vector<TransactionEntry> sizeTable;
-    FileChunkReference64x32 nextFragment;
+    std::vector<TransactionEntry> sizeTable = std::vector<TransactionEntry>();
+    FileChunkReference64x32 nextFragment = FileChunkReference64x32();
 
 };
 

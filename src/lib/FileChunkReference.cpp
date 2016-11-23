@@ -3,7 +3,6 @@
 #include <iostream>
 #include <iomanip>
 #include <libone/libone.h>
-#include "FileChunkReference.h"
 #include "libone_utils.h"
 
 using std::stringstream;
@@ -26,7 +25,7 @@ namespace libone {
 
 	string FileChunkReference32::to_string() {
 		std::stringstream stream;
-		stream << "stp32 " << std::hex << stp << " cb32 " << cb;
+		stream << "stp32 " << stp << " cb32 " << cb;
 		return stream.str();
 	}
 
@@ -43,7 +42,7 @@ namespace libone {
 
 	string FileChunkReference64::to_string() {
 		std::stringstream stream;
-		stream << "stp64 " << std::hex << stp << " cb64 " << cb;
+		stream << "stp64 "  << stp << " cb64 " << cb;
 		return stream.str();
 	}
 

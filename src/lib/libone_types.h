@@ -7,5 +7,7 @@
 #include "FileNodeListFragment.h"
 #include "ExtendedGUID.h"
 #include "FileChunkReference.h"
+#include "TransactionEntry.h"
+#include "TransactionLogFragment.h"
 
 #endif

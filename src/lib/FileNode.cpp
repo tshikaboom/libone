@@ -12,12 +12,23 @@ using std::string;
 namespace libone {
 
 	void FileNode::parse(librevenge::RVNGInputStream *input) {
-		uint32_t temp;
-		std::cout << "position " << std::hex << input->tell() << '\n';
+//		uint16_t tmp1;
+//		uint16_t tmp2;
+		unsigned int temp;
+		FileChunkReference32 ref;
+		input->seek(0, librevenge::RVNG_SEEK_CUR);
+		std::cout << "changing position to " << input->tell() << '\n';
+		std::cout << "FileNode position begin " << std::hex << input->tell() << '\n';
+//		input->seek(2, librevenge::RVNG_SEEK_CUR);
 		temp = readU32 (input, true);
+//		tmp1 = readU16(input, true);
+//		tmp2 = readU16(input, true);
+//		temp = tmp1 | (tmp2 << 16);
 		std::bitset<32> x(temp);
-		std::cout << x << " position " << input->tell() << '\n';
-		FileNodeID = (temp & IDMask) >> 22;
+		std::cout << "bitset " << x << '\n';
+		std::cout << "FileNode position end " << input->tell() << '\n';
+		FileNodeID = //(temp & IDMask) >> 22;
+			temp >> 22;
 		std::bitset<10> y(FileNodeID);
 
 		std::cout << "filenodeid " << y << '\n';
@@ -25,19 +36,23 @@ namespace libone {
 		std::bitset<13> z(Size);
 		std::cout << "Size " << z << '\n';
 		ABCD = temp & ABCDMask;
-
+		std::bitset<9> t(ABCD);
+		std::cout << "ABCD " << t << '\n';
+/*		switch (FileNodeID) {
+			case */
 		if (get_C() == 2) {
 			if ((get_A() == 1) && (get_B() == 0)) {
-				FileChunkReference32 ref = FileChunkReference32();
+				ref = FileChunkReference32();
 				ref.parse(input);
 				cout << "ref " << ref.to_string () << '\n';
+				cout << "position " << input->tell() << '\n';
 			}
 		}
 	}
 
 	string FileNode::to_string() {
 		std::stringstream stream;
-		stream << "FileNodeID " << FileNodeID << '\n';
+		stream << "FileNodeID " << std::hex << FileNodeID << '\n';
 		stream << std::hex << "Size " << Size << '\n';
 		stream << std::hex << "ABCD " << std::hex << ABCD << '\n';
 		stream << std::hex << "A " << std::hex << get_A() << '\n';
@@ -47,27 +62,27 @@ namespace libone {
 		return stream.str();
 	}
 
-	uint16_t FileNode::get_FileNodeID() {
+	uint32_t FileNode::get_FileNodeID() {
 		return FileNodeID;
 	}
 
-	uint16_t FileNode::get_Size() {
+	uint32_t FileNode::get_Size() {
 		return Size;
 	}
 
-	uint16_t FileNode::get_A() {
+	uint32_t FileNode::get_A() {
 		return (ABCD & 0x180) >> 7;
 	}
 
-	uint16_t FileNode::get_B() {
+	uint32_t FileNode::get_B() {
 		return (ABCD & 0x60) >> 5;
 	}
 
-	uint16_t FileNode::get_C() {
+	uint32_t FileNode::get_C() {
 		return (ABCD & 6) >> 1;
 	}
 
-	uint16_t FileNode::get_D() {
+	uint32_t FileNode::get_D() {
 		return (ABCD & 1);
 	}
 }

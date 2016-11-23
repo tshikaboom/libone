@@ -7,8 +7,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef INCLUDED_LIBONE_EXTENDEDGUID_H
-#define INCLUDED_LIBONE_EXTENDEDGUID_H
+#ifndef INCLUDED_LIBONE_FILENODELISTFRAGMENT_H
+#define INCLUDED_LIBONE_FILENODELISTFRAGMENT_H
 
 #include "libone_utils.h"
 
@@ -21,7 +21,7 @@ namespace libone {
 class FileNodeListFragment {
   public:
     void parse(librevenge::RVNGInputStream *input);
-    string to_string();
+    std::string to_string();
 
   private:
     uint64_t uintMagic = 0;

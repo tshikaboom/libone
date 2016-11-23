@@ -17,6 +17,8 @@ namespace libone {
 class TransactionEntry {
   public:
     void parse(librevenge::RVNGInputStream *input);
+    std::string to_string();
+    uint32_t get_srcID();
 
   private:
     uint32_t srcID;

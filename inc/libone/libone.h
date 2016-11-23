@@ -13,8 +13,7 @@
 #include "ONEDocument.h"
 
 #include <vector>
-
-using std::string;
+#include <string>
 namespace libone {
 
 

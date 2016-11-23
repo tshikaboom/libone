@@ -19,7 +19,7 @@ namespace libone {
 class ExtendedGUID {
   public:
     void parse(librevenge::RVNGInputStream *input);
-    string to_string();
+    std::string to_string();
 
   private:
     GUID guid;
