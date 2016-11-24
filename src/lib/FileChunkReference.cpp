@@ -33,6 +33,11 @@ namespace libone {
 		stp *= 8;
 	}
 
+	void FileChunkReference32::set_all(uint32_t location, uint32_t size) {
+		stp = location;
+		cb = size;
+	}
+
 	void FileChunkReference64::parse(librevenge::RVNGInputStream *input) {
 		stp = libone::readU64(input, false);
 		cb = libone::readU64(input, false);
@@ -50,6 +55,12 @@ namespace libone {
 		return stream.str();
 	}
 
+	void FileChunkReference64::set_all(uint64_t location, uint64_t size) {
+		stp = location;
+		cb = size;
+	}
+
+
 	void FileChunkReference64x32::parse(librevenge::RVNGInputStream *input) {
 		stp = readU64(input, false);
 		cb = readU32(input, false);
@@ -63,6 +74,11 @@ namespace libone {
 
 	void FileChunkReference64x32::location8() {
 		stp *= 8;
+	}
+
+	void FileChunkReference64x32::set_all(uint64_t location, uint32_t size) {
+		stp = location;
+		cb = size;
 	}
 
 	string FileChunkReference64x32::to_string() {

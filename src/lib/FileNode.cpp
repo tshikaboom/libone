@@ -17,29 +17,21 @@ namespace libone {
 		unsigned int temp;
 		FileChunkReference32 ref;
 		FileChunkReference32 ref32;
-		input->seek(0, librevenge::RVNG_SEEK_CUR);
-		std::cout << "changing position to " << input->tell() << '\n';
-		std::cout << "FileNode position begin " << std::hex << input->tell() << '\n';
-//		input->seek(2, librevenge::RVNG_SEEK_CUR);
-		temp = readU32 (input, true);
-//		tmp1 = readU16(input, true);
-//		tmp2 = readU16(input, true);
-//		temp = tmp1 | (tmp2 << 16);
-		std::bitset<32> x(temp);
-		std::cout << "bitset " << x << '\n';
-		std::cout << "FileNode position end " << input->tell() << '\n';
-		FileNodeID = //(temp & IDMask) >> 22;
-			temp >> 22;
+
+		temp = readU32 (input, false);
+		d = temp >> 31;
+		c = (temp >> 27) & 0xF;
+		b = (temp >> 25) & 0x3;
+		a = (temp >> 23) & 0x3;
+		Size = (temp >> 10) & 0x1FFF;
+		FileNodeID = temp & 0x3FF;
 		std::bitset<10> y(FileNodeID);
 
 		std::cout << "filenodeid " << FileNodeID << " " << y << '\n';
 		Size = (temp & SizeMask) >> 9;
 		std::bitset<13> z(Size);
 		std::cout << "Size " << Size << " " << z << '\n';
-		ABCD = temp & ABCDMask;
-		std::cout << "A " << get_A() << " B " << get_B() << " C " << get_C() << '\n';
-		std::bitset<9> t(ABCD);
-		std::cout << "ABCD " << ABCD << " " << t << '\n';
+		std::cout << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
 /*		switch (FileNodeID) {
 			case */
 		if (get_C() == 2) {
@@ -56,6 +48,14 @@ namespace libone {
 				ref32.location8();
 				cout << "ref " << ref32.to_string () << '\n';
 			}
+			if ((get_A() == 2) && (get_B() == 2)) {
+				ref = FileChunkReference32();
+				uint32_t l, s;
+				l = readU16 (input, false) * 8;
+				s = readU8(input, false) * 8;
+				ref.set_all(l, s);
+				cout << "ref " << ref.to_string() << '\n';
+			}
 		}
 	}
 
@@ -63,11 +63,7 @@ namespace libone {
 		std::stringstream stream;
 		stream << "FileNodeID " << std::hex << FileNodeID << '\n';
 		stream << std::hex << "Size " << Size << '\n';
-		stream << std::hex << "ABCD " << std::hex << ABCD << '\n';
-		stream << std::hex << "A " << std::hex << get_A() << '\n';
-		stream << std::hex << "B " << std::hex << get_B() << '\n';
-		stream << std::hex << "C "  << get_C() << '\n';
-		stream << std::hex << "D "  << get_D() << '\n';
+		stream << std::hex << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
 
 
 		return stream.str();
@@ -82,20 +78,19 @@ namespace libone {
 	}
 
 	uint32_t FileNode::get_A() {
-		return (ABCD & 0x180) >> 7;
+		return a;
 	}
 
 	uint32_t FileNode::get_B() {
-		return (ABCD & 0x60) >> 5;
+		return b;
 	}
 
 	uint32_t FileNode::get_C() {
-//		return (ABCD & 6) >> 1;
-		return (ABCD & 0x1E) >> 1;
+		return c;
 	}
 
 	uint32_t FileNode::get_D() {
-		return (ABCD & 1);
+		return d;
 	}
 }
 

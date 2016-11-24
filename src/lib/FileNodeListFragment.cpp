@@ -12,18 +12,15 @@ using std::string;
 namespace libone {
 
 	void FileNodeListFragment::parse(librevenge::RVNGInputStream *input) {
-		FileNode node;//, node2;
+		FileNode node, node2;
 		std::cout << "fragment position begin " << input->tell() << '\n';
 		uintMagic = readU64 (input, false);
 		FileNodeListID = readU32 (input, false);
 		nFragmentSequence = readU32 (input, false);
 		std::cout << "fragment position end " << input->tell() << '\n';
-		for (int i=0; i<100; i++) {
-			node.parse(input);
-			if (node.get_D())
-				rgFileNodes.push_back(node);
-			input->seek(-3, librevenge::RVNG_SEEK_CUR);
-		}
+		node.parse(input);
+		rgFileNodes.push_back(node);
+
 //		node2.parse(input);
 //		rgFileNodes.push_back(node2);
 		nextFragment = 0;
