@@ -25,8 +25,12 @@ namespace libone {
 
 	string FileChunkReference32::to_string() {
 		std::stringstream stream;
-		stream << "stp32 " << stp << " cb32 " << cb;
+		stream << std::hex << "stp32 " << stp << " cb32 " << cb;
 		return stream.str();
+	}
+
+	void FileChunkReference32::location8() {
+		stp *= 8;
 	}
 
 	void FileChunkReference64::parse(librevenge::RVNGInputStream *input) {
@@ -57,9 +61,13 @@ namespace libone {
 		return cb;
 	}
 
+	void FileChunkReference64x32::location8() {
+		stp *= 8;
+	}
+
 	string FileChunkReference64x32::to_string() {
 		std::stringstream stream;
-		stream << "stp64 " << stp << " cb32 " << cb;
+		stream << std::hex << "stp64 " << stp << " cb32 " << cb;
 		return stream.str();
 	}
 

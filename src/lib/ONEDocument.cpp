@@ -130,6 +130,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   TransactionLog.parse(input);
   std::cout << "fcrTransactionLog " << TransactionLog.to_string() << '\n';
 
+  std::cout << "position " << input->tell() << '\n';
   FileNodeListRoot.parse(input);
   std::cout << "fcrFileNodeListRoot " << FileNodeListRoot.to_string() << '\n';
 

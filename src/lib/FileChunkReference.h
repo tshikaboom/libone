@@ -30,6 +30,7 @@ class FileChunkReference32: public FileChunkReference {
     string to_string();
     uint32_t get_location();
     uint32_t get_size();
+    void location8();
 
   private:
     uint32_t stp = 0;
@@ -58,6 +59,7 @@ class FileChunkReference64x32 {
     uint64_t get_location();
     uint32_t get_size();
     string to_string();
+    void location8();
 
   private:
     uint64_t stp = 0;

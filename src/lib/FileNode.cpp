@@ -16,6 +16,7 @@ namespace libone {
 //		uint16_t tmp2;
 		unsigned int temp;
 		FileChunkReference32 ref;
+		FileChunkReference32 ref32;
 		input->seek(0, librevenge::RVNG_SEEK_CUR);
 		std::cout << "changing position to " << input->tell() << '\n';
 		std::cout << "FileNode position begin " << std::hex << input->tell() << '\n';
@@ -31,13 +32,14 @@ namespace libone {
 			temp >> 22;
 		std::bitset<10> y(FileNodeID);
 
-		std::cout << "filenodeid " << y << '\n';
+		std::cout << "filenodeid " << FileNodeID << " " << y << '\n';
 		Size = (temp & SizeMask) >> 9;
 		std::bitset<13> z(Size);
-		std::cout << "Size " << z << '\n';
+		std::cout << "Size " << Size << " " << z << '\n';
 		ABCD = temp & ABCDMask;
+		std::cout << "A " << get_A() << " B " << get_B() << " C " << get_C() << '\n';
 		std::bitset<9> t(ABCD);
-		std::cout << "ABCD " << t << '\n';
+		std::cout << "ABCD " << ABCD << " " << t << '\n';
 /*		switch (FileNodeID) {
 			case */
 		if (get_C() == 2) {
@@ -46,6 +48,13 @@ namespace libone {
 				ref.parse(input);
 				cout << "ref " << ref.to_string () << '\n';
 				cout << "position " << input->tell() << '\n';
+			}
+			if ((get_A() == 3) && (get_B() == 0)) {
+				ref32 = FileChunkReference32();
+				ref32.parse(input);
+				cout << "ref " << ref32.to_string () << '\n';
+				ref32.location8();
+				cout << "ref " << ref32.to_string () << '\n';
 			}
 		}
 	}
@@ -59,6 +68,8 @@ namespace libone {
 		stream << std::hex << "B " << std::hex << get_B() << '\n';
 		stream << std::hex << "C "  << get_C() << '\n';
 		stream << std::hex << "D "  << get_D() << '\n';
+
+
 		return stream.str();
 	}
 
@@ -79,7 +90,8 @@ namespace libone {
 	}
 
 	uint32_t FileNode::get_C() {
-		return (ABCD & 6) >> 1;
+//		return (ABCD & 6) >> 1;
+		return (ABCD & 0x1E) >> 1;
 	}
 
 	uint32_t FileNode::get_D() {

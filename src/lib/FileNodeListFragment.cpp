@@ -18,8 +18,12 @@ namespace libone {
 		FileNodeListID = readU32 (input, false);
 		nFragmentSequence = readU32 (input, false);
 		std::cout << "fragment position end " << input->tell() << '\n';
-		node.parse(input);
-		rgFileNodes.push_back(node);
+		for (int i=0; i<100; i++) {
+			node.parse(input);
+			if (node.get_D())
+				rgFileNodes.push_back(node);
+			input->seek(-3, librevenge::RVNG_SEEK_CUR);
+		}
 //		node2.parse(input);
 //		rgFileNodes.push_back(node2);
 		nextFragment = 0;
