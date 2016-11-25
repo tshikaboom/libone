@@ -17,8 +17,8 @@ namespace libone {
 		unsigned int temp;
 		FileChunkReference32 ref;
 		FileChunkReference32 ref32;
-
 		temp = readU32 (input, false);
+		ExtendedGUID guid;
 		d = temp >> 31;
 		c = (temp >> 27) & 0xF;
 		b = (temp >> 25) & 0x3;
@@ -48,15 +48,42 @@ namespace libone {
 				ref32.location8();
 				cout << "ref " << ref32.to_string () << '\n';
 			}
+			uint32_t l, s;
+			if ((get_A() == 1) && (get_B() == 2)) {
+				ref = FileChunkReference32();
+				l = readU32(input, false);
+				s = readU8(input, false) * 8;
+				ref.set_all(l, s);
+			}
 			if ((get_A() == 2) && (get_B() == 2)) {
 				ref = FileChunkReference32();
-				uint32_t l, s;
 				l = readU16 (input, false) * 8;
 				s = readU8(input, false) * 8;
 				ref.set_all(l, s);
-				cout << "ref " << ref.to_string() << '\n';
+
 			}
 		}
+
+		switch (FileNodeID) {
+			case FileNodeDescriptor::ObjectSpaceManifestListReferenceFND:
+				cout << "ref " << ref.to_string() << '\n';
+			case FileNodeDescriptor::ObjectSpaceManifestRootFND:
+				guid.parse(input);
+				cout << std::hex << guid.to_string() << '\n';
+				break;
+			case FileNodeDescriptor::FileDataStoreListReferenceFND:
+				cout << "ref " << ref.to_string() << '\n';
+				break;
+			case FileNodeDescriptor::TYPES_END:
+				cout << "padding everywhere\n";
+				is_end = true;
+				break;
+			default:
+				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
+				is_end = true;
+				break;
+		}
+		cout << "position " << input->tell() << "\n\n";
 	}
 
 	string FileNode::to_string() {
@@ -65,8 +92,11 @@ namespace libone {
 		stream << std::hex << "Size " << Size << '\n';
 		stream << std::hex << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
 
-
 		return stream.str();
+	}
+
+	bool FileNode::isEnd() {
+		return is_end;
 	}
 
 	uint32_t FileNode::get_FileNodeID() {

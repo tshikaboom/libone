@@ -27,6 +27,7 @@ class FileNode {
     uint32_t get_B();
     uint32_t get_C();
     uint32_t get_D();
+    bool isEnd();
 
   private:
     uint32_t FileNodeID = 0;
@@ -35,7 +36,7 @@ class FileNode {
     uint32_t const IDMask = 0xFFC00000;
     uint32_t const SizeMask = 0x3FFE00;
     uint32_t const ABCDMask = 0x1FF;
-
+    bool is_end = false;
 };
 
 

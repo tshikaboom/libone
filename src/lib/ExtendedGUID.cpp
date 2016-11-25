@@ -3,7 +3,7 @@
 #include <iostream>
 #include <iomanip>
 #include <libone/libone.h>
-#include "ExtendedGUID.h"
+
 #include "libone_utils.h"
 
 using std::string;
@@ -18,7 +18,7 @@ namespace libone {
 
 	string ExtendedGUID::to_string() {
 		std::stringstream stream;
-		stream << guid.to_string() << "} n=" << n;
+		stream << guid.to_string() << " n=" << n;
 
 
 

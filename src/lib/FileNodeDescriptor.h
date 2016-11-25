@@ -10,6 +10,7 @@
 #ifndef INCLUDED_LIBONE_FILENODEFND_H
 #define INCLUDED_LIBONE_FILENODEFND_H
 
+#include <libone/libone.h>
 #include "libone_utils.h"
 
 
@@ -19,8 +20,8 @@ namespace libone {
 
 class FileNodeDescriptor {
   public:
-    void parse(librevenge::RVNGInputStream *input);
-    string to_string();
+    virtual void parse(librevenge::RVNGInputStream *input) { (void) input; };
+    virtual std::string to_string() { return "nothing"; };
     enum {
       ObjectSpaceManifestRootFND =          0x004,
       ObjectSpaceManifestListReferenceFND = 0x008,
@@ -60,10 +61,32 @@ class FileNodeDescriptor {
       HashedChunkDescriptor2FND = 0x0C2,
       ReadOnlyObjectDeclaration2RefCountFND = 0x0C4,
       ReadOnlyObjectDeclaration2LargeRefCountFND = 0x0F5,
-      ChunkTerminatorFND = 0x0FF
-      };
+      ChunkTerminatorFND = 0x0FF,
+      TYPES_END = 0x0
+      } types = TYPES_END;
+//  protected:
+    virtual ~FileNodeDescriptor() {};
 
 };
+class ObjectSpaceManifestRootFND : public FileNodeDescriptor {
+public:
+  virtual void parse(librevenge::RVNGInputStream *input);
+  virtual std::string to_string();
+//  ~ObjectSpaceManifestRootFND() {}
+
+private:
+  ExtendedGUID guid = ExtendedGUID();
+};
+/*
+class RevisionManifestListReferenceFND : FileNodeDescriptor {
+  public:
+    void parse(librevenge::RVNGInputStream *input);
+    std::string to_string();
+
+  private:
+
+
+};*/
 }
 
 #endif

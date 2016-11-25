@@ -11,7 +11,6 @@
 #define INCLUDED_LIBONE_EXTENDEDGUID_H
 
 #include <libone/libone.h>
-
 #include "libone_utils.h"
 
 
@@ -22,8 +21,8 @@ class ExtendedGUID {
     std::string to_string();
 
   private:
-    GUID guid;
-    uint32_t n;
+    GUID guid = GUID();
+    uint32_t n = 0;
 };
 
 }
