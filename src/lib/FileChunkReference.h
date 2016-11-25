@@ -10,7 +10,7 @@
 #ifndef INCLUDED_LIBONE_FILECHUNKREFERENCE_H
 #define INCLUDED_LIBONE_FILECHUNKREFERENCE_H
 
-#include "libone_utils.h"
+#include <librevenge-stream/librevenge-stream.h>
 
 using namespace std;
 

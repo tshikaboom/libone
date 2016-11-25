@@ -7,11 +7,10 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef INCLUDED_LIBONE_FILENODEFND_H
-#define INCLUDED_LIBONE_FILENODEFND_H
+#ifndef INCLUDED_LIBONE_FILENODEDESCRIPTOR_H
+#define INCLUDED_LIBONE_FILENODEDESCRIPTOR_H
 
-#include <libone/libone.h>
-#include "libone_utils.h"
+#include <librevenge-stream/librevenge-stream.h>
 
 
 

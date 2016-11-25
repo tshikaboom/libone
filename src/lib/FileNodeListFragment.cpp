@@ -19,8 +19,12 @@ namespace libone {
 		nFragmentSequence = readU32 (input, false);
 		std::cout << "fragment position end " << input->tell() << '\n';
 		node.parse(input);
+		int i=0;
 		while (!node.isEnd()) {
 			rgFileNodes.push_back(node);
+			if ((i<=2) && (FileNodeListID == 0x10))
+				node.try_parse_ref(input);
+			i++;
 			node.parse(input);
 		}
 		nextFragment = 0;

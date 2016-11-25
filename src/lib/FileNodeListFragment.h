@@ -10,11 +10,11 @@
 #ifndef INCLUDED_LIBONE_FILENODELISTFRAGMENT_H
 #define INCLUDED_LIBONE_FILENODELISTFRAGMENT_H
 
-#include "libone_utils.h"
+#include <librevenge-stream/librevenge-stream.h>
 
 #include <vector>
 
-
+#include "FileNode.h"
 
 namespace libone {
 

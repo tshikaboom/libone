@@ -15,8 +15,7 @@ namespace libone {
 //		uint16_t tmp1;
 //		uint16_t tmp2;
 		unsigned int temp;
-		FileChunkReference32 ref;
-		FileChunkReference32 ref32;
+
 		temp = readU32 (input, false);
 		ExtendedGUID guid;
 		d = temp >> 31;
@@ -42,11 +41,11 @@ namespace libone {
 				cout << "position " << input->tell() << '\n';
 			}
 			if ((get_A() == 3) && (get_B() == 0)) {
-				ref32 = FileChunkReference32();
-				ref32.parse(input);
-				cout << "ref " << ref32.to_string () << '\n';
-				ref32.location8();
-				cout << "ref " << ref32.to_string () << '\n';
+				ref = FileChunkReference32();
+				ref.parse(input);
+				cout << "ref " << ref.to_string () << '\n';
+				ref.location8();
+				cout << "ref " << ref.to_string () << '\n';
 			}
 			uint32_t l, s;
 			if ((get_A() == 1) && (get_B() == 2)) {
@@ -65,6 +64,19 @@ namespace libone {
 		}
 
 		switch (FileNodeID) {
+			case FileNodeDescriptor::ObjectSpaceManifestListStartFND:
+				guid.parse(input);
+				cout << std::hex << guid.to_string () << '\n';
+				break;
+			case FileNodeDescriptor::RevisionManifestListReferenceFND:
+				cout << "ref " << ref.to_string() << '\n';
+				try_parse_ref (input);
+				break;
+			case FileNodeDescriptor::RevisionManifestListStartFND:
+				guid.parse(input);
+				cout << guid.to_string () << " " << readU32(input) << '\n';
+
+				break;
 			case FileNodeDescriptor::ObjectSpaceManifestListReferenceFND:
 				cout << "ref " << ref.to_string() << '\n';
 			case FileNodeDescriptor::ObjectSpaceManifestRootFND:
@@ -84,6 +96,15 @@ namespace libone {
 				break;
 		}
 		cout << "position " << input->tell() << "\n\n";
+	}
+
+	void FileNode::try_parse_ref(librevenge::RVNGInputStream *input) {
+		long old = input->tell();
+		FileNodeListFragment frag;
+		input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+		frag.parse(input);
+		frag.to_string ();
+		input->seek(old, librevenge::RVNG_SEEK_SET);
 	}
 
 	string FileNode::to_string() {

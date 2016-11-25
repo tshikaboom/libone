@@ -29,6 +29,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_LDFLAGS = $(version_info) -exp
 libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	CompactID.cpp \
 	CompactID.h \
+	Object.h \
+	Object.cpp \
 	ExtendedGUID.cpp \
 	ExtendedGUID.h \
 	FileChunkReference.h \

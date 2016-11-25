@@ -10,7 +10,8 @@
 #ifndef INCLUDED_LIBONE_FILENODE_H
 #define INCLUDED_LIBONE_FILENODE_H
 
-#include "libone_utils.h"
+#include "FileChunkReference.h"
+#include <librevenge-stream/librevenge-stream.h>
 
 
 
@@ -20,6 +21,7 @@ namespace libone {
 class FileNode {
   public:
     void parse(librevenge::RVNGInputStream *input);
+		void try_parse_ref(librevenge::RVNGInputStream *input);
     std::string to_string();
     uint32_t get_FileNodeID();
     uint32_t get_Size();
@@ -37,6 +39,7 @@ class FileNode {
     uint32_t const SizeMask = 0x3FFE00;
     uint32_t const ABCDMask = 0x1FF;
     bool is_end = false;
+		FileChunkReference32 ref = FileChunkReference32();
 };
 
 

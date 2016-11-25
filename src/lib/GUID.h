@@ -10,8 +10,6 @@
 #ifndef INCLUDED_LIBONE_GUID_H
 #define INCLUDED_LIBONE_GUID_H
 
-#include <libone/libone.h>
-#include "libone_utils.h"
 
 namespace libone {
 class GUID {

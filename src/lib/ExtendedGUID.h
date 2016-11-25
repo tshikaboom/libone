@@ -10,8 +10,7 @@
 #ifndef INCLUDED_LIBONE_EXTENDEDGUID_H
 #define INCLUDED_LIBONE_EXTENDEDGUID_H
 
-#include <libone/libone.h>
-#include "libone_utils.h"
+#include "GUID.h"
 
 
 namespace libone {

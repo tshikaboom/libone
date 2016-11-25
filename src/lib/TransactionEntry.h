@@ -10,8 +10,6 @@
 #ifndef INCLUDED_LIBONE_TRANSACTIONENTRY_H
 #define INCLUDED_LIBONE_TRANSACTIONENTRY_H
 
-#include "libone_utils.h"
-
 namespace libone {
 
 class TransactionEntry {

@@ -12,8 +12,7 @@
 #include <vector>
 
 
-#include "libone_utils.h"
-
+#include "TransactionEntry.h"
 
 namespace libone {
 

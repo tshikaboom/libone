@@ -33,5 +33,4 @@ namespace libone {
 
 		return stream.str();
 	}
-
 }

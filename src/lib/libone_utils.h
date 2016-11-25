@@ -16,7 +16,7 @@
 #endif
 
 #include <string>
-
+#include <unordered_map>
 #include <boost/shared_ptr.hpp>
 
 #include <librevenge-stream/librevenge-stream.h>
