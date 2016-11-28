@@ -66,7 +66,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   FileChunkReference64x32 chunk6432;
   FileChunkReference64x32 FileNodeListRoot;
   FileChunkReference64x32 TransactionLog;
-  FileNodeListFragment first_fragment;
+  FileNodeList first_fragment;
   TransactionLogFragment log_fragment;
 
   (void) document;

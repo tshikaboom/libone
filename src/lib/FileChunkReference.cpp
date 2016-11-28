@@ -96,4 +96,10 @@ namespace libone {
 		return stream.str();
 	}
 
+	bool FileChunkReference64x32::is_nil() {
+	  if ((stp == 0xffffffffffffffff) && (cb == 0))
+	    return true;
+	  return false;
+	}
+
 }

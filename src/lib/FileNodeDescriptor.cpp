@@ -7,27 +7,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <cstring>
-#include <iostream>
-#include <iomanip>
+
 #include <libone/libone.h>
-
 #include "libone_utils.h"
+#include "FileNodeDescriptor.h"
 
-using namespace std;
-using std::string;
+
+
 
 namespace libone {
 
-	void CompactID::parse(librevenge::RVNGInputStream *input) {
-		(void) input;
-	}
 
-	std::string CompactID::to_string() {
-	  std::stringstream stream;
-
-	  return stream.str();
-	}
 }
-
 

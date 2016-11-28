@@ -19,7 +19,7 @@
 #include "CompactID.h"
 #include "Revision.h"
 #include "FileNode.h"
-#include "FileNodeListFragment.h"
+#include "FileNodeList.h"
 #include "FileNodeDescriptor.h"
 #include "TransactionEntry.h"
 #include "TransactionLogFragment.h"
@@ -29,5 +29,7 @@ static libone::ExtendedGUID RootObject;
 
 static std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces;
 // the string is the Object's guid
+
+static std::unordered_map<std::string, libone::ExtendedGUID> GlobalIdentificationTable;
 
 #endif

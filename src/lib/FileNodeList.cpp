@@ -13,14 +13,19 @@
 #include <libone/libone.h>
 
 
-#include "FileNodeListFragment.h"
+#include "FileNodeList.h"
 #include "libone_utils.h"
 using namespace std;
 using std::string;
 
 namespace libone {
 
-  void FileNodeListFragment::parse_header(librevenge::RVNGInputStream *input) {
+/*FileNodeList(uint64_t new_location, uint64_t new_size) {
+    (void) location;
+    size = new_size;
+  }
+*/
+  void FileNodeList::parse_header(librevenge::RVNGInputStream *input) {
 		std::cout << "fragment position begin " << input->tell() << '\n';
 		uintMagic = readU64 (input, false);
 		FileNodeListID = readU32 (input, false);
@@ -28,32 +33,42 @@ namespace libone {
 		std::cout << "fragment position end " << input->tell() << '\n';
   }
 
-	void FileNodeListFragment::parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID) {
+	void FileNodeList::parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID) {
 	  parse_header(input);
 		FileNode node;
+		FileChunkReference64x32 next_frag;
+		bool list_end = false;
 		node.parse(input);
 		if (ExpectedFileNodeID && ExpectedFileNodeID != node.get_FileNodeID()) {
 			cout << "Expected FileNodeID " << ExpectedFileNodeID << " in " << node.get_FileNodeID();
 			return;
 		}
 		int i=0;
-		while (!node.isEnd()) {
-			rgFileNodes.push_back(node);
-			i++;
-			if ((i<=2) && (FileNodeListID == 0x10))
-				node.try_parse_ref(input, ExpectedFileNodeID);
-			node.parse(input);
-		}
-		if (node.get_FileNodeID() == FileNodeDescriptor::ChunkTerminatorFND) {
-			FileChunkReference64x32 nextFragment_chunk;
-			nextFragment_chunk.parse(input);
-		}
+		while (!list_end) {
+		  while (!node.isEnd()) {
+			  rgFileNodes.push_back(node);
+			  i++;
+			  if ((i<=2) && (FileNodeListID == 0x10))
+				  node.try_parse_ref(input, ExpectedFileNodeID);
+			  node.parse(input);
+		  }
 
-		footer = readU64(input);
-		cout << footer << "\n";
+      // seek out next fragment in the list if any
+      while ((i = readU8(input, false)) == 0) {}
+      input->seek(-1, librevenge::RVNG_SEEK_CUR);
+      next_frag.parse(input);
+  		if (next_frag.is_nil()) {
+        list_end = true;
+        break;
+      }
+      input->seek(next_frag.get_location(), librevenge::RVNG_SEEK_SET);
+      parse_header(input);
+      node.parse(input);
+
+      }
 	}
 
-	string FileNodeListFragment::to_string() {
+	string FileNodeList::to_string() {
 		std::stringstream stream;
 		stream << std::hex << "uintMagic " << uintMagic << '\n';
 		stream << std::dec << "FileNodeListID " << FileNodeListID << '\n';
@@ -61,6 +76,10 @@ namespace libone {
 		for (FileNode i: rgFileNodes)
 			stream << i.to_string() << '\n';
 		return stream.str();
+	}
+
+	void FileNodeList::set_size(uint64_t new_size) {
+	  size = new_size;
 	}
 }
 

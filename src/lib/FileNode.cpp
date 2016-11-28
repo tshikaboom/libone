@@ -21,14 +21,80 @@ using std::string;
 namespace libone {
 
 	void FileNode::parse(librevenge::RVNGInputStream *input) {
-//		uint16_t tmp1;
-//		uint16_t tmp2;
-		unsigned int temp;
-
-		temp = readU32 (input, false);
 		Revision rev;
 		ExtendedGUID guid;
 		ObjectSpace space;
+    parse_header(input);
+
+		switch (FileNodeID) {
+			case FileNodeDescriptor::ObjectSpaceManifestListStartFND:
+				guid.parse(input);
+				cout << "ObjectSpaceManifestListStartFND"  << guid.to_string () << '\n';
+				break;
+			case FileNodeDescriptor::ChunkTerminatorFND:
+				is_end = true;
+				break;
+				/*
+			case FileNodeDescriptor::RevisionManifestStart4FND:
+			case FileNodeDescriptor::RevisionManifestStart6FND:
+			case FileNodeDescriptor::RevisionManifestStart7FND:
+				cout << "RevisionManifestStart\n";
+				break;
+			*/
+			case FileNodeDescriptor::RevisionManifestListReferenceFND:
+			    cout << "RevisionManifestListReferenceFND\n";
+//				try_parse_ref (input, 0);
+				break;
+			case FileNodeDescriptor::RevisionManifestListStartFND:
+				cout << guid.to_string () << " " << readU32(input) << '\n';
+				break;
+			case FileNodeDescriptor::ObjectSpaceManifestListReferenceFND:
+				guid.parse(input);
+				cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
+        space.list_parse(input, guid, ref);
+				 break;
+			case FileNodeDescriptor::ObjectSpaceManifestRootFND:
+				guid.parse(input);
+				RootObject = guid;
+				break;
+			case FileNodeDescriptor::FileDataStoreListReferenceFND:
+				cout << "ref " << ref.to_string() << '\n';
+				break;
+			case FileNodeDescriptor::TYPES_END:
+				cout << "padding everywhere\n";
+				is_end = true;
+				break;
+			default:
+				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
+				skip(input, Size);
+				//is_end = true;
+				break;
+		}
+  std::cout << "\n\n";
+	}
+
+	void FileNode::try_parse_ref(librevenge::RVNGInputStream *input, uint32_t expected_FileNodeID) {
+		long old = input->tell();
+		FileNodeList frag;
+		input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+		frag.parse(input, expected_FileNodeID);
+		frag.to_string ();
+		input->seek(old, librevenge::RVNG_SEEK_SET);
+	}
+
+	string FileNode::to_string() {
+		std::stringstream stream;
+		stream << "FileNodeID " << std::hex << FileNodeID << '\n';
+		stream << std::hex << "Size " << Size << '\n';
+		stream << std::hex << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
+
+		return stream.str();
+	}
+
+	void FileNode::parse_header(librevenge::RVNGInputStream *input) {
+		unsigned int temp;
+		temp = readU32 (input, false);
+
 		d = temp >> 31;
 		c = (temp >> 27) & 0xF;
 		b = (temp >> 25) & 0x3;
@@ -79,68 +145,8 @@ namespace libone {
 					break;
 				}
   		ref.set_all(l, s);
-  		cout << "ref " << ref.to_string() << " position " << input->tell() << "\n\n";
-		} else cout << "noref position " << input->tell() << "\n\n";
-		switch (FileNodeID) {
-			case FileNodeDescriptor::ObjectSpaceManifestListStartFND:
-				guid.parse(input);
-				cout << std::hex << guid.to_string () << '\n';
-				break;
-			case FileNodeDescriptor::ChunkTerminatorFND:
-				is_end = true;
-				break;
-			case FileNodeDescriptor::RevisionManifestStart4FND:
-			case FileNodeDescriptor::RevisionManifestStart6FND:
-			case FileNodeDescriptor::RevisionManifestStart7FND:
-				rev.parse(input, FileNodeID);
-				break;
-			case FileNodeDescriptor::RevisionManifestListReferenceFND:
-				try_parse_ref (input, 0);
-				break;
-			case FileNodeDescriptor::RevisionManifestListStartFND:
-				cout << guid.to_string () << " " << readU32(input) << '\n';
-				break;
-			case FileNodeDescriptor::ObjectSpaceManifestListReferenceFND:
-				guid.parse(input);
-				cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
-        space.list_parse(input, guid);
-				 break;
-			case FileNodeDescriptor::ObjectSpaceManifestRootFND:
-				guid.parse(input);
-				RootObject = guid;
-				break;
-			case FileNodeDescriptor::FileDataStoreListReferenceFND:
-				cout << "ref " << ref.to_string() << '\n';
-				break;
-			case FileNodeDescriptor::TYPES_END:
-				cout << "padding everywhere\n";
-				is_end = true;
-				break;
-			default:
-				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
-				skip(input, Size);
-				//is_end = true;
-				break;
-		}
-
-	}
-
-	void FileNode::try_parse_ref(librevenge::RVNGInputStream *input, uint32_t expected_FileNodeID) {
-		long old = input->tell();
-		FileNodeListFragment frag;
-		input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-		frag.parse(input, expected_FileNodeID);
-		frag.to_string ();
-		input->seek(old, librevenge::RVNG_SEEK_SET);
-	}
-
-	string FileNode::to_string() {
-		std::stringstream stream;
-		stream << "FileNodeID " << std::hex << FileNodeID << '\n';
-		stream << std::hex << "Size " << Size << '\n';
-		stream << std::hex << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
-
-		return stream.str();
+  		cout << "ref " << ref.to_string() << " position " << input->tell() << "\n";
+		} else cout << "noref position " << input->tell() << "\n";
 	}
 
 	bool FileNode::isEnd() {
@@ -169,6 +175,10 @@ namespace libone {
 
 	uint32_t FileNode::get_D() {
 		return d;
+	}
+
+	FileChunkReference64 FileNode::get_ref() {
+	  return ref;
 	}
 }
 

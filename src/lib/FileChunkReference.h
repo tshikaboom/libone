@@ -63,6 +63,7 @@ class FileChunkReference64x32 {
     string to_string();
     void location8();
     void set_all(uint64_t location, uint32_t size);
+    bool is_nil();
 
   private:
     uint64_t stp = 0;

@@ -7,8 +7,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef INCLUDED_LIBONE_FILENODELISTFRAGMENT_H
-#define INCLUDED_LIBONE_FILENODELISTFRAGMENT_H
+#ifndef INCLUDED_LIBONE_FILENODELIST_H
+#define INCLUDED_LIBONE_FILENODELIST_H
 
 #include <librevenge-stream/librevenge-stream.h>
 
@@ -18,10 +18,13 @@
 
 namespace libone {
 
-class FileNodeListFragment {
+class FileNodeList {
   public:
+    FileNodeList() {}
+//    FileNodeList(uint64_t new_location, uint64_t new_size);
     void parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID);
     void parse_header(librevenge::RVNGInputStream *input);
+    void set_size(uint64_t new_size);
     std::string to_string();
 
   private:
@@ -31,6 +34,7 @@ class FileNodeListFragment {
     std::vector<FileNode> rgFileNodes = std::vector<FileNode>();
     uint16_t nextFragment = 0;
     uint64_t footer = 0;
+    uint64_t size = 0;
 
 };
 

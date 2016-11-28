@@ -7,21 +7,27 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef INCLUDED_LIBONE_COMPACTID_H
-#define INCLUDED_LIBONE_COMPACTID_H
+#ifndef INCLUDED_LIBONE_OBJECT_H
+#define INCLUDED_LIBONE_OBJECT_H
 
+#include <string>
 #include <librevenge-stream/librevenge-stream.h>
+#include "FileNodeList.h"
+#include "GUID.h"
 
 namespace libone {
 
-class CompactID {
+class Object {
   public:
     void parse(librevenge::RVNGInputStream *input);
-    std::string to_string();
+    bool get_read_only();
+    void set_read_only(bool new_);
+    std::string get_guid();
 
   private:
-    uint8_t n;
-    uint32_t guidIndex; // 24 bits used only
+    bool read_only = false;
+    unsigned int ref_count = 0;
+    GUID guid;
 
 };
 

@@ -21,6 +21,7 @@ namespace libone {
 class FileNode {
   public:
     void parse(librevenge::RVNGInputStream *input);
+    void parse_header(librevenge::RVNGInputStream *input);
 		void try_parse_ref(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID);
     std::string to_string();
     uint32_t get_FileNodeID();
@@ -30,6 +31,7 @@ class FileNode {
     uint32_t get_C();
     uint32_t get_D();
     bool isEnd();
+    FileChunkReference64 get_ref();
 
   private:
     uint32_t FileNodeID = 0;

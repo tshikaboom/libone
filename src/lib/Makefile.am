@@ -41,8 +41,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	FileNodeDescriptor.h \
 	FileNode.cpp \
 	FileNode.h \
-	FileNodeListFragment.cpp \
-	FileNodeListFragment.h \
+	FileNodeList.cpp \
+	FileNodeList.h \
 	Revision.cpp \
 	Revision.h \
 	TransactionEntry.h \
