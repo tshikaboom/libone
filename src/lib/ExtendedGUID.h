@@ -17,12 +17,14 @@ namespace libone {
 class ExtendedGUID {
   public:
     void parse(librevenge::RVNGInputStream *input);
+    void zero();
     std::string to_string();
     uint32_t get_n();
+    bool is_equal(ExtendedGUID other);
+    uint32_t n = 0;
 
   private:
     GUID guid = GUID();
-    uint32_t n = 0;
 };
 
 }

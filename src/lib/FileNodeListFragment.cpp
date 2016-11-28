@@ -20,16 +20,20 @@ using std::string;
 
 namespace libone {
 
-	void FileNodeListFragment::parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID) {
-		FileNode node;
+  void FileNodeListFragment::parse_header(librevenge::RVNGInputStream *input) {
 		std::cout << "fragment position begin " << input->tell() << '\n';
 		uintMagic = readU64 (input, false);
 		FileNodeListID = readU32 (input, false);
 		nFragmentSequence = readU32 (input, false);
 		std::cout << "fragment position end " << input->tell() << '\n';
+  }
+
+	void FileNodeListFragment::parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID) {
+	  parse_header(input);
+		FileNode node;
 		node.parse(input);
 		if (ExpectedFileNodeID && ExpectedFileNodeID != node.get_FileNodeID()) {
-			cout << "Expected FileNodeID " << ExpectedFileNodeID << " got " << node.get_FileNodeID();
+			cout << "Expected FileNodeID " << ExpectedFileNodeID << " in " << node.get_FileNodeID();
 			return;
 		}
 		int i=0;

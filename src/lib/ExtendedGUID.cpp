@@ -37,4 +37,16 @@ namespace libone {
 		return n;
 	}
 
+	bool ExtendedGUID::is_equal(ExtendedGUID other) {
+	  if ((guid.is_equal(other.guid)) && (n == other.n)) {
+  	  return true;
+	  }
+	  return false;
+	}
+
+	void ExtendedGUID::zero() {
+	  guid.zero();
+	  n = 0;
+	}
+
 }

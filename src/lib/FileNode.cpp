@@ -78,9 +78,9 @@ namespace libone {
 				default:
 					break;
 				}
-		}
-		ref.set_all(l, s);
-		cout << "ref " << ref.to_string() << " position " << input->tell() << "\n\n";
+  		ref.set_all(l, s);
+  		cout << "ref " << ref.to_string() << " position " << input->tell() << "\n\n";
+		} else cout << "noref position " << input->tell() << "\n\n";
 		switch (FileNodeID) {
 			case FileNodeDescriptor::ObjectSpaceManifestListStartFND:
 				guid.parse(input);
@@ -98,13 +98,12 @@ namespace libone {
 				try_parse_ref (input, 0);
 				break;
 			case FileNodeDescriptor::RevisionManifestListStartFND:
-				guid.parse(input);
 				cout << guid.to_string () << " " << readU32(input) << '\n';
-
 				break;
 			case FileNodeDescriptor::ObjectSpaceManifestListReferenceFND:
 				guid.parse(input);
-
+				cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
+        space.list_parse(input, guid);
 				 break;
 			case FileNodeDescriptor::ObjectSpaceManifestRootFND:
 				guid.parse(input);

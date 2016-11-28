@@ -20,12 +20,12 @@ public:
 
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
-
-  protected:
+    bool is_equal(GUID other);
     uint32_t Data1 = 0;
     uint16_t Data2 = 0;
     uint16_t Data3 = 0;
     uint16_t Data4[4] = { 0 };
+    void zero();
 };
 
 
