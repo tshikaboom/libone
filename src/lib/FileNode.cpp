@@ -1,3 +1,12 @@
+/* -*- Mode: C++; tab-width: 2; indent-tabs-mode: nil; c-basic-offset: 2 -*- */
+/*
+ * This file is part of the libone project.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
 #include <cstring>
 #include <iostream>
 #include <iomanip>
@@ -17,7 +26,9 @@ namespace libone {
 		unsigned int temp;
 
 		temp = readU32 (input, false);
+		Revision rev;
 		ExtendedGUID guid;
+		ObjectSpace space;
 		d = temp >> 31;
 		c = (temp >> 27) & 0xF;
 		b = (temp >> 25) & 0x3;
@@ -31,46 +42,60 @@ namespace libone {
 		std::bitset<13> z(Size);
 		std::cout << "Size " << Size << " " << z << '\n';
 		std::cout << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
-/*		switch (FileNodeID) {
-			case */
-		if (get_C() == 2) {
-			if ((get_A() == 1) && (get_B() == 0)) {
-				ref = FileChunkReference32();
-				ref.parse(input);
-				cout << "ref " << ref.to_string () << '\n';
-				cout << "position " << input->tell() << '\n';
-			}
-			if ((get_A() == 3) && (get_B() == 0)) {
-				ref = FileChunkReference32();
-				ref.parse(input);
-				cout << "ref " << ref.to_string () << '\n';
-				ref.location8();
-				cout << "ref " << ref.to_string () << '\n';
-			}
-			uint32_t l, s;
-			if ((get_A() == 1) && (get_B() == 2)) {
-				ref = FileChunkReference32();
-				l = readU32(input, false);
-				s = readU8(input, false) * 8;
-				ref.set_all(l, s);
-			}
-			if ((get_A() == 2) && (get_B() == 2)) {
-				ref = FileChunkReference32();
-				l = readU16 (input, false) * 8;
-				s = readU8(input, false) * 8;
-				ref.set_all(l, s);
 
+
+		uint32_t l = 0, s = 0;
+		if (get_C()) {
+			switch (get_A()) {
+				case 1:
+					l = readU32 (input, false);
+					break;
+				case 2:
+					l = readU16 (input, false) * 8;
+					break;
+				case 3:
+					l = readU32 (input, false);
+					break;
+				case 0:
+					l = readU64 (input, false);
+					break;
+				default:
+					break;
 			}
+			switch (get_B()) {
+				case 0:
+					s = readU32(input, false);
+					break;
+				case 1:
+					s = readU64(input, false);
+					break;
+				case 2:
+					s = readU8(input) * 8;
+					break;
+				case 3:
+					s = readU16(input, false) * 8;
+					break;
+				default:
+					break;
+				}
 		}
-
+		ref.set_all(l, s);
+		cout << "ref " << ref.to_string() << " position " << input->tell() << "\n\n";
 		switch (FileNodeID) {
 			case FileNodeDescriptor::ObjectSpaceManifestListStartFND:
 				guid.parse(input);
 				cout << std::hex << guid.to_string () << '\n';
 				break;
+			case FileNodeDescriptor::ChunkTerminatorFND:
+				is_end = true;
+				break;
+			case FileNodeDescriptor::RevisionManifestStart4FND:
+			case FileNodeDescriptor::RevisionManifestStart6FND:
+			case FileNodeDescriptor::RevisionManifestStart7FND:
+				rev.parse(input, FileNodeID);
+				break;
 			case FileNodeDescriptor::RevisionManifestListReferenceFND:
-				cout << "ref " << ref.to_string() << '\n';
-				try_parse_ref (input);
+				try_parse_ref (input, 0);
 				break;
 			case FileNodeDescriptor::RevisionManifestListStartFND:
 				guid.parse(input);
@@ -78,10 +103,12 @@ namespace libone {
 
 				break;
 			case FileNodeDescriptor::ObjectSpaceManifestListReferenceFND:
-				cout << "ref " << ref.to_string() << '\n';
+				guid.parse(input);
+
+				 break;
 			case FileNodeDescriptor::ObjectSpaceManifestRootFND:
 				guid.parse(input);
-				cout << std::hex << guid.to_string() << '\n';
+				RootObject = guid;
 				break;
 			case FileNodeDescriptor::FileDataStoreListReferenceFND:
 				cout << "ref " << ref.to_string() << '\n';
@@ -92,17 +119,18 @@ namespace libone {
 				break;
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
-				is_end = true;
+				skip(input, Size);
+				//is_end = true;
 				break;
 		}
-		cout << "position " << input->tell() << "\n\n";
+
 	}
 
-	void FileNode::try_parse_ref(librevenge::RVNGInputStream *input) {
+	void FileNode::try_parse_ref(librevenge::RVNGInputStream *input, uint32_t expected_FileNodeID) {
 		long old = input->tell();
 		FileNodeListFragment frag;
 		input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-		frag.parse(input);
+		frag.parse(input, expected_FileNodeID);
 		frag.to_string ();
 		input->seek(old, librevenge::RVNG_SEEK_SET);
 	}

@@ -10,6 +10,9 @@
 #ifndef INCLUDED_LIBONE_GUID_H
 #define INCLUDED_LIBONE_GUID_H
 
+#include <string>
+#include <cstdint>
+#include <librevenge-stream/librevenge-stream.h>
 
 namespace libone {
 class GUID {
@@ -19,10 +22,10 @@ public:
     std::string to_string();
 
   protected:
-    uint32_t Data1;
-    uint16_t Data2;
-    uint16_t Data3;
-    uint16_t Data4[4];
+    uint32_t Data1 = 0;
+    uint16_t Data2 = 0;
+    uint16_t Data3 = 0;
+    uint16_t Data4[4] = { 0 };
 };
 
 

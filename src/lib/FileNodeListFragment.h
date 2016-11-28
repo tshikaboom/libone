@@ -20,7 +20,7 @@ namespace libone {
 
 class FileNodeListFragment {
   public:
-    void parse(librevenge::RVNGInputStream *input);
+    void parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID);
     std::string to_string();
 
   private:

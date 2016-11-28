@@ -18,6 +18,7 @@ class ExtendedGUID {
   public:
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
+    uint32_t get_n();
 
   private:
     GUID guid = GUID();

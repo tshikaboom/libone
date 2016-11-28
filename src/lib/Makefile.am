@@ -31,6 +31,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	CompactID.h \
 	Object.h \
 	Object.cpp \
+	ObjectSpace.cpp \
+	ObjectSpace.h \
 	ExtendedGUID.cpp \
 	ExtendedGUID.h \
 	FileChunkReference.h \
@@ -41,6 +43,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	FileNode.h \
 	FileNodeListFragment.cpp \
 	FileNodeListFragment.h \
+	Revision.cpp \
+	Revision.h \
 	TransactionEntry.h \
 	TransactionEntry.cpp \
 	TransactionLogFragment.h \

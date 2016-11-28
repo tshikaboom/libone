@@ -67,15 +67,9 @@ class FileNodeDescriptor {
     virtual ~FileNodeDescriptor() {};
 
 };
-class ObjectSpaceManifestRootFND : public FileNodeDescriptor {
-public:
-  virtual void parse(librevenge::RVNGInputStream *input);
-  virtual std::string to_string();
-//  ~ObjectSpaceManifestRootFND() {}
 
-private:
-  ExtendedGUID guid = ExtendedGUID();
-};
+//  ExtendedGUID guid = ExtendedGUID();
+
 /*
 class RevisionManifestListReferenceFND : FileNodeDescriptor {
   public:
