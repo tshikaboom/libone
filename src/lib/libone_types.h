@@ -33,4 +33,6 @@ static std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces;
 
 static std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 
+static libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
+
 #endif

@@ -78,6 +78,9 @@ namespace libone {
 				cout << "padding everywhere\n";
 				is_end = true;
 				break;
+      case FileNodeDescriptor::DataSignatureGroupDefinitionFND:
+        cout << "DataSignatureGroupDefinitionFND\n";
+        break;
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
 				skip(input, Size);

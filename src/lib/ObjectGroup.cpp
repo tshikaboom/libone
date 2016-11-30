@@ -36,6 +36,9 @@ namespace libone {
           temp.parse(input);
           GlobalIdentificationTable[index] = temp;
           break;
+        case FileNodeDescriptor::DataSignatureGroupDefinitionFND:
+          DataSignatureGroup.parse(input);
+          break;
         default:
           break;
       }
