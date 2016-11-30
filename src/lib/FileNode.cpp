@@ -28,26 +28,29 @@ namespace libone {
 
 		switch (FileNodeID) {
 			case FileNodeDescriptor::ObjectSpaceManifestListStartFND:
-				guid.parse(input);
-				cout << "ObjectSpaceManifestListStartFND"  << guid.to_string () << '\n';
 				break;
 			case FileNodeDescriptor::ChunkTerminatorFND:
 				is_end = true;
 				break;
-				/*
+		  case FileNodeDescriptor::RevisionManifestListStartFND:
+				cout << "RevisionManifestListStart\n";
+				break;
 			case FileNodeDescriptor::RevisionManifestStart4FND:
+			  cout << "RevisionManifestStart4FND\n";
+			  break;
 			case FileNodeDescriptor::RevisionManifestStart6FND:
+			  cout << "RevisionManifestStart6FND\n";
+			  break;
 			case FileNodeDescriptor::RevisionManifestStart7FND:
 				cout << "RevisionManifestStart\n";
 				break;
-			*/
 			case FileNodeDescriptor::RevisionManifestListReferenceFND:
 			    cout << "RevisionManifestListReferenceFND\n";
 //				try_parse_ref (input, 0);
 				break;
-			case FileNodeDescriptor::RevisionManifestListStartFND:
-				cout << guid.to_string () << " " << readU32(input) << '\n';
-				break;
+			case FileNodeDescriptor::ObjectGroupListReferenceFND:
+			  cout << "ObjectGroupListReferenceFND\n";
+			  break;
 			case FileNodeDescriptor::ObjectSpaceManifestListReferenceFND:
 				guid.parse(input);
 				cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
@@ -60,6 +63,17 @@ namespace libone {
 			case FileNodeDescriptor::FileDataStoreListReferenceFND:
 				cout << "ref " << ref.to_string() << '\n';
 				break;
+			case FileNodeDescriptor::ObjectGroupStartFND:
+			  cout << "ObjectGroupStartFND\n";
+			  break;
+			case FileNodeDescriptor::GlobalIdTableStart2FND:
+			  cout << "GlobalIdTableStart2FND\n";
+			  break;
+		  case FileNodeDescriptor::GlobalIdTableEntryFNDX:
+		    cout << "GlobalIdTableEntryFNDX\n";
+		    break;
+		  case FileNodeDescriptor::GlobalIdTableEndFNDX:
+		    break;
 			case FileNodeDescriptor::TYPES_END:
 				cout << "padding everywhere\n";
 				is_end = true;
@@ -67,7 +81,7 @@ namespace libone {
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
 				skip(input, Size);
-				//is_end = true;
+				is_end = true;
 				break;
 		}
   std::cout << "\n\n";
@@ -75,7 +89,7 @@ namespace libone {
 
 	void FileNode::try_parse_ref(librevenge::RVNGInputStream *input, uint32_t expected_FileNodeID) {
 		long old = input->tell();
-		FileNodeList frag;
+		FileNodeList frag(ref.get_location(), ref.get_size());;
 		input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
 		frag.parse(input, expected_FileNodeID);
 		frag.to_string ();

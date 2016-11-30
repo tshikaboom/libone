@@ -14,6 +14,7 @@
 #include "Object.h"
 #include "ObjectSpace.h"
 #include "GUID.h"
+#include "ObjectGroup.h"
 #include "ExtendedGUID.h"
 #include "FileChunkReference.h"
 #include "CompactID.h"
@@ -30,6 +31,6 @@ static libone::ExtendedGUID RootObject;
 static std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces;
 // the string is the Object's guid
 
-static std::unordered_map<std::string, libone::ExtendedGUID> GlobalIdentificationTable;
+static std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 
 #endif

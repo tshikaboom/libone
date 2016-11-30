@@ -7,32 +7,48 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <iostream>
 #include <iomanip>
 #include "libone_utils.h"
 
 namespace libone {
 
   void Revision::list_parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref) {
-    FileNodeList list;
+    FileNodeList list(ref.get_location(), ref.get_size());
     FileNode node;
+    ObjectGroup group;
     long old = input->tell();
-
+    ExtendedGUID temp;
+    Object object;
     input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
     list.parse_header(input);
     node.parse(input);
-    guid.parse(input);
-    dependent.parse(input);
+    std::cout << list.to_string();
+    std::cout << node.to_string ();
     while (!node.isEnd()) {
       switch(node.get_FileNodeID()) {
+        case FileNodeDescriptor::RevisionManifestListStartFND:
+          temp.parse(input);
+          std::cout << "Revision gosid " << temp.to_string () << "\n";
+          skip(input, 4);
+          break;
         case FileNodeDescriptor::RevisionManifestStart4FND:
           skip(input, 8);
           role = readU32(input, false);
+          std::cout << "Revision role " << role << "\n";
           skip(input, 2);
           break;
         case FileNodeDescriptor::RevisionManifestStart7FND:
         case FileNodeDescriptor::RevisionManifestStart6FND:
+          guid.parse(input);
+          dependent.parse(input);
           role = readU32(input, false);
           odcsDefault = readU16(input, false);
+          std::cout << "Revision role " << role << "\n";
+          std::cout << to_string();
+          break;
+        case FileNodeDescriptor::ObjectGroupListReferenceFND:
+          group.list_parse(input, node.get_ref());
           break;
         default:
           break;

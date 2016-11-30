@@ -7,8 +7,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef INCLUDED_LIBONE_OBJECT_H
-#define INCLUDED_LIBONE_OBJECT_H
+#ifndef INCLUDED_LIBONE_OBJECTGROUP_H
+#define INCLUDED_LIBONE_OBJECTGROUP_H
 
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
@@ -19,17 +19,13 @@
 
 namespace libone {
 
-class Object {
+class ObjectGroup {
   public:
-    void parse(librevenge::RVNGInputStream *input);
-    bool get_read_only();
-    void set_read_only(bool new_);
+    void list_parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref);
     std::string get_guid();
 
   private:
-    bool read_only = false;
-    unsigned int ref_count = 0;
-    ExtendedGUID guid = ExtendedGUID();
+    ExtendedGUID oid = ExtendedGUID();
 
 };
 

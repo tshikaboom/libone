@@ -66,7 +66,6 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   FileChunkReference64x32 chunk6432;
   FileChunkReference64x32 FileNodeListRoot;
   FileChunkReference64x32 TransactionLog;
-  FileNodeList first_fragment;
   TransactionLogFragment log_fragment;
 
   (void) document;
@@ -172,6 +171,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
     std::cout << "test fileNodeList " << '\n';
 //    long old = input->tell();
     input->seek (FileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
+    FileNodeList first_fragment(FileNodeListRoot.get_location(), FileNodeListRoot.get_size());
     std::cout << FileNodeListRoot.get_location() << " seeking to " << input->tell() << '\n';
     first_fragment.parse(input, 0);
  //   std::cout << first_fragment.to_string();

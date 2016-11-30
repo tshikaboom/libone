@@ -20,8 +20,8 @@ namespace libone {
 
 class FileNodeList {
   public:
-    FileNodeList() {}
-//    FileNodeList(uint64_t new_location, uint64_t new_size);
+    FileNodeList(uint64_t, uint64_t);
+    void set(uint64_t new_location, uint64_t new_size);
     void parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID);
     void parse_header(librevenge::RVNGInputStream *input);
     void set_size(uint64_t new_size);
@@ -34,7 +34,9 @@ class FileNodeList {
     std::vector<FileNode> rgFileNodes = std::vector<FileNode>();
     uint16_t nextFragment = 0;
     uint64_t footer = 0;
+    uint64_t location = 0;
     uint64_t size = 0;
+    long old_seek = 0;
 
 };
 
