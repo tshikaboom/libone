@@ -12,7 +12,6 @@
 
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
-#include "FileNodeDescriptor.h"
 #include "ExtendedGUID.h"
 #include "Object.h"
 #include "ObjectSpace.h"

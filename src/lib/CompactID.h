@@ -9,7 +9,7 @@
 
 #ifndef INCLUDED_LIBONE_COMPACTID_H
 #define INCLUDED_LIBONE_COMPACTID_H
-
+#include "ExtendedGUID.h"
 #include <librevenge-stream/librevenge-stream.h>
 
 namespace libone {
@@ -18,10 +18,11 @@ class CompactID {
   public:
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
+    ExtendedGUID to_EGUID();
 
   private:
-    uint8_t n;
-    uint32_t guidIndex; // 24 bits used only
+    uint16_t n = 0;
+    uint32_t guidIndex = 0; // 24 bits used only
 
 };
 

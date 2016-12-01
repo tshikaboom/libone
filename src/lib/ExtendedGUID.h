@@ -20,6 +20,8 @@ class ExtendedGUID {
     void zero();
     std::string to_string();
     uint32_t get_n();
+    void set_GUID(GUID new_guid);
+    void set_n(uint32_t new_n);
     bool is_equal(ExtendedGUID other);
     uint32_t n = 0;
 

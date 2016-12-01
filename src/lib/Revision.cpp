@@ -27,33 +27,30 @@ namespace libone {
     std::cout << node.to_string ();
     while (!node.isEnd()) {
       switch(node.get_FileNodeID()) {
-        case FileNodeDescriptor::RevisionManifestListStartFND:
+        case FileNode::RevisionManifestListStartFND:
           temp.parse(input);
-          std::cout << "Revision gosid " << temp.to_string () << "\n";
           skip(input, 4);
           break;
-        case FileNodeDescriptor::RevisionManifestStart4FND:
+        case FileNode::RevisionManifestStart4FND:
           skip(input, 8);
           role = readU32(input, false);
-          std::cout << "Revision role " << role << "\n";
           skip(input, 2);
           break;
-        case FileNodeDescriptor::RevisionManifestStart7FND:
-        case FileNodeDescriptor::RevisionManifestStart6FND:
+        case FileNode::RevisionManifestStart7FND:
+        case FileNode::RevisionManifestStart6FND:
           guid.parse(input);
           dependent.parse(input);
           role = readU32(input, false);
           odcsDefault = readU16(input, false);
-          std::cout << "Revision role " << role << "\n";
           std::cout << to_string();
           break;
-        case FileNodeDescriptor::ObjectGroupListReferenceFND:
+        case FileNode::ObjectGroupListReferenceFND:
           group.list_parse(input, node.get_ref());
           break;
         default:
           break;
       }
-      if (node.get_FileNodeID() == FileNodeDescriptor::RevisionManifestStart7FND)
+      if (node.get_FileNodeID() == FileNode::RevisionManifestStart7FND)
         context.parse(input);
       node.parse(input);
     }

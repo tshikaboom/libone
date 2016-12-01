@@ -35,12 +35,12 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	ObjectGroup.cpp \
 	ObjectSpace.cpp \
 	ObjectSpace.h \
+	ObjectSpaceStreams.cpp \
+	ObjectSpaceStreams.h \
 	ExtendedGUID.cpp \
 	ExtendedGUID.h \
 	FileChunkReference.h \
 	FileChunkReference.cpp \
-	FileNodeDescriptor.cpp \
-	FileNodeDescriptor.h \
 	FileNode.cpp \
 	FileNode.h \
 	FileNodeList.cpp \

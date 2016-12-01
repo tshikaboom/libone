@@ -25,6 +25,8 @@ class FileNodeList {
     void parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID);
     void parse_header(librevenge::RVNGInputStream *input);
     void set_size(uint64_t new_size);
+    FileNode get_next_node(librevenge::RVNGInputStream *input);
+    bool is_end();
     std::string to_string();
 
   private:
@@ -37,6 +39,9 @@ class FileNodeList {
     uint64_t location = 0;
     uint64_t size = 0;
     long old_seek = 0;
+    bool end = false;
+    bool header_parsed = false;
+    long next_fragment_location = 0;
 
 };
 

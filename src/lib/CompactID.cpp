@@ -11,7 +11,7 @@
 #include <iostream>
 #include <iomanip>
 #include <libone/libone.h>
-
+#include "CompactID.h"
 #include "libone_utils.h"
 
 using namespace std;
@@ -20,13 +20,23 @@ using std::string;
 namespace libone {
 
 	void CompactID::parse(librevenge::RVNGInputStream *input) {
-		(void) input;
+	  uint32_t temp = readU32 (input);
+		guidIndex = (temp >> 8) & 0xFFFFFF;
+		n = temp & 0xFF;
 	}
 
 	std::string CompactID::to_string() {
 	  std::stringstream stream;
-
+    stream << "CompactID " << guidIndex << " n " << (unsigned) n << '\n';
 	  return stream.str();
+	}
+
+	ExtendedGUID CompactID::to_EGUID() {
+	  ExtendedGUID ret;
+	  ret.set_GUID(GlobalIdentificationTable[guidIndex]);
+	  ret.set_n(n);
+
+	  return ret;
 	}
 }
 

@@ -60,7 +60,7 @@ namespace libone {
 
 	string FileChunkReference64::to_string() {
 		std::stringstream stream;
-		stream << "stp64 "  << stp << " cb64 " << cb;
+		stream << "stp64 "  << std::hex << stp << " cb64 " << cb;
 		return stream.str();
 	}
 

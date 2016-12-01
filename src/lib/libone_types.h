@@ -13,6 +13,7 @@
 
 #include "Object.h"
 #include "ObjectSpace.h"
+#include "ObjectSpaceStreams.h"
 #include "GUID.h"
 #include "ObjectGroup.h"
 #include "ExtendedGUID.h"
@@ -21,7 +22,6 @@
 #include "Revision.h"
 #include "FileNode.h"
 #include "FileNodeList.h"
-#include "FileNodeDescriptor.h"
 #include "TransactionEntry.h"
 #include "TransactionLogFragment.h"
 

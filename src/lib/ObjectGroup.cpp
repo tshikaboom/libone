@@ -9,12 +9,12 @@
 
 #include <iostream>
 #include "libone_utils.h"
-#include "FileNodeDescriptor.h"
 #include "ObjectGroup.h"
 namespace libone {
 
   void ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref) {
     FileNodeList list (ref.get_location(), ref.get_size());
+    Object object;
     FileNode node;
     uint32_t index;
     GUID temp = GUID();
@@ -28,16 +28,22 @@ namespace libone {
       node.parse(input);
 
       switch (node.get_FileNodeID()) {
-        case FileNodeDescriptor::GlobalIdTableStart2FND:
+        case FileNode::GlobalIdTableStart2FND:
           GlobalIdentificationTable.clear();
           break;
-        case FileNodeDescriptor::GlobalIdTableEntryFNDX:
+        case FileNode::GlobalIdTableEntryFNDX:
           index = readU32 (input);
           temp.parse(input);
           GlobalIdentificationTable[index] = temp;
           break;
-        case FileNodeDescriptor::DataSignatureGroupDefinitionFND:
+        case FileNode::DataSignatureGroupDefinitionFND:
           DataSignatureGroup.parse(input);
+          break;
+        case FileNode::ObjectDeclaration2RefCountFND:
+          std::cout << "going to parse " << node.get_ref().get_location() << '\n';
+          std::cout << "A " << node.get_A() << "B " << node.get_B() << "C " << node.get_C() << "D " << node.get_D() << "\n";
+          object.parse(input, node.get_ref());
+          std::cout << object.to_string();
           break;
         default:
           break;

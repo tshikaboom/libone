@@ -12,7 +12,6 @@
 
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
-
 #include "ExtendedGUID.h"
 #include "FileNodeList.h"
 #include "GUID.h"

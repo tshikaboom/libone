@@ -27,59 +27,70 @@ namespace libone {
     parse_header(input);
 
 		switch (FileNodeID) {
-			case FileNodeDescriptor::ObjectSpaceManifestListStartFND:
+			case FileNode::ObjectSpaceManifestListStartFND:
+				cout << "ObjectSpaceManifestListStartFND\n";
 				break;
-			case FileNodeDescriptor::ChunkTerminatorFND:
+			case FileNode::ChunkTerminatorFND:
+				cout << "ChunkTerminatorFND\n";
 				is_end = true;
 				break;
-		  case FileNodeDescriptor::RevisionManifestListStartFND:
+		  case FileNode::RevisionManifestListStartFND:
 				cout << "RevisionManifestListStart\n";
 				break;
-			case FileNodeDescriptor::RevisionManifestStart4FND:
+			case FileNode::RevisionManifestStart4FND:
 			  cout << "RevisionManifestStart4FND\n";
 			  break;
-			case FileNodeDescriptor::RevisionManifestStart6FND:
+			case FileNode::RevisionManifestStart6FND:
 			  cout << "RevisionManifestStart6FND\n";
 			  break;
-			case FileNodeDescriptor::RevisionManifestStart7FND:
+			case FileNode::RevisionManifestStart7FND:
 				cout << "RevisionManifestStart\n";
 				break;
-			case FileNodeDescriptor::RevisionManifestListReferenceFND:
+			case FileNode::RevisionManifestListReferenceFND:
 			    cout << "RevisionManifestListReferenceFND\n";
 //				try_parse_ref (input, 0);
 				break;
-			case FileNodeDescriptor::ObjectGroupListReferenceFND:
+			case FileNode::ObjectGroupListReferenceFND:
 			  cout << "ObjectGroupListReferenceFND\n";
 			  break;
-			case FileNodeDescriptor::ObjectSpaceManifestListReferenceFND:
+			case FileNode::ObjectSpaceManifestListReferenceFND:
 				guid.parse(input);
 				cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
         space.list_parse(input, guid, ref);
 				 break;
-			case FileNodeDescriptor::ObjectSpaceManifestRootFND:
+			case FileNode::ObjectSpaceManifestRootFND:
+			  cout << "ObjectSpaceManifestListReferenceFND\n";
 				guid.parse(input);
 				RootObject = guid;
 				break;
-			case FileNodeDescriptor::FileDataStoreListReferenceFND:
+			case FileNode::FileDataStoreListReferenceFND:
+			  cout << "FileDataStoreListReferenceFND\n";
 				cout << "ref " << ref.to_string() << '\n';
 				break;
-			case FileNodeDescriptor::ObjectGroupStartFND:
+			case FileNode::ObjectGroupStartFND:
 			  cout << "ObjectGroupStartFND\n";
 			  break;
-			case FileNodeDescriptor::GlobalIdTableStart2FND:
+			case FileNode::GlobalIdTableStart2FND:
 			  cout << "GlobalIdTableStart2FND\n";
 			  break;
-		  case FileNodeDescriptor::GlobalIdTableEntryFNDX:
+		  case FileNode::GlobalIdTableEntryFNDX:
 		    cout << "GlobalIdTableEntryFNDX\n";
 		    break;
-		  case FileNodeDescriptor::GlobalIdTableEndFNDX:
+		  case FileNode::GlobalIdTableEndFNDX:
+		    cout << "GlobalIdTableEndFNDX\n";
 		    break;
-			case FileNodeDescriptor::TYPES_END:
+			case FileNode::TYPES_END:
 				cout << "padding everywhere\n";
 				is_end = true;
 				break;
-      case FileNodeDescriptor::DataSignatureGroupDefinitionFND:
+      case FileNode::DataSignatureGroupDefinitionFND:
         cout << "DataSignatureGroupDefinitionFND\n";
+        break;
+      case FileNode::ObjectDeclaration2RefCountFND:
+        cout << "ObjectDeclaration2RefCountFND position " << input->tell() << "\n";
+        break;
+      case FileNode::ObjectGroupEndFND:
+        cout << "ObjectGroupEndFND\n";
         break;
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
@@ -137,7 +148,7 @@ namespace libone {
 					l = readU16 (input, false) * 8;
 					break;
 				case 3:
-					l = readU32 (input, false);
+					l = readU32 (input, false) * 8;
 					break;
 				case 0:
 					l = readU64 (input, false);
@@ -163,7 +174,10 @@ namespace libone {
 				}
   		ref.set_all(l, s);
   		cout << "ref " << ref.to_string() << " position " << input->tell() << "\n";
-		} else cout << "noref position " << input->tell() << "\n";
+		} else {
+		  ref.set_all(-1, -1);
+		  cout << "noref position " << input->tell() << "\n";
+		}
 	}
 
 	bool FileNode::isEnd() {

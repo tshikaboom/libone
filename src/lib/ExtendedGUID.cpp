@@ -49,4 +49,12 @@ namespace libone {
 	  n = 0;
 	}
 
+	void ExtendedGUID::set_n(uint32_t new_n) {
+	  n = new_n;
+	}
+
+	void ExtendedGUID::set_GUID(GUID new_guid) {
+	  guid = new_guid;
+	}
+
 }
