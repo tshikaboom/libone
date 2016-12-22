@@ -15,15 +15,13 @@ namespace libone {
   void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileChunkReference ref) {
   Revision rev;
   FileNodeList list = FileNodeList (ref.get_location(), ref.get_size());
-  FileNode node;
   ExtendedGUID temp;
   temp.zero();
   long old = input->tell();
   input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-  list.parse_header(input);
   std::cout << "list_parse\n" << list.to_string() << "\n";
-  node.parse(input);
-  while (!node.isEnd()) {
+  FileNode node = list.get_next_node(input);
+  while (!list.is_end()) {
     switch (node.get_FileNodeID()) {
       case FileNode::ObjectSpaceManifestListStartFND:
         guid.parse(input);
@@ -41,7 +39,7 @@ namespace libone {
         cout << "what?\n";
         break;
       }
-    node.parse(input);
+    node = list.get_next_node(input);
   }
   std::cout << "this is the end\n";
   input->seek(old, librevenge::RVNG_SEEK_SET);

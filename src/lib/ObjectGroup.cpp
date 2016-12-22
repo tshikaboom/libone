@@ -15,18 +15,18 @@ namespace libone {
   void ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
     FileNodeList list (ref.get_location(), ref.get_size());
     Object object;
-    FileNode node;
     uint32_t index;
     GUID temp = GUID();
 
     oid.parse(input);
     std::cout << "object group before" << oid.to_string() << "\n";
-    long old = input->tell();
-    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-    list.parse_header(input);
-    node.parse(input);
-    oid.parse(input);
+//    long old = input->tell();
+//    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+//    list.parse_header(input);
+//    node.parse(input);
+//    oid.parse(input);
     std::cout << "object group after" << oid.to_string() << "\n";
+    FileNode node = list.get_next_node(input);
     while (!node.isEnd()) {
       node.parse(input);
 
@@ -44,7 +44,6 @@ namespace libone {
           break;
         case FileNode::ObjectDeclaration2RefCountFND:
           std::cout << "going to parse " << node.get_ref().get_location() << '\n';
-          std::cout << "A " << node.get_A() << "B " << node.get_B() << "C " << node.get_C() << "D " << node.get_D() << "\n";
           object.parse(input, node.get_ref());
           std::cout << object.to_string();
           break;
@@ -53,7 +52,7 @@ namespace libone {
       }
     }
 
-    input->seek(old, librevenge::RVNG_SEEK_SET);
+//    input->seek(old, librevenge::RVNG_SEEK_SET);
 
   }
 

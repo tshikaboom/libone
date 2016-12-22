@@ -27,71 +27,16 @@ namespace libone {
 
   void FileNodeList::parse_header(librevenge::RVNGInputStream *input) {
 		std::cout << "fragment position begin " << std::hex << input->tell() << '\n';
-		next_fragment_location = input->tell();
+		next_fragment_location = input->tell() + size;
 		uintMagic = readU64 (input, false);
 		if (uintMagic != 0xa4567ab1f5f7f4c4) {
 		  cout << "uintMagic not correct; position " << input->tell() << '\n';
+		  end = true;
 		}
 		FileNodeListID = readU32 (input, false);
 		nFragmentSequence = readU32 (input, false);
 		std::cout << "fragment position end " << input->tell() << " nFragmentSequence " << nFragmentSequence << '\n';
   }
-
-	void FileNodeList::parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID) {
-		FileNode node;
-		uint64_t old_fragment_sequence = 0;
-		FileChunkReference next_frag;
-		bool list_end = false;
-
-	  old_seek = input->tell();
-	  input->seek(location, librevenge::RVNG_SEEK_SET);
-
-
-
-	  int i=0;
-		while (!list_end) {
-		  parse_header(input);
-		  node.parse(input);
-		  if (ExpectedFileNodeID && ExpectedFileNodeID != node.get_FileNodeID()) {
-			  cout << "Expected FileNodeID " << ExpectedFileNodeID << " in " << node.get_FileNodeID();
-			  return;
-		  }
-		  next_fragment_location += node.get_Size();
-	    old_fragment_sequence = nFragmentSequence;
-	    while (!node.isEnd()) {
-		    rgFileNodes.push_back(node);
-		    i++;
-		    if ((i<=2) && (FileNodeListID == 0x10))
-			    node.try_parse_ref(input, ExpectedFileNodeID);
-		    node.parse(input);
-		    next_fragment_location += node.get_Size();
-	    }
-      std::cout << "what's up at " << next_fragment_location << "?\n";
-      // seek out next fragment in the list if any
-      while ((i = readU8(input, false)) == 0) {}
-      input->seek(-1, librevenge::RVNG_SEEK_CUR);
-
-      next_frag.parse(input, FileChunkReference::mode::Type64x32);
-		  if (next_frag.is_fcrNil()) {
-		    std::cout << "done parsing this list\n";
-        list_end = true;
-        break;
-      }
-      std::cout << "next fragment " << next_frag.get_location() << "\n";
-      input->seek(next_frag.get_location(), librevenge::RVNG_SEEK_SET);
-      parse_header(input);
-      if (nFragmentSequence != old_fragment_sequence+1) {
-        cout << "fragments not correct, expected " << old_fragment_sequence+1 << " got " << nFragmentSequence << "\n";
-        break;
-      }
-      old_fragment_sequence++;
-
-    }
-    footer = readU64 (input);
-    std::cout << footer << "\n";
-    input->seek(old_seek, librevenge::RVNG_SEEK_SET);
-    old_seek = 0;
-	}
 
 	string FileNodeList::to_string() {
 		std::stringstream stream;
@@ -103,9 +48,29 @@ namespace libone {
 		return stream.str();
 	}
 
-	void FileNodeList::set_size(uint64_t new_size) {
-	  size = new_size;
-	}
+	void FileNodeList::parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID) {
+    long old = input->tell();
+    int i = 0;
+    FileNode node;
+    input->seek(location, librevenge::RVNG_SEEK_SET);
+
+    node = get_next_node (input);
+
+	  if (ExpectedFileNodeID && ExpectedFileNodeID != node.get_FileNodeID()) {
+		  cout << "Expected FileNodeID " << ExpectedFileNodeID << " in " << node.get_FileNodeID();
+		  return;
+	  }
+
+    while (!is_end()) {
+	    if ((i<=2) && (FileNodeListID == 0x10))
+		    node.try_parse_ref(input, ExpectedFileNodeID);
+      i++;
+      node = get_next_node(input);
+    }
+
+    input->seek(old, librevenge::RVNG_SEEK_SET);
+  }
+
 
 	FileNode FileNodeList::get_next_node(librevenge::RVNGInputStream *input) {
 	  FileNode node;
@@ -114,14 +79,13 @@ namespace libone {
 	    header_parsed = true;
 	  }
 	  node.parse(input);
-	  next_fragment_location += node.get_Size() + 4;
+    std::cout << node.to_string();
 	  std::cout << "next fragment? " << next_fragment_location << "\n";
 	  if (node.isEnd()) {
-	    next_fragment_location = node.get_ref().get_location();
       input->seek(next_fragment_location, librevenge::RVNG_SEEK_SET);
       std::cout << "what's up in here? " << input->tell();
+      parse_header(input);
       end = true;
-
 	  }
 
 	  return node;

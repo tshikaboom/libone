@@ -21,14 +21,13 @@ namespace libone {
 class FileNode {
   public:
     void parse(librevenge::RVNGInputStream *input);
-    void parse_header(librevenge::RVNGInputStream *input);
 		void try_parse_ref(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID);
     std::string to_string();
     uint32_t get_FileNodeID();
     uint32_t get_Size();
-    uint32_t get_A();
-    uint32_t get_B();
-    uint32_t get_C();
+    uint32_t get_StpFormat();
+    uint32_t get_CbFormat();
+    uint32_t get_Basetype();
     uint32_t get_D();
     bool isEnd();
     FileChunkReference get_ref();
@@ -80,12 +79,15 @@ class FileNode {
   private:
     uint32_t FileNodeID = 0;
     uint32_t Size = 0;
-    uint16_t a = 0, b = 0, c = 0, d = 0;
-    uint32_t const IDMask = 0xFFC00000;
-    uint32_t const SizeMask = 0x3FFE00;
-    uint32_t const ABCDMask = 0x1FF;
+    uint16_t StpFormat = 0, CbFormat = 0, BaseType = 0, d = 0;
+    static uint32_t const IDMask = 0xFFC00000;
+    static uint32_t const SizeMask = 0x3FFE00;
+    static uint32_t const ABCDMask = 0x1FF;
     bool is_end = false;
+    void parse_header(librevenge::RVNGInputStream *input);
 		FileChunkReference ref = FileChunkReference();
+
+
 };
 
 

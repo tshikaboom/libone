@@ -99,7 +99,7 @@ namespace libone {
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
 				input->seek(-4, librevenge::RVNG_SEEK_CUR);
-				skip(input, Size);
+//				skip(input, Size);
 				is_end = true;
 				break;
 		}
@@ -119,7 +119,7 @@ namespace libone {
 		std::stringstream stream;
 		stream << "FileNodeID " << std::hex << FileNodeID << '\n';
 		stream << std::hex << "Size " << Size << '\n';
-		stream << std::hex << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
+		stream << std::hex << "A " << StpFormat << " B " << CbFormat << " C " << BaseType << " D " << d;
 
 		return stream.str();
 	}
@@ -129,9 +129,9 @@ namespace libone {
 		temp = readU32 (input, false);
 
 		d = temp >> 31;
-		c = (temp >> 27) & 0xF;
-		b = (temp >> 25) & 0x3;
-		a = (temp >> 23) & 0x3;
+		BaseType = (temp >> 27) & 0xF;
+		CbFormat = (temp >> 25) & 0x3;
+		StpFormat = (temp >> 23) & 0x3;
 		Size = (temp >> 10) & 0x1FFF;
 		FileNodeID = temp & 0x3FF;
 		std::bitset<10> y(FileNodeID);
@@ -140,14 +140,22 @@ namespace libone {
 		Size = (temp & SizeMask) >> 9;
 		std::bitset<13> z(Size);
 		std::cout << "Size " << Size << " " << z << '\n';
-		std::cout << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
+		std::cout << "A " << StpFormat << " B " << CbFormat << " C " << BaseType << " D " << d << '\n';
 
-		if (get_C()) {
-			ref.parse(input, get_A(), get_B());
-  		cout << "ref " << ref.to_string() << " position " << input->tell() << "\n";
-		} else {
-		  ref.set_zero();
-		  cout << "noref position " << input->tell() << "\n";
+
+		switch(get_Basetype()) {
+		  case 1:
+  			ref.parse(input, get_StpFormat(), get_CbFormat());
+    		cout << "ref data @ " << ref.to_string() << " position " << input->tell() << "\n";
+    		break;
+    	case 2:
+				ref.parse(input, get_StpFormat(), get_CbFormat());
+    	  cout << "ref list @ " << ref.to_string () << " position " << input->tell() << "\n";
+    	  break;
+    	case 0:
+    	default:
+	      ref.set_zero();
+	      cout << "noref position " << input->tell() << "\n";
 		}
 	}
 
@@ -163,16 +171,16 @@ namespace libone {
 		return Size;
 	}
 
-	uint32_t FileNode::get_A() {
-		return a;
+	uint32_t FileNode::get_StpFormat() {
+		return StpFormat;
 	}
 
-	uint32_t FileNode::get_B() {
-		return b;
+	uint32_t FileNode::get_CbFormat() {
+		return CbFormat;
 	}
 
-	uint32_t FileNode::get_C() {
-		return c;
+	uint32_t FileNode::get_Basetype() {
+		return BaseType;
 	}
 
 	uint32_t FileNode::get_D() {

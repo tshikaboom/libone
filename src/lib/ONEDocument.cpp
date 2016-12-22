@@ -168,10 +168,10 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
     std::cout << "position " << input->tell() << '\n';
 
     std::cout << "test fileNodeList " << '\n';
-//    long old = input->tell();
+    long old = input->tell();
     input->seek (FileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
     FileNodeList first_fragment(FileNodeListRoot.get_location(), FileNodeListRoot.get_size());
-//    std::cout << FileNodeListRoot.get_location() << " seeking to " << input->tell() << '\n';
+    std::cout << old << " seeking to " << input->tell() << '\n';
     first_fragment.parse(input, 0);
  //   std::cout << first_fragment.to_string();
 
