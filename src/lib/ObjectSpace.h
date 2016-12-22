@@ -21,7 +21,7 @@ namespace libone {
 
 class ObjectSpace {
   public:
-    void list_parse(librevenge::RVNGInputStream *input, ExtendedGUID guid, FileChunkReference64 ref); // Assume we're at the beginning of a FileNode list
+    void list_parse(librevenge::RVNGInputStream *input, ExtendedGUID guid, FileChunkReference ref); // Assume we're at the beginning of a FileNode list
     std::unordered_map<std::string, libone::Object> ObjectMap = std::unordered_map<std::string, libone::Object>();
 
   private:

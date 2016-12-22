@@ -13,19 +13,17 @@
 
 namespace libone {
 
-  void Revision::list_parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref) {
+  void Revision::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
     FileNodeList list(ref.get_location(), ref.get_size());
-    FileNode node;
     ObjectGroup group;
     long old = input->tell();
     ExtendedGUID temp;
     Object object;
     input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-    list.parse_header(input);
-    node.parse(input);
-    std::cout << list.to_string();
+    cout << "trying to revision at " << input->tell() << "\n";
+    while (!list.is_end()) {
+    FileNode node = list.get_next_node(input);
     std::cout << node.to_string ();
-    while (!node.isEnd()) {
       switch(node.get_FileNodeID()) {
         case FileNode::RevisionManifestListStartFND:
           temp.parse(input);
@@ -47,12 +45,15 @@ namespace libone {
         case FileNode::ObjectGroupListReferenceFND:
           group.list_parse(input, node.get_ref());
           break;
+        case FileNode::ObjectInfoDependencyOverridesFND:
+
+          break;
         default:
           break;
       }
       if (node.get_FileNodeID() == FileNode::RevisionManifestStart7FND)
         context.parse(input);
-      node.parse(input);
+      //node.parse(input);
     }
     input->seek(old, librevenge::RVNG_SEEK_SET);
   }

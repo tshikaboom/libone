@@ -14,9 +14,9 @@
 #include "ObjectSpaceStreams.h"
 namespace libone {
 
-  void parse_list(librevenge::RVNGInputStream *input, FileChunkReference64 ref);
+  void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
 
-  void Object::parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref) {
+  void Object::parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
     CompactID temp;
     uint8_t temp2;
     temp.parse(input);
@@ -52,7 +52,7 @@ namespace libone {
     return stream.str();
 	}
 
-	void parse_list(librevenge::RVNGInputStream *input, FileChunkReference64 ref) {
+	void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref) {
   	ObjectSpaceStreamOfOIDs oids;
 	  ObjectSpaceStreamOfOSIDs osids;
 	  ObjectSpaceStreamOfContextIDs contexts;

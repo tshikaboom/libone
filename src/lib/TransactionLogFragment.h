@@ -23,7 +23,7 @@ class TransactionLogFragment {
 
   private:
     std::vector<TransactionEntry> sizeTable = std::vector<TransactionEntry>();
-    FileChunkReference64x32 nextFragment = FileChunkReference64x32();
+    FileChunkReference nextFragment = FileChunkReference();
 
 };
 

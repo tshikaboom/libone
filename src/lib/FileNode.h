@@ -31,7 +31,7 @@ class FileNode {
     uint32_t get_C();
     uint32_t get_D();
     bool isEnd();
-    FileChunkReference64 get_ref();
+    FileChunkReference get_ref();
 
     enum {
       ObjectSpaceManifestRootFND =          0x004,
@@ -85,7 +85,7 @@ class FileNode {
     uint32_t const SizeMask = 0x3FFE00;
     uint32_t const ABCDMask = 0x1FF;
     bool is_end = false;
-		FileChunkReference64 ref = FileChunkReference64();
+		FileChunkReference ref = FileChunkReference();
 };
 
 

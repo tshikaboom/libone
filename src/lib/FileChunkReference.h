@@ -19,55 +19,24 @@ namespace libone {
 
 class FileChunkReference {
   public:
-    virtual ~FileChunkReference() {}
-    virtual void parse(librevenge::RVNGInputStream *input) = 0;
-    virtual string to_string() = 0;
-};
+    enum mode {
+      Type32x32,
+      Type64x64,
+      Type64x32,
+      NIL } size_mode = NIL;
 
-class FileChunkReference32: public FileChunkReference {
-  public:
-    void parse(librevenge::RVNGInputStream *input);
+    void parse(librevenge::RVNGInputStream *input, enum FileChunkReference::mode size);
+    void parse(librevenge::RVNGInputStream *input, int a, int c);
     string to_string();
-    uint32_t get_location();
-    uint32_t get_size();
-    void location8();
-    void set_all(uint32_t location, uint32_t size);
-
-  private:
-    uint32_t stp = 0;
-    uint32_t cb = 0;
-};
-
-class FileChunkReference64: public FileChunkReference {
-  public:
-
-    void parse(librevenge::RVNGInputStream *input);
-
-    uint64_t get_location();
-    uint64_t get_size();
-    string to_string();
-    void set_all(uint64_t location, uint64_t size);
+    long get_location();
+    long get_size();
+    bool is_fcrNil();
+    bool is_fcrZero();
+    void set_zero();
 
   private:
     uint64_t stp = 0;
     uint64_t cb = 0;
-};
-
-class FileChunkReference64x32 {
-  public:
-
-    void parse(librevenge::RVNGInputStream *input);
-
-    uint64_t get_location();
-    uint32_t get_size();
-    string to_string();
-    void location8();
-    void set_all(uint64_t location, uint32_t size);
-    bool is_nil();
-
-  private:
-    uint64_t stp = 0;
-    uint32_t cb = 0;
 };
 
 }

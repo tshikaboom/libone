@@ -20,7 +20,7 @@ namespace libone {
 
 class Revision {
   public:
-    void list_parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref);
+    void list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
     std::string get_guid();
     std::string to_string();
 

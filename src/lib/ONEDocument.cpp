@@ -62,10 +62,9 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 {
 
   GUID guidFileType;
-  FileChunkReference32 chunk;
-  FileChunkReference64x32 chunk6432;
-  FileChunkReference64x32 FileNodeListRoot;
-  FileChunkReference64x32 TransactionLog;
+  FileChunkReference chunk;
+  FileChunkReference FileNodeListRoot;
+  FileChunkReference TransactionLog;
   TransactionLogFragment log_fragment;
 
   (void) document;
@@ -97,17 +96,17 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   std::cout << "ffvNewestCodeThatHasWrittenToThisFile " << std::hex << readU32 (input, false) << '\n';
   std::cout << "ffvOldestCodeThatMayReadThisFile " << std::hex << readU32 (input, false) << '\n';
 
-  chunk.parse(input);
+  chunk.parse(input, FileChunkReference::mode::Type32x32);
   std::cout << "fcrLegacyFreeChunkList stp " << chunk.to_string() << '\n';
 
-  chunk.parse(input);
+  chunk.parse(input, FileChunkReference::mode::Type32x32);
   std::cout << "fcrLegacyTransactionLog " << chunk.to_string() << '\n';
 
   std::cout << "cTransactionsInLog " << std::hex << readU32 (input, false) << '\n';
   std::cout << "cbLegacyExpectedFileLength " << std::hex << readU32 (input, false) << '\n';
   std::cout << "rgbPlaceholder " << std::hex << readU64 (input, false) << '\n';
 
-  chunk.parse(input);
+  chunk.parse(input, FileChunkReference::mode::Type32x32);
   std::cout << "fcrLegacyFileNodeListRoot " << chunk.to_string() << '\n';
 
   std::cout << "cbLegacyFreeSpaceInFreeChunkList " << std::hex << readU32 (input, false) << '\n';
@@ -123,18 +122,18 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
   std::cout << "crcName " << readU32 (input, false) << '\n';
 
-  chunk6432.parse(input);
-  std::cout << "fcrHashedChunkList " << chunk6432.to_string() << '\n';
+  chunk.parse(input, FileChunkReference::mode::Type64x32);
+  std::cout << "fcrHashedChunkList " << chunk.to_string() << '\n';
 
-  TransactionLog.parse(input);
+  TransactionLog.parse(input, FileChunkReference::mode::Type64x32);
   std::cout << "fcrTransactionLog " << TransactionLog.to_string() << '\n';
 
   std::cout << "position " << input->tell() << '\n';
-  FileNodeListRoot.parse(input);
+  FileNodeListRoot.parse(input, FileChunkReference::mode::Type64x32);
   std::cout << "fcrFileNodeListRoot " << FileNodeListRoot.to_string() << '\n';
 
-  chunk6432.parse(input);
-  std::cout << "fcrFreeChunkList " << chunk6432.to_string() << '\n';
+  chunk.parse(input, FileChunkReference::mode::Type64x32);
+  std::cout << "fcrFreeChunkList " << chunk.to_string() << '\n';
 
   std::cout << "cbExpectedFileLength " << readU64 (input, false) << '\n';
 
@@ -153,11 +152,11 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
 //  std::cout << "empty32 " << readU32 (input, true) << '\n';
 
-  chunk6432.parse(input);
-  std::cout << "fcrDebugLog " << chunk6432.to_string() << '\n';
+  chunk.parse(input, FileChunkReference::mode::Type64x32);
+  std::cout << "fcrDebugLog " << chunk.to_string() << '\n';
 
-  chunk6432.parse(input);
-  std::cout << "fcrAllocVerificationFreeChunkList " << chunk6432.to_string() << '\n';
+  chunk.parse(input, FileChunkReference::mode::Type64x32);
+  std::cout << "fcrAllocVerificationFreeChunkList " << chunk.to_string() << '\n';
 
   std::cout << "bnCreated " << readU32 (input, true) << '\n';
 
@@ -172,7 +171,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 //    long old = input->tell();
     input->seek (FileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
     FileNodeList first_fragment(FileNodeListRoot.get_location(), FileNodeListRoot.get_size());
-    std::cout << FileNodeListRoot.get_location() << " seeking to " << input->tell() << '\n';
+//    std::cout << FileNodeListRoot.get_location() << " seeking to " << input->tell() << '\n';
     first_fragment.parse(input, 0);
  //   std::cout << first_fragment.to_string();
 

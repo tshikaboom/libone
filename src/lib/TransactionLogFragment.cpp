@@ -9,7 +9,7 @@
 
 #include <vector>
 #include <sstream>
-
+#include <iostream>
 #include "libone_utils.h"
 
 
@@ -22,7 +22,8 @@ namespace libone {
         sizeTable.push_back(entry);
         entry.parse(input);
       }
-    	(void) input;
+      nextFragment.parse(input, FileChunkReference::mode::Type64x32);
+      std::cout << nextFragment.to_string ();
     }
 
     std::string TransactionLogFragment::to_string() {

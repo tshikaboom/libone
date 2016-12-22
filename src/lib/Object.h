@@ -21,7 +21,7 @@ namespace libone {
 
 class Object {
   public:
-    void parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref);
+    void parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
     bool get_read_only();
     void set_read_only(bool new_);
     ExtendedGUID get_guid();

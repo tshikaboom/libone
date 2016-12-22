@@ -12,7 +12,7 @@
 namespace libone {
 
 
-  void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileChunkReference64 ref) {
+  void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileChunkReference ref) {
   Revision rev;
   FileNodeList list = FileNodeList (ref.get_location(), ref.get_size());
   FileNode node;
@@ -34,6 +34,7 @@ namespace libone {
         }
         break;
       case FileNode::RevisionManifestListReferenceFND:
+        cout << "yes? RevisionManifestListReferenceFND\n";
         rev.list_parse(input, node.get_ref());
         break;
       default:

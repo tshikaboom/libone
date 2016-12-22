@@ -23,8 +23,7 @@ namespace libone {
 
 	string TransactionEntry::to_string() {
 		std::stringstream stream;
-		std::bitset<32> x(srcID);
-		stream << x << "TransactionEntry srcID " << srcID << " Switch " << TransactionEntrySwitch;
+		stream << "TransactionEntry srcID " << srcID << " Switch " << TransactionEntrySwitch;
 
 		return stream.str();
 

@@ -57,9 +57,10 @@ namespace libone {
 				guid.parse(input);
 				cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
         space.list_parse(input, guid, ref);
-				 break;
+        ObjectSpaces.insert({ guid.to_string(), space});
+				break;
 			case FileNode::ObjectSpaceManifestRootFND:
-			  cout << "ObjectSpaceManifestListReferenceFND\n";
+			  cout << "ObjectSpaceManifestListRootFND\n";
 				guid.parse(input);
 				RootObject = guid;
 				break;
@@ -81,6 +82,9 @@ namespace libone {
 		    break;
 			case FileNode::TYPES_END:
 				cout << "padding everywhere\n";
+				while (readU16 (input) ==  0) {}
+				input->seek(-2, librevenge::RVNG_SEEK_CUR);
+        ref.parse(input, FileChunkReference::mode::Type64x32);
 				is_end = true;
 				break;
       case FileNode::DataSignatureGroupDefinitionFND:
@@ -94,6 +98,7 @@ namespace libone {
         break;
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
+				input->seek(-4, librevenge::RVNG_SEEK_CUR);
 				skip(input, Size);
 				is_end = true;
 				break;
@@ -137,45 +142,11 @@ namespace libone {
 		std::cout << "Size " << Size << " " << z << '\n';
 		std::cout << "A " << a << " B " << b << " C " << c << " D " << d << '\n';
 
-
-		uint32_t l = 0, s = 0;
 		if (get_C()) {
-			switch (get_A()) {
-				case 1:
-					l = readU32 (input, false);
-					break;
-				case 2:
-					l = readU16 (input, false) * 8;
-					break;
-				case 3:
-					l = readU32 (input, false) * 8;
-					break;
-				case 0:
-					l = readU64 (input, false);
-					break;
-				default:
-					break;
-			}
-			switch (get_B()) {
-				case 0:
-					s = readU32(input, false);
-					break;
-				case 1:
-					s = readU64(input, false);
-					break;
-				case 2:
-					s = readU8(input) * 8;
-					break;
-				case 3:
-					s = readU16(input, false) * 8;
-					break;
-				default:
-					break;
-				}
-  		ref.set_all(l, s);
+			ref.parse(input, get_A(), get_B());
   		cout << "ref " << ref.to_string() << " position " << input->tell() << "\n";
 		} else {
-		  ref.set_all(-1, -1);
+		  ref.set_zero();
 		  cout << "noref position " << input->tell() << "\n";
 		}
 	}
@@ -208,7 +179,7 @@ namespace libone {
 		return d;
 	}
 
-	FileChunkReference64 FileNode::get_ref() {
+	FileChunkReference FileNode::get_ref() {
 	  return ref;
 	}
 }

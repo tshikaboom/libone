@@ -20,7 +20,7 @@ namespace libone {
 
 class ObjectGroup {
   public:
-    void list_parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref);
+    void list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
     std::string get_guid();
 
   private:

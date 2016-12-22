@@ -12,18 +12,21 @@
 #include "ObjectGroup.h"
 namespace libone {
 
-  void ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference64 ref) {
+  void ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
     FileNodeList list (ref.get_location(), ref.get_size());
     Object object;
     FileNode node;
     uint32_t index;
     GUID temp = GUID();
+
+    oid.parse(input);
+    std::cout << "object group before" << oid.to_string() << "\n";
     long old = input->tell();
     input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
     list.parse_header(input);
     node.parse(input);
     oid.parse(input);
-    std::cout << "object group " << oid.to_string() << "\n";
+    std::cout << "object group after" << oid.to_string() << "\n";
     while (!node.isEnd()) {
       node.parse(input);
 
