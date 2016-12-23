@@ -27,14 +27,17 @@ namespace libone {
         std::cout << entry.to_string() << "\n";
         if (entry.get_srcID() != 0x00000001) {
           sizeTable.push_back(entry);
-          Transactions[entry.get_srcID()] = entry.get_Switch();
+          Transactions.insert(std::make_pair(entry.get_srcID(), entry.get_Switch()));
+        }
+        else {
           transactions_parsed++;
+          std::cout << "parsed " << transactions_parsed << " transactions\n";
         }
       }
       std::cout << "position " << input->tell() << " before next fragment\n";
       nextFragment.parse(input, FileChunkReference::mode::Type64x32);
       std::cout << nextFragment.to_string () << " position " << input->tell() << "\n";
-      std::cout << "last entry " << entry.to_string () << "\n";
+//      std::cout << "last entry " << entry.to_string () << "\n";
       std::cout << "parsed " << transactions_parsed << ", total " << total_transactions << "\n";
     }
 

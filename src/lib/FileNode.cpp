@@ -98,6 +98,7 @@ namespace libone {
         break;
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
+				FileNodeID = DUNNO;
 				input->seek(-4, librevenge::RVNG_SEEK_CUR);
 //				skip(input, Size);
 				is_end = true;

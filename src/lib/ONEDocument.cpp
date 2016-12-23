@@ -35,9 +35,10 @@ std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces = std::unorder
 
 std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable = std::unordered_map<uint32_t, libone::GUID>();
 
-std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_t, uint32_t>();
+std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_t, uint32_t>({{0, 0}});
 
 libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
+libone::Header header;
 
 namespace libone
 {
@@ -71,9 +72,8 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
 ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const input, librevenge::RVNGDrawingInterface *const document, const ONEDocument::Type type, const char *const) try
 {
-  Header header;
-
   header.parse(input);
+  long old;
 
   (void) document;
   // sanity check
@@ -85,29 +85,30 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   const RVNGInputStreamPtr_t input_(input, ONEDummyDeleter());
 
   input_->seek(0, librevenge::RVNG_SEEK_SET);
-
-
   TransactionLogFragment log_fragment(header.cTransactionsInLog);
 
-    std::cout << "test fileNodeList " << '\n';
-    long old = input->tell();
-    input->seek (header.fcrFileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
-    FileNodeList first_fragment(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
-    std::cout << old << " seeking to " << input->tell() << '\n';
-//    first_fragment.parse(input, 0);
-//   std::cout << first_fragment.to_string();
+  std::cout << "trying transactions, jumping to " << header.fcrTransactionLog.get_location() << '\n';
+  old = input->tell();
+  input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
+  log_fragment.parse(input);
+  input->seek(old, librevenge::RVNG_SEEK_SET);
+  std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
+
+
+
+
+  std::cout << "test fileNodeList " << '\n';
+  old = input->tell();
+  input->seek (header.fcrFileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
+  FileNodeList first_fragment(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
+
 
   FileNode node;
-
   node = first_fragment.get_next_node(input);
   while (!first_fragment.is_end()) {
     node = first_fragment.get_next_node(input);
   }
 
-  std::cout << "trying transactions, jumping to " << header.fcrTransactionLog.get_location() << '\n';
-  input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
-  log_fragment.parse(input);
-  std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
 
   return RESULT_UNKNOWN_ERROR;
 }

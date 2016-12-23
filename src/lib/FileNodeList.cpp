@@ -36,6 +36,15 @@ namespace libone {
 		  end = true;
 		}
 		FileNodeListID = readU32 (input, false);
+
+		for (auto i: Transactions) {
+		  if (i.first == FileNodeListID) {
+		    list_length = i.second;
+  		  std::cout << std::dec << "got length " << list_length << " for list " << FileNodeListID << " from transactions\n";
+		    break;
+		  }
+		}
+
 		expected_fragment_sequence = readU32 (input, false);
 		if (expected_fragment_sequence != nFragmentSequence) {
 		  cout << "expected fragment " << nFragmentSequence << ", got " << expected_fragment_sequence << "\n";
@@ -64,10 +73,16 @@ namespace libone {
 	    header_parsed = true;
 	  }
 	  node.parse(input);
+	  elements_parsed++;
     std::cout << node.to_string();
 
 	  if (node.isEnd() || (input->tell() >= next_fragment_location))
 	    next_fragment_wanted = true;
+
+    if ((list_length != 0xABCD) && (elements_parsed >= list_length)) {
+      end = true;
+      std::cout << "got to list length, stopping. length " << list_length << ", parsed " << elements_parsed << "\n";
+    }
 
 	  if (next_fragment_wanted) {
       input->seek(next_fragment_location, librevenge::RVNG_SEEK_SET);
@@ -77,6 +92,9 @@ namespace libone {
         cout << "footer not correct, position " << input->tell() << "\n";
         end = true;
       }
+
+      if (node.get_FileNodeID() == FileNode::DUNNO)
+        end = true;
 
       if (next_fragment.is_fcrNil()) end = true;
       else {

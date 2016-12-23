@@ -71,6 +71,7 @@ class FileNode {
       ReadOnlyObjectDeclaration2RefCountFND = 0x0C4,
       ReadOnlyObjectDeclaration2LargeRefCountFND = 0x0F5,
       ChunkTerminatorFND = 0x0FF,
+      DUNNO = 0xFFFF,
       TYPES_END = 0x0
       } types = TYPES_END;
 

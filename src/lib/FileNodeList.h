@@ -40,6 +40,8 @@ class FileNodeList {
     bool end = false;
     bool header_parsed = false;
     long next_fragment_location = 0;
+    uint32_t list_length = 0xABCD;
+    uint32_t elements_parsed = 0;
 
 };
 

@@ -37,5 +37,6 @@ extern std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 extern libone::ExtendedGUID DataSignatureGroup;
 
 extern std::unordered_map<uint32_t, uint32_t> Transactions;
+extern libone::Header header;
 
 #endif
