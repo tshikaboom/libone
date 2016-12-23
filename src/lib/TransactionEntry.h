@@ -17,6 +17,7 @@ class TransactionEntry {
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
     uint32_t get_srcID();
+    uint32_t get_Switch();
 
   private:
     uint32_t srcID;

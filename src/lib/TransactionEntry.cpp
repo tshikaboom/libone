@@ -33,4 +33,8 @@ namespace libone {
 	  return srcID;
 	}
 
+	uint32_t TransactionEntry::get_Switch() {
+	  return TransactionEntrySwitch;
+	}
+
 }

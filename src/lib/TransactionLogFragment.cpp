@@ -15,26 +15,51 @@
 
 namespace libone {
 
+    TransactionLogFragment::TransactionLogFragment(uint32_t expected_transactions) {
+      total_transactions = expected_transactions;
+    }
+
     void TransactionLogFragment::parse(librevenge::RVNGInputStream *input) {
       TransactionEntry entry;
       entry.parse(input);
-      while (entry.get_srcID() != 0x00000001) {
-        sizeTable.push_back(entry);
+      while (transactions_parsed < total_transactions) {
         entry.parse(input);
+        std::cout << entry.to_string() << "\n";
+        if (entry.get_srcID() != 0x00000001) {
+          sizeTable.push_back(entry);
+          Transactions[entry.get_srcID()] = entry.get_Switch();
+          transactions_parsed++;
+        }
       }
+      std::cout << "position " << input->tell() << " before next fragment\n";
       nextFragment.parse(input, FileChunkReference::mode::Type64x32);
-      std::cout << nextFragment.to_string ();
+      std::cout << nextFragment.to_string () << " position " << input->tell() << "\n";
+      std::cout << "last entry " << entry.to_string () << "\n";
+      std::cout << "parsed " << transactions_parsed << ", total " << total_transactions << "\n";
     }
 
     std::string TransactionLogFragment::to_string() {
     std::stringstream stream;
 
     stream << "TransactionLog" << '\n';
-      for (TransactionEntry i : sizeTable) {
-        stream << i.to_string() << '\n';
+      for (auto i : Transactions) {
+        stream << "FileNodeList " << i.first << " length " << i.second << '\n';
       }
 
     return stream.str();
+    }
+
+    TransactionEntry TransactionLogFragment::get_next_entry(librevenge::RVNGInputStream *input) {
+      TransactionEntry entry;
+      entry.parse(input);
+
+      if (entry.get_srcID() == 0x00000001) {
+        if (transactions_parsed < total_transactions)
+          skip (input, 4);
+
+
+      }
+      return entry;
     }
 }
 

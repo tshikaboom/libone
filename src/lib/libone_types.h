@@ -24,15 +24,18 @@
 #include "FileNodeList.h"
 #include "TransactionEntry.h"
 #include "TransactionLogFragment.h"
+#include "Header.h"
 
-static std::unordered_map<std::string ,libone::Object> RootObjectSpace;
-static libone::ExtendedGUID RootObject;
+extern std::unordered_map<std::string ,libone::Object> RootObjectSpace;
+extern libone::ExtendedGUID RootObject;
 
-static std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces;
+extern std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces;
 // the string is the Object's guid
 
-static std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
+extern std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 
-static libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
+extern libone::ExtendedGUID DataSignatureGroup;
+
+extern std::unordered_map<uint32_t, uint32_t> Transactions;
 
 #endif

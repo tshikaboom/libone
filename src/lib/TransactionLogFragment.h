@@ -18,12 +18,17 @@ namespace libone {
 
 class TransactionLogFragment {
   public:
+    TransactionLogFragment(uint32_t expected_transactions);
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
 
   private:
+    uint32_t transactions_parsed = 0;
+    uint32_t total_transactions = 0;
     std::vector<TransactionEntry> sizeTable = std::vector<TransactionEntry>();
+    TransactionEntry get_next_entry(librevenge::RVNGInputStream *input);
     FileChunkReference nextFragment = FileChunkReference();
+    bool end = false;
 
 };
 
