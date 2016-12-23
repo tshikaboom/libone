@@ -85,7 +85,7 @@ namespace libone {
       input->seek(next_fragment_location, librevenge::RVNG_SEEK_SET);
       std::cout << "what's up in here? " << input->tell();
       parse_header(input);
-      end = true;
+      node.parse(input);
 	  }
 
 	  return node;

@@ -17,19 +17,15 @@ namespace libone {
     Object object;
     uint32_t index;
     GUID temp = GUID();
-
+    ExtendedGUID objectspace;
     oid.parse(input);
     std::cout << "object group before" << oid.to_string() << "\n";
-//    long old = input->tell();
-//    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-//    list.parse_header(input);
-//    node.parse(input);
+    long old = input->tell();
+    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
 //    oid.parse(input);
     std::cout << "object group after" << oid.to_string() << "\n";
     FileNode node = list.get_next_node(input);
-    while (!node.isEnd()) {
-      node.parse(input);
-
+    while (!list.is_end()) {
       switch (node.get_FileNodeID()) {
         case FileNode::GlobalIdTableStart2FND:
           GlobalIdentificationTable.clear();
@@ -47,12 +43,22 @@ namespace libone {
           object.parse(input, node.get_ref());
           std::cout << object.to_string();
           break;
+        case FileNode::ObjectGroupStartFND:
+          objectspace.parse(input);
+          std::cout << objectspace.to_string() << "\n";
+          break;
+        case FileNode::ObjectGroupEndFND:
+          break;
+        case FileNode::GlobalIdTableEndFNDX:
+          break;
         default:
+          std::cout << "won't parse " << node.get_FileNodeID() << "?\n";
           break;
       }
+      node = list.get_next_node(input);
     }
-
-//    input->seek(old, librevenge::RVNG_SEEK_SET);
+    std::cout << "end of object";
+    input->seek(old, librevenge::RVNG_SEEK_SET);
 
   }
 
