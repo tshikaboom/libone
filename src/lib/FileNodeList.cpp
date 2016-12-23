@@ -27,6 +27,7 @@ namespace libone {
 
   void FileNodeList::parse_header(librevenge::RVNGInputStream *input) {
     uint32_t expected_fragment_sequence;
+    bool found = false;
 		std::cout << "fragment position begin " << std::hex << input->tell() << '\n';
 		next_fragment_location = input->tell() + size - 8 - 12;
 		std::cout << "next fragment @ " << next_fragment_location << "\n";
@@ -36,14 +37,16 @@ namespace libone {
 		  end = true;
 		}
 		FileNodeListID = readU32 (input, false);
-
 		for (auto i: Transactions) {
 		  if (i.first == FileNodeListID) {
 		    list_length = i.second;
   		  std::cout << std::dec << "got length " << list_length << " for list " << FileNodeListID << " from transactions\n";
+  		  found = true;
 		    break;
 		  }
 		}
+		if (!found)
+		  std::cout << "length not found for list " << FileNodeListID << "\n";
 
 		expected_fragment_sequence = readU32 (input, false);
 		if (expected_fragment_sequence != nFragmentSequence) {

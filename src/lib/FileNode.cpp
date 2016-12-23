@@ -48,21 +48,14 @@ namespace libone {
 				break;
 			case FileNode::RevisionManifestListReferenceFND:
 			    cout << "RevisionManifestListReferenceFND\n";
-//				try_parse_ref (input, 0);
 				break;
 			case FileNode::ObjectGroupListReferenceFND:
 			  cout << "ObjectGroupListReferenceFND\n";
 			  break;
 			case FileNode::ObjectSpaceManifestListReferenceFND:
-				guid.parse(input);
-				cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
-        space.list_parse(input, guid, ref);
-        ObjectSpaces.insert({ guid.to_string(), space});
 				break;
 			case FileNode::ObjectSpaceManifestRootFND:
 			  cout << "ObjectSpaceManifestListRootFND\n";
-				guid.parse(input);
-				RootObject = guid;
 				break;
 			case FileNode::FileDataStoreListReferenceFND:
 			  cout << "FileDataStoreListReferenceFND\n";
@@ -111,7 +104,7 @@ namespace libone {
 		std::stringstream stream;
 		stream << "FileNodeID " << std::hex << FileNodeID << '\n';
 		stream << std::hex << "Size " << Size << '\n';
-		stream << std::hex << "A " << StpFormat << " B " << CbFormat << " C " << BaseType << " D " << d;
+		stream << std::hex << "A " << StpFormat << " B " << CbFormat << " C " << BaseType << " D " << d << "\n";
 
 		return stream.str();
 	}

@@ -73,6 +73,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const input, librevenge::RVNGDrawingInterface *const document, const ONEDocument::Type type, const char *const) try
 {
   header.parse(input);
+  RootFileNodeList root_list;
   long old;
 
   (void) document;
@@ -98,16 +99,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
 
   std::cout << "test fileNodeList " << '\n';
-  old = input->tell();
-  input->seek (header.fcrFileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
-  FileNodeList first_fragment(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
-
-
-  FileNode node;
-  node = first_fragment.get_next_node(input);
-  while (!first_fragment.is_end()) {
-    node = first_fragment.get_next_node(input);
-  }
+  root_list.parse(input);
 
 
   return RESULT_UNKNOWN_ERROR;
