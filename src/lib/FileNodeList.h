@@ -21,7 +21,6 @@ namespace libone {
 class FileNodeList {
   public:
     FileNodeList(uint64_t, uint64_t);
-    void parse(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID);
     FileNode get_next_node(librevenge::RVNGInputStream *input);
     bool is_end();
     std::string to_string();

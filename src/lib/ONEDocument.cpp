@@ -172,8 +172,15 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
     input->seek (FileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
     FileNodeList first_fragment(FileNodeListRoot.get_location(), FileNodeListRoot.get_size());
     std::cout << old << " seeking to " << input->tell() << '\n';
-    first_fragment.parse(input, 0);
+//    first_fragment.parse(input, 0);
  //   std::cout << first_fragment.to_string();
+
+  FileNode node;
+
+  node = first_fragment.get_next_node(input);
+  while (!first_fragment.is_end()) {
+    node = first_fragment.get_next_node(input);
+  }
 
   std::cout << "trying transactions, jumping to " << TransactionLog.get_location() << '\n';
   input->seek(TransactionLog.get_location(), librevenge::RVNG_SEEK_SET);

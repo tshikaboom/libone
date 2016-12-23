@@ -21,7 +21,6 @@ namespace libone {
 class FileNode {
   public:
     void parse(librevenge::RVNGInputStream *input);
-		void try_parse_ref(librevenge::RVNGInputStream *input, uint32_t ExpectedFileNodeID);
     std::string to_string();
     uint32_t get_FileNodeID();
     uint32_t get_Size();

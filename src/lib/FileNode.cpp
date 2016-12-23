@@ -106,15 +106,6 @@ namespace libone {
   std::cout << "\n\n";
 	}
 
-	void FileNode::try_parse_ref(librevenge::RVNGInputStream *input, uint32_t expected_FileNodeID) {
-		long old = input->tell();
-		FileNodeList frag(ref.get_location(), ref.get_size());;
-		input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-		frag.parse(input, expected_FileNodeID);
-		frag.to_string ();
-		input->seek(old, librevenge::RVNG_SEEK_SET);
-	}
-
 	string FileNode::to_string() {
 		std::stringstream stream;
 		stream << "FileNodeID " << std::hex << FileNodeID << '\n';
