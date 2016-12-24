@@ -22,14 +22,15 @@ namespace libone {
 class Object {
   public:
     void parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
+    void parse_3(librevenge::RVNGInputStream *input);
     bool get_read_only();
     void set_read_only(bool new_);
     ExtendedGUID get_guid();
     std::string to_string();
+    unsigned int ref_count = 0;
 
   private:
     bool read_only = false;
-    unsigned int ref_count = 0;
     ExtendedGUID guid = ExtendedGUID();
     uint32_t jcid = 0;
     uint16_t fHasOidReferences = 0;

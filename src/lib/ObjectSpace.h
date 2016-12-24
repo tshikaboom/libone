@@ -14,6 +14,7 @@
 #include "FileChunkReference.h"
 #include "FileNodeList.h"
 #include "ExtendedGUID.h"
+#include "Revision.h"
 #include <unordered_map>
 #include <librevenge-stream/librevenge-stream.h>
 
@@ -22,11 +23,13 @@ namespace libone {
 class ObjectSpace {
   public:
     void list_parse(librevenge::RVNGInputStream *input, ExtendedGUID guid, FileChunkReference ref); // Assume we're at the beginning of a FileNode list
-    std::unordered_map<std::string, libone::Object> ObjectMap = std::unordered_map<std::string, libone::Object>();
+//    std::unordered_map<std::string, libone::Object> ObjectMap = std::unordered_map<std::string, libone::Object>();
+    std::unordered_map<std::string, libone::Revision> RevisionMap = std::unordered_map<std::string, libone::Revision>();
 
   private:
     ExtendedGUID guid = ExtendedGUID();
     ExtendedGUID context = ExtendedGUID();
+    std::vector<Revision> revisions = std::vector<Revision>();
 };
 
 }

@@ -93,7 +93,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
   log_fragment.parse(input);
   input->seek(old, librevenge::RVNG_SEEK_SET);
-  std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
+//  std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
 
 
 
@@ -101,6 +101,8 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   std::cout << "test fileNodeList " << '\n';
   root_list.parse(input);
 
+
+  std::cout << "nothing broke!\n";
 
   return RESULT_UNKNOWN_ERROR;
 }

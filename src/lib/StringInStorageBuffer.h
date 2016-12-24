@@ -7,26 +7,22 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef INCLUDED_LIBONE_OBJECTGROUP_H
-#define INCLUDED_LIBONE_OBJECTGROUP_H
+#ifndef INCLUDED_LIBONE_STRINGINSTORAGEBUFFER_H
+#define INCLUDED_LIBONE_STRINGINSTORAGEBUFFER_H
 
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
-#include "ExtendedGUID.h"
-#include "FileNodeList.h"
-#include "GUID.h"
+#include <vector>
 
 namespace libone {
 
-class ObjectGroup {
+class StringInStorageBuffer {
   public:
-    void list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
-    std::string get_guid();
-    std::unordered_map<std::string, Object> objects = std::unordered_map<std::string, Object>();
+    void parse(librevenge::RVNGInputStream *input);
+    uint32_t length = 0;
 
   private:
-    ExtendedGUID oid = ExtendedGUID();
-
+    std::vector<uint16_t> chars = std::vector<uint16_t>();
 };
 
 }

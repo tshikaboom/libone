@@ -31,6 +31,20 @@ namespace libone {
     parse_list(input, ref);
   }
 
+  void Object::parse_3(librevenge::RVNGInputStream *input) {
+    CompactID temp;
+    StringInStorageBuffer buf;
+    StringInStorageBuffer buf2;
+    temp.parse(input);
+    guid = temp.to_EGUID();
+
+    jcid = readU32(input);
+    ref_count = readU8(input);
+
+    buf.parse(input);
+    buf2.parse(input);
+  }
+
 
 	bool Object::get_read_only() {
 		return read_only;

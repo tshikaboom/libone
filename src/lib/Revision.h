@@ -12,9 +12,12 @@
 
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
+#include <unordered_map>
+#include "CompactID.h"
 #include "ExtendedGUID.h"
 #include "Object.h"
 #include "ObjectSpace.h"
+#include "ObjectGroup.h"
 
 namespace libone {
 
@@ -23,16 +26,19 @@ class Revision {
     void list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
     std::string get_guid();
     std::string to_string();
+    ObjectGroup group = ObjectGroup();
 
   private:
     ExtendedGUID guid = ExtendedGUID();
     ExtendedGUID dependent = ExtendedGUID();
-    CompactID root_object = CompactID();
+    ExtendedGUID root_object = ExtendedGUID();
+    std::unordered_map<std::string, uint32_t> root_objects = std::unordered_map<std::string, uint32_t>();
     bool read_only = false;
     unsigned int ref_count = 0;
     uint32_t role = 0;
     uint16_t odcsDefault = 0;
     ExtendedGUID context = ExtendedGUID();
+    void parse_dependencies(librevenge::RVNGInputStream *input, FileNode node);
 
 };
 

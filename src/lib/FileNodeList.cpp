@@ -40,7 +40,7 @@ namespace libone {
 		for (auto i: Transactions) {
 		  if (i.first == FileNodeListID) {
 		    list_length = i.second;
-  		  std::cout << std::dec << "got length " << list_length << " for list " << FileNodeListID << " from transactions\n";
+  		  std::cout << std::dec << "got length " << list_length << " for list "<< std::hex << FileNodeListID  << " from transactions\n";
   		  found = true;
 		    break;
 		  }
@@ -75,9 +75,10 @@ namespace libone {
 	    parse_header(input);
 	    header_parsed = true;
 	  }
+	  std::cout << "\nlist id " << FileNodeListID << "\n";
 	  node.parse(input);
 	  elements_parsed++;
-    std::cout << node.to_string();
+//    std::cout << node.to_string();
 
 	  if (node.isEnd() || (input->tell() >= next_fragment_location))
 	    next_fragment_wanted = true;

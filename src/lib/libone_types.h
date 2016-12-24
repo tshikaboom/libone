@@ -25,6 +25,7 @@
 #include "TransactionEntry.h"
 #include "TransactionLogFragment.h"
 #include "RootFileNodeList.h"
+#include "StringInStorageBuffer.h"
 #include "Header.h"
 
 extern std::unordered_map<std::string ,libone::Object> RootObjectSpace;

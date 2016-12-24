@@ -58,6 +58,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	GUID.cpp \
 	GUID.h \
 	ONEDocument.cpp \
+	StringInStorageBuffer.cpp \
+	StringInStorageBuffer.h \
 	libone_utils.cpp \
 	libone_types.h \
 	libone_utils.h

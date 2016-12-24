@@ -28,11 +28,60 @@ namespace libone {
 
 		switch (FileNodeID) {
 			case FileNode::ObjectSpaceManifestListStartFND:
+		  case FileNode::RevisionManifestListStartFND:
+			case FileNode::RevisionManifestStart4FND:
+			case FileNode::RevisionManifestStart6FND:
+			case FileNode::RevisionManifestStart7FND:
+			case FileNode::RevisionManifestListReferenceFND:
+			case FileNode::ObjectGroupListReferenceFND:
+			case FileNode::ObjectSpaceManifestListReferenceFND:
+			case FileNode::ObjectSpaceManifestRootFND:
+			case FileNode::FileDataStoreListReferenceFND:
+			case FileNode::ObjectGroupStartFND:
+			case FileNode::GlobalIdTableStart2FND:
+		  case FileNode::GlobalIdTableEntryFNDX:
+		  case FileNode::GlobalIdTableEndFNDX:
+      case FileNode::DataSignatureGroupDefinitionFND:
+      case FileNode::ObjectDeclaration2RefCountFND:
+      case FileNode::ObjectGroupEndFND:
+      case FileNode::ObjectInfoDependencyOverridesFND:
+      case FileNode::RootObjectReference3FND:
+      case FileNode::RevisionManifestEndFND:
+      case FileNode::ObjectDeclarationFileData3RefCountFND:
+      case FileNode::ReadOnlyObjectDeclaration2RefCountFND:
+        break;
+			case FileNode::ChunkTerminatorFND:
+			  std::cout << "ChunkTerminatorFND\n";
+				is_end = true;
+				break;
+			case FileNode::TYPES_END:
+				cout << "padding everywhere\n";
+				while (readU16 (input) ==  0) {}
+				input->seek(-2, librevenge::RVNG_SEEK_CUR);
+        ref.parse(input, FileChunkReference::mode::Type64x32);
+				is_end = true;
+				break;
+			default:
+				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
+				FileNodeID = DUNNO;
+				input->seek(-4, librevenge::RVNG_SEEK_CUR);
+//				skip(input, Size);
+				is_end = true;
+				break;
+		}
+  std::cout << "\n";
+	}
+
+	string FileNode::to_string() {
+		std::stringstream stream;
+		stream << "FileNodeID " << std::hex << FileNodeID << " ";
+
+		switch (FileNodeID) {
+			case FileNode::ObjectSpaceManifestListStartFND:
 				cout << "ObjectSpaceManifestListStartFND\n";
 				break;
 			case FileNode::ChunkTerminatorFND:
 				cout << "ChunkTerminatorFND\n";
-				is_end = true;
 				break;
 		  case FileNode::RevisionManifestListStartFND:
 				cout << "RevisionManifestListStart\n";
@@ -59,7 +108,6 @@ namespace libone {
 				break;
 			case FileNode::FileDataStoreListReferenceFND:
 			  cout << "FileDataStoreListReferenceFND\n";
-				cout << "ref " << ref.to_string() << '\n';
 				break;
 			case FileNode::ObjectGroupStartFND:
 			  cout << "ObjectGroupStartFND\n";
@@ -74,35 +122,21 @@ namespace libone {
 		    cout << "GlobalIdTableEndFNDX\n";
 		    break;
 			case FileNode::TYPES_END:
-				cout << "padding everywhere\n";
-				while (readU16 (input) ==  0) {}
-				input->seek(-2, librevenge::RVNG_SEEK_CUR);
-        ref.parse(input, FileChunkReference::mode::Type64x32);
-				is_end = true;
+			  cout << "NO TYPE\n";
 				break;
       case FileNode::DataSignatureGroupDefinitionFND:
         cout << "DataSignatureGroupDefinitionFND\n";
         break;
       case FileNode::ObjectDeclaration2RefCountFND:
-        cout << "ObjectDeclaration2RefCountFND position " << input->tell() << "\n";
+        cout << "ObjectDeclaration2RefCountFND\n";
         break;
       case FileNode::ObjectGroupEndFND:
         cout << "ObjectGroupEndFND\n";
         break;
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
-				FileNodeID = DUNNO;
-				input->seek(-4, librevenge::RVNG_SEEK_CUR);
-//				skip(input, Size);
-				is_end = true;
 				break;
-		}
-  std::cout << "\n\n";
-	}
-
-	string FileNode::to_string() {
-		std::stringstream stream;
-		stream << "FileNodeID " << std::hex << FileNodeID << '\n';
+    }
 		stream << std::hex << "Size " << Size << '\n';
 		stream << std::hex << "A " << StpFormat << " B " << CbFormat << " C " << BaseType << " D " << d << "\n";
 
@@ -121,7 +155,7 @@ namespace libone {
 		FileNodeID = temp & 0x3FF;
 		std::bitset<10> y(FileNodeID);
 
-		std::cout << "filenodeid " << FileNodeID << " " << y << '\n';
+		std::cout << "filenodeid " << std::hex << FileNodeID << " " << y << '\n';
 		Size = (temp & SizeMask) >> 9;
 		std::bitset<13> z(Size);
 		std::cout << "Size " << Size << " " << z << '\n';

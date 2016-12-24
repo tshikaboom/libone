@@ -24,24 +24,25 @@ namespace libone {
       long old = input->tell();
       input->seek(header.fcrFileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
 
-      node = list.get_next_node(input);
+
 
       while (!list.is_end()) {
+      node = list.get_next_node(input);
         switch (node.get_FileNodeID()) {
           case FileNode::ObjectSpaceManifestListReferenceFND:
 				    guid.parse(input);
 				    cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
-            space.list_parse(input, guid, node.get_ref());
             ObjectSpaces.insert({ guid.to_string(), space});
+            space.list_parse(input, guid, node.get_ref());
             break;
           case FileNode::ObjectSpaceManifestRootFND:
             RootObject.parse(input);
+            cout << "ObjectSpaceManifestRootFND " << RootObject.to_string() << "\n";
             break;
           default:
-            std::cout << __FUNCTION__ << " unknown filenodeid " << node.get_FileNodeID() << "\n";
+            std::cout << __FUNCTION__ << " unknown filenodeid " << std::hex << node.get_FileNodeID() << "\n";
             break;
         }
-        node = list.get_next_node(input);
       }
 
       input->seek(old, librevenge::RVNG_SEEK_SET);
