@@ -42,4 +42,11 @@ extern libone::ExtendedGUID DataSignatureGroup;
 extern std::unordered_map<uint32_t, uint32_t> Transactions;
 extern libone::Header header;
 
+struct FileData {
+  long location = 0;
+  uint64_t length = 0;
+};
+
+extern std::unordered_map<std::string, struct FileData> filedata;
+
 #endif

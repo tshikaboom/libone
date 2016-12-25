@@ -78,13 +78,9 @@ namespace libone {
 
 //    std::cout << node.to_string();
 
-	  if (node.isEnd() || (input->tell() >= next_fragment_location) || (next_fragment_location - input->tell() <= 4))
+	  if ((input->tell() >= next_fragment_location) || (next_fragment_location - input->tell() <= 4))
 	    next_fragment_wanted = true;
 
-    if ((list_length != 0xABCD) && (elements_parsed >= list_length)) {
-      end = true;
-      std::cout << "got to list length, stopping. length " << list_length << ", parsed " << elements_parsed << "\n";
-    }
 
     if (!next_fragment_wanted) {
   	  node.parse(input);
@@ -98,12 +94,12 @@ namespace libone {
       next_fragment.parse(input, FileChunkReference::mode::Type64x32);
 
       if (readU64(input, false) != 0x8BC215C38233BA4B) {
+        FileNode zero;
         cout << "footer not correct, position " << input->tell() << "\n";
         end = true;
+        zero.zero();
+        return zero;
       }
-
-      if (node.get_FileNodeID() == FileNode::DUNNO)
-        end = true;
 
       if (next_fragment.is_fcrNil()) end = true;
       else {
@@ -113,8 +109,17 @@ namespace libone {
         std::cout << "what's up in here? " << input->tell();
         parse_header(input);
         node.parse(input);
+    	  elements_parsed++;
       }
 	  }
+
+    if (node.get_FileNodeID() == FileNode::DUNNO)
+      end = true;
+
+    if ((list_length != 0xABCD) && (elements_parsed >= list_length)) {
+      end = true;
+      std::cout << "got to list length " << list_length << ", parsed " << elements_parsed << "\n";
+    }
 
 	  return node;
 	}

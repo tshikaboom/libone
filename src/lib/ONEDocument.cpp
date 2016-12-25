@@ -40,6 +40,8 @@ std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_
 libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
 libone::Header header;
 
+std::unordered_map<std::string, struct FileData> filedata = std::unordered_map<std::string, struct FileData>();
+
 namespace libone
 {
 

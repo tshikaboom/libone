@@ -18,15 +18,11 @@ namespace libone {
 
 class FileDataStore {
   public:
-    struct FileData {
-      long location = 0;
-      uint64_t length = 0;
-    };
 
     void parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
     std::string to_string();
 
-    std::unordered_map<std::string, struct FileData> filedata = std::unordered_map<std::string, struct FileData>();
+
     // string is GUID
   private:
 
