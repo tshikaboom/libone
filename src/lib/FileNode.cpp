@@ -49,6 +49,7 @@ namespace libone {
       case FileNode::RevisionManifestEndFND:
       case FileNode::ObjectDeclarationFileData3RefCountFND:
       case FileNode::ReadOnlyObjectDeclaration2RefCountFND:
+      case FileNode::FileDataStoreObjectReferenceFND:
         break;
 			case FileNode::ChunkTerminatorFND:
 			  std::cout << "ChunkTerminatorFND\n";
@@ -64,7 +65,7 @@ namespace libone {
 			default:
 				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
 				FileNodeID = DUNNO;
-				input->seek(-4, librevenge::RVNG_SEEK_CUR);
+//				input->seek(-4, librevenge::RVNG_SEEK_CUR);
 //				skip(input, Size);
 				is_end = true;
 				break;

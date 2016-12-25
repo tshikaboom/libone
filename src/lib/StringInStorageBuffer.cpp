@@ -11,6 +11,8 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <unordered_map>
 #include <iostream>
+#include <iostream>
+#include <iomanip>
 #include "StringInStorageBuffer.h"
 #include "libone_utils.h"
 
@@ -29,6 +31,15 @@ namespace libone {
     std::cout << "\n";
     std::cout << "read " << length << " chars?\n";
 
+  }
+
+  std::string StringInStorageBuffer::to_string() {
+    uint32_t i;
+    std::stringstream stream;
+    for (i=0; i<length; i++) {
+      stream << tolower((char) chars[i]);
+    }
+    return stream.str();
   }
 
 

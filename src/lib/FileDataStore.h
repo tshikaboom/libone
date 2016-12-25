@@ -7,23 +7,29 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#ifndef INCLUDED_LIBONE_STRINGINSTORAGEBUFFER_H
-#define INCLUDED_LIBONE_STRINGINSTORAGEBUFFER_H
+#ifndef INCLUDED_LIBONE_FILEDATASTORE_H
+#define INCLUDED_LIBONE_FILEDATASTORE_H
 
-#include <string>
 #include <librevenge-stream/librevenge-stream.h>
-#include <vector>
+#include "libone_utils.h"
+#include "libone_types.h"
 
 namespace libone {
 
-class StringInStorageBuffer {
+class FileDataStore {
   public:
-    void parse(librevenge::RVNGInputStream *input);
-    uint32_t length = 0;
+    struct FileData {
+      long location = 0;
+      uint64_t length = 0;
+    };
+
+    void parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
     std::string to_string();
 
+    std::unordered_map<std::string, struct FileData> filedata = std::unordered_map<std::string, struct FileData>();
+    // string is GUID
   private:
-    std::vector<uint16_t> chars = std::vector<uint16_t>();
+
 };
 
 }

@@ -75,18 +75,23 @@ namespace libone {
 	    parse_header(input);
 	    header_parsed = true;
 	  }
-	  std::cout << "\nlist id " << FileNodeListID << "\n";
-	  node.parse(input);
-	  elements_parsed++;
+
 //    std::cout << node.to_string();
 
-	  if (node.isEnd() || (input->tell() >= next_fragment_location))
+	  if (node.isEnd() || (input->tell() >= next_fragment_location) || (next_fragment_location - input->tell() <= 4))
 	    next_fragment_wanted = true;
 
     if ((list_length != 0xABCD) && (elements_parsed >= list_length)) {
       end = true;
       std::cout << "got to list length, stopping. length " << list_length << ", parsed " << elements_parsed << "\n";
     }
+
+    if (!next_fragment_wanted) {
+  	  node.parse(input);
+  	  elements_parsed++;
+  	}
+	  std::cout << "\nlist id " << FileNodeListID << ", element " << elements_parsed << " position " << input->tell() << ", next fragment @" << next_fragment_location << "\n";
+
 
 	  if (next_fragment_wanted) {
       input->seek(next_fragment_location, librevenge::RVNG_SEEK_SET);

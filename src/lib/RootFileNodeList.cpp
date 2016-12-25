@@ -19,6 +19,7 @@ namespace libone {
       FileNode node;
       ExtendedGUID guid;
       ObjectSpace space;
+      FileDataStore store;
       FileNodeList list(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
 
       long old = input->tell();
@@ -38,6 +39,10 @@ namespace libone {
           case FileNode::ObjectSpaceManifestRootFND:
             RootObject.parse(input);
             cout << "ObjectSpaceManifestRootFND " << RootObject.to_string() << "\n";
+            break;
+          case FileNode::FileDataStoreListReferenceFND:
+            cout << "FileDataStoreObjectReferenceFND\n";
+            store.parse(input, node.get_ref());
             break;
           default:
             std::cout << __FUNCTION__ << " unknown filenodeid " << std::hex << node.get_FileNodeID() << "\n";
