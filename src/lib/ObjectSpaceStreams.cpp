@@ -48,10 +48,10 @@ namespace libone {
     parse_header(input);
     CompactID temp;
     std::cout << header_string() << "\n";
-      for (uint32_t i=0; i < Count; i++) {
-        temp.parse(input);
-        object_ids.push_back(temp.to_EGUID());
-      }
+    for (uint32_t i=0; i < Count; i++) {
+      temp.parse(input);
+      object_ids.push_back(temp.to_EGUID());
+    }
   }
 
   std::string ObjectSpaceStreamOfOIDs::to_string() {

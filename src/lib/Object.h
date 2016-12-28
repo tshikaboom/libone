@@ -16,6 +16,7 @@
 #include "ExtendedGUID.h"
 #include "FileNodeList.h"
 #include "GUID.h"
+#include "JCID.h"
 
 namespace libone {
 
@@ -28,13 +29,17 @@ class Object {
     ExtendedGUID get_guid();
     std::string to_string();
     unsigned int ref_count = 0;
+    void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
 
   private:
     bool read_only = false;
     ExtendedGUID guid = ExtendedGUID();
-    uint32_t jcid = 0;
+    JCID jcid = JCID(0);
     uint16_t fHasOidReferences = 0;
     uint16_t fHasOsidReferences = 0;
+    std::vector<ExtendedGUID> object_refs = std::vector<ExtendedGUID>();
+    std::vector<ExtendedGUID> context_refs = std::vector<ExtendedGUID>();
+    std::vector<ExtendedGUID> object_spaces_refs = std::vector<ExtendedGUID>();
 
 };
 

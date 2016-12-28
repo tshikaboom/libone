@@ -40,6 +40,7 @@ class ObjectSpaceStreamOfOIDs: public ObjectSpaceStream {
   public:
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
+    std::vector<ExtendedGUID> get_list() { return object_ids; }
   private:
     std::vector<ExtendedGUID> object_ids = std::vector<ExtendedGUID>();
 };
@@ -48,6 +49,7 @@ class ObjectSpaceStreamOfOSIDs: public ObjectSpaceStream {
   public:
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
+    std::vector<ExtendedGUID> get_list() { return space_ids; }
   private:
     std::vector<ExtendedGUID> space_ids = std::vector<ExtendedGUID>();
 };
@@ -56,6 +58,7 @@ class ObjectSpaceStreamOfContextIDs: public ObjectSpaceStream {
   public:
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
+    std::vector<ExtendedGUID> get_list() { return context_ids; }
   private:
     std::vector<ExtendedGUID> context_ids = std::vector<ExtendedGUID>();
 };

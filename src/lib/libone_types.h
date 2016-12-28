@@ -19,6 +19,7 @@
 #include "ExtendedGUID.h"
 #include "FileChunkReference.h"
 #include "CompactID.h"
+#include "JCID.h"
 #include "Revision.h"
 #include "FileNode.h"
 #include "FileNodeList.h"

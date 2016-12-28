@@ -12,9 +12,9 @@
 #include "libone_utils.h"
 #include "Object.h"
 #include "ObjectSpaceStreams.h"
-namespace libone {
+#include "JCID.h"
 
-  void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
+namespace libone {
 
   void Object::parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
     CompactID temp;
@@ -22,7 +22,7 @@ namespace libone {
     temp.parse(input);
     guid = temp.to_EGUID();
     std::cout << "object compact " << temp.to_string () << " eguid " << guid.to_string ();
-    jcid = readU32 (input);
+    jcid = JCID(readU32(input));
     temp2 = readU8 (input);
     fHasOsidReferences = temp2 >> 7;
     fHasOidReferences = (temp2 >> 6) & 1;
@@ -39,7 +39,7 @@ namespace libone {
     temp.parse(input);
     guid = temp.to_EGUID();
 
-    jcid = readU32(input);
+    jcid = JCID(readU32(input));
     ref_count = readU8(input);
 
     buf.parse(input);
@@ -47,8 +47,8 @@ namespace libone {
 
     std::cout << "buf to string is " << buf.to_string() << "\n";
 
+    // this is hardcoded but it works kinda
     if (buf.to_string().compare(0, 7, "<ifndf>") == 0) {
-      std::cout << "let's get stringy with guids\n";
       temp2.from_string(buf.to_string ().substr(8, 36));
     }
   }
@@ -68,13 +68,11 @@ namespace libone {
 
 	std::string Object::to_string() {
 	  std::stringstream stream;
-	  stream << "Object " << guid.to_string() << "\n";
-	  stream << "jcid " << jcid << " ref_count " << ref_count << "\n";
-
+	  stream << "Object " << guid.to_string() << " ref_count " << ref_count << "\n";
     return stream.str();
 	}
 
-	void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref) {
+	void Object::parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref) {
   	ObjectSpaceStreamOfOIDs oids;
 	  ObjectSpaceStreamOfOSIDs osids;
 	  ObjectSpaceStreamOfContextIDs contexts;
@@ -92,6 +90,10 @@ namespace libone {
       contexts.parse(input);
       std::cout << contexts.to_string();
 	  }
+
+	  object_refs = oids.get_list();
+	  context_refs = contexts.get_list();
+	  object_spaces_refs = osids.get_list();
 
 	  input->seek(old, librevenge::RVNG_SEEK_SET);
 	}
