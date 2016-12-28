@@ -33,6 +33,7 @@ namespace libone {
 
   void Object::parse_3(librevenge::RVNGInputStream *input) {
     CompactID temp;
+    GUID temp2;
     StringInStorageBuffer buf;
     StringInStorageBuffer buf2;
     temp.parse(input);
@@ -43,6 +44,13 @@ namespace libone {
 
     buf.parse(input);
     buf2.parse(input);
+
+    std::cout << "buf to string is " << buf.to_string() << "\n";
+
+    if (buf.to_string().compare(0, 7, "<ifndf>") == 0) {
+      std::cout << "let's get stringy with guids\n";
+      temp2.from_string(buf.to_string ().substr(8, 36));
+    }
   }
 
 

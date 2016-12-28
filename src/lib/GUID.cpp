@@ -10,6 +10,7 @@
 
 #include <cstddef>
 #include <cstring>
+#include <cstdio>
 #include <iostream>
 #include <iomanip>
 #include <libone/libone.h>
@@ -58,5 +59,22 @@ namespace libone {
 	        return true;
 	      }
 	  return false;
+	}
+
+  // This is used for FileDataStores. The GUID is given as a string in the file
+	void GUID::from_string(std::string str) {
+    std::cout << "guid: parsing from string " << str << "\n";
+
+    Data1 = strtol(str.substr(0, 8).c_str(), NULL, 16);
+    Data2 = strtol(str.substr(9, 4).c_str(), NULL, 16);
+    Data3 = strtol(str.substr(14, 4).c_str(), NULL, 16);
+    Data4[0] = strtol(str.substr(19, 4).c_str(), NULL, 16);
+    Data4[1] = strtol(str.substr(24, 4).c_str(), NULL, 16);
+    Data4[2] = strtol(str.substr(28, 4).c_str(), NULL, 16);
+    Data4[3] = strtol(str.substr(32, 4).c_str(), NULL, 16);
+
+	  std::cout << "got guid " << to_string () << " from string, dat good?\n";
+
+	  (void) str;
 	}
 }

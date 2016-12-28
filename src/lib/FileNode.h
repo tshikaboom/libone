@@ -22,6 +22,7 @@ class FileNode {
   public:
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
+    void skip_node(librevenge::RVNGInputStream *input);
     void zero() { is_end = true; }
     uint32_t get_FileNodeID();
     uint32_t get_Size();

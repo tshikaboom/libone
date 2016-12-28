@@ -13,38 +13,41 @@ namespace libone {
 
 
   void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileChunkReference ref) {
-  Revision rev;
-  FileNode node;
-  FileNodeList list = FileNodeList (ref.get_location(), ref.get_size());
-  ExtendedGUID temp;
-  temp.zero();
-  long old = input->tell();
-  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-  while (!list.is_end()) {
-  node = list.get_next_node(input);
-    switch (node.get_FileNodeID()) {
-      case FileNode::ObjectSpaceManifestListStartFND:
-        guid.parse(input);
-        std::cout << "ObjectSpaceManifestListStartFND " << guid.to_string() << "\n";
-        if (!guid.is_equal(expected_guid)) {
-          if (!guid.is_equal(temp))
-            std::cout << "pos " << input->tell() << " not a good guid! " << guid.to_string() << expected_guid.to_string();
+    Revision rev;
+    FileNode node;
+    FileNode node2;
+    FileNodeList list = FileNodeList (ref.get_location(), ref.get_size());
+    ExtendedGUID temp;
+    temp.zero();
+    long old = input->tell();
+    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+    while (!list.is_end()) {
+    node = list.get_next_node(input);
+      switch (node.get_FileNodeID()) {
+        case FileNode::ObjectSpaceManifestListStartFND:
+          guid.parse(input);
+          std::cout << "ObjectSpaceManifestListStartFND " << guid.to_string() << "\n";
+          if (!guid.is_equal(expected_guid)) {
+            if (!guid.is_equal(temp))
+              std::cout << "pos " << input->tell() << " not a good guid! " << guid.to_string() << expected_guid.to_string();
+          }
+          break;
+        case FileNode::RevisionManifestListReferenceFND:
+          std::cout << "RevisionManifestListReferenceFND\n";
+          node2 = node;
+          node.skip_node(input);
+          break;
+        default:
+          cout << "ObjectSpace unknown filenodeid" << node.get_FileNodeID() << "\n";
+          break;
         }
-        break;
-      case FileNode::RevisionManifestListReferenceFND:
-        std::cout << "RevisionManifestListReferenceFND\n";
-        break;
-      default:
-        cout << "what?\n";
-        break;
-      }
-  }
-  if (node.get_FileNodeID() == FileNode::RevisionManifestListReferenceFND) {
-    std::cout << "trying to parse last revision: filenodeid" << node.get_FileNodeID() << "\n";
-    rev.list_parse(input, node.get_ref());
+    }
+
+    std::cout << "trying to parse last revision\n";
+    rev.list_parse(input, node2.get_ref());
     revisions.push_back(rev);
-  }
-  input->seek(old, librevenge::RVNG_SEEK_SET);
+
+    input->seek(old, librevenge::RVNG_SEEK_SET);
   }
 }
 

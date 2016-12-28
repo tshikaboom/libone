@@ -21,11 +21,7 @@ using std::string;
 namespace libone {
 
 	void FileNode::parse(librevenge::RVNGInputStream *input) {
-		Revision rev;
-		ExtendedGUID guid;
-		ObjectSpace space;
     parse_header(input);
-
 		switch (FileNodeID) {
 			case FileNode::ObjectSpaceManifestListStartFND:
 		  case FileNode::RevisionManifestListStartFND:
@@ -57,9 +53,9 @@ namespace libone {
 				break;
 			case FileNode::TYPES_END:
 				cout << "padding everywhere\n";
-				while (readU16 (input) ==  0) {}
-				input->seek(-2, librevenge::RVNG_SEEK_CUR);
-        ref.parse(input, FileChunkReference::mode::Type64x32);
+//				while (readU16 (input) ==  0) {}
+//				input->seek(-2, librevenge::RVNG_SEEK_CUR);
+//        ref.parse(input, FileChunkReference::mode::Type64x32);
 				is_end = true;
 				break;
 			default:
@@ -70,7 +66,6 @@ namespace libone {
 				is_end = true;
 				break;
 		}
-  std::cout << "\n";
 	}
 
 	string FileNode::to_string() {
@@ -146,37 +141,75 @@ namespace libone {
 
 	void FileNode::parse_header(librevenge::RVNGInputStream *input) {
 		unsigned int temp;
+		FileChunkReference reference;
 		temp = readU32 (input, false);
-
 		d = temp >> 31;
 		BaseType = (temp >> 27) & 0xF;
 		CbFormat = (temp >> 25) & 0x3;
 		StpFormat = (temp >> 23) & 0x3;
 		Size = (temp >> 10) & 0x1FFF;
 		FileNodeID = temp & 0x3FF;
-		std::bitset<10> y(FileNodeID);
-
-		std::cout << "filenodeid " << std::hex << FileNodeID << " " << y << '\n';
-		Size = (temp & SizeMask) >> 9;
+		std::bitset<32> y(temp);
+		std::cout << "filenodeid " << std::hex << FileNodeID << " filenode bits " << y << '\n';
 		std::bitset<13> z(Size);
-		std::cout << "Size " << Size << " " << z << '\n';
+		std::cout << "Size " << std::hex << Size << " " << z << '\n';
 		std::cout << "A " << StpFormat << " B " << CbFormat << " C " << BaseType << " D " << d << '\n';
-
 
 		switch(get_Basetype()) {
 		  case 1:
-  			ref.parse(input, get_StpFormat(), get_CbFormat());
-    		cout << "ref data @ " << ref.to_string() << " position " << input->tell() << "\n";
+  			reference.parse(input, get_StpFormat(), get_CbFormat());
+    		cout << "ref data @ " << reference.to_string() << " position " << input->tell() << "\n";
     		break;
     	case 2:
-				ref.parse(input, get_StpFormat(), get_CbFormat());
-    	  cout << "ref list @ " << ref.to_string () << " position " << input->tell() << "\n";
+				reference.parse(input, get_StpFormat(), get_CbFormat());
+    	  cout << "ref list @ " << reference.to_string () << " position " << input->tell() << "\n";
     	  break;
     	case 0:
     	default:
-	      ref.set_zero();
+	      reference.set_zero();
 	      cout << "noref position " << input->tell() << "\n";
 		}
+		ref = reference;
+	}
+
+	void FileNode::skip_node(librevenge::RVNGInputStream *input) {
+	  int ref_size = 0;
+	  switch (get_Basetype()) {
+	    case 1:
+	    case 2:
+	      switch (get_StpFormat()) {
+	        case 0:
+            ref_size += 8;
+            break;
+          case 1:
+          case 3:
+            ref_size += 4;
+            break;
+          case 2:
+            ref_size += 2;
+            break;
+	      }
+	      switch (get_CbFormat()) {
+	        case 0:
+	          ref_size += 4;
+	          break;
+	        case 1:
+	          ref_size += 8;
+	          break;
+	        case 2:
+	          ref_size += 1;
+	          break;
+	        case 3:
+	          ref_size += 2;
+	          break;
+	        }
+	      default:
+	        break;
+	      }
+
+  (void) ref_size;
+   input->seek(Size - ref_size - 4, librevenge::RVNG_SEEK_CUR);
+	  std::cout << "Skipping " << Size - ref_size - 4 << " bytes. size " << Size << " ref_size " << ref_size << ", position " << input->tell() << "\n";
 	}
 
 	bool FileNode::isEnd() {

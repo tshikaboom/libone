@@ -26,15 +26,17 @@ class FileChunkReference {
       NIL } size_mode = NIL;
 
     void parse(librevenge::RVNGInputStream *input, enum FileChunkReference::mode size);
-    void parse(librevenge::RVNGInputStream *input, int a, int c);
+    void parse(librevenge::RVNGInputStream *input, uint32_t a, uint32_t c);
     string to_string();
     long get_location();
     long get_size();
     bool is_fcrNil();
     bool is_fcrZero();
     void set_zero();
+    long get_size_on_file();
 
   private:
+    long size_in_file = 0;
     uint64_t stp = 0;
     uint64_t cb = 0;
 };

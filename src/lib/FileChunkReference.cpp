@@ -37,22 +37,26 @@ namespace libone {
 	  }
 	}
 
-	void FileChunkReference::parse(librevenge::RVNGInputStream *input, int a, int b) {
+	void FileChunkReference::parse(librevenge::RVNGInputStream *input, uint32_t a, uint32_t b) {
 	  bool stp64 = false;
 	  bool cb64 = false;
 		switch (a) {
 			case 1:
 				stp = readU32 (input, false);
+				size_in_file += 4;
 				break;
 			case 2:
 				stp = readU16 (input, false) * 8;
+				size_in_file += 2;
 				break;
 			case 3:
 				stp = readU32 (input, false) * 8;
+				size_in_file += 4;
 				stp64 = true;
 				break;
 			case 0:
 				stp = readU64 (input, false);
+				size_in_file += 8;
 				stp64 = true;
 				break;
 			default:
@@ -61,16 +65,20 @@ namespace libone {
 		switch (b) {
 			case 0:
 				cb = readU32(input, false);
+				size_in_file += 4;
 				break;
 			case 1:
 				cb = readU64(input, false);
 				cb64 = true;
+				size_in_file += 8;
 				break;
 			case 2:
 				cb = readU8(input) * 8;
+				size_in_file += 1;
 				break;
 			case 3:
 				cb = readU16(input, false) * 8;
+				size_in_file += 2;
 				break;
 			default:
 				break;
@@ -132,5 +140,12 @@ namespace libone {
   void FileChunkReference::set_zero() {
     stp = 0;
     cb = 0;
+    size_in_file = 0;
+    size_mode = NIL;
+  }
+
+  // Size of the structure in bytes. Used for seeking
+  long FileChunkReference::get_size_on_file() {
+    return size_in_file;
   }
 }

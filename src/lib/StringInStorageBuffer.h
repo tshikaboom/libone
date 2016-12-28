@@ -23,7 +23,7 @@ class StringInStorageBuffer {
     std::string to_string();
 
   private:
-    std::vector<uint16_t> chars = std::vector<uint16_t>();
+    std::string chars = std::string();
 };
 
 }

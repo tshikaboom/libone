@@ -84,9 +84,12 @@ namespace libone {
 
     if (!next_fragment_wanted) {
   	  node.parse(input);
-  	  elements_parsed++;
+  	  if (node.get_FileNodeID() == FileNode::ChunkTerminatorFND)
+  	    next_fragment_wanted = true;
+  	  else
+    	  elements_parsed++;
   	}
-	  std::cout << "\nlist id " << FileNodeListID << ", element " << elements_parsed << " position " << input->tell() << ", next fragment @" << next_fragment_location << "\n";
+
 
 
 	  if (next_fragment_wanted) {
@@ -116,11 +119,12 @@ namespace libone {
     if (node.get_FileNodeID() == FileNode::DUNNO)
       end = true;
 
-    if ((list_length != 0xABCD) && (elements_parsed >= list_length)) {
+    if ((list_length != 0xABCD) && (elements_parsed > list_length)) {
       end = true;
       std::cout << "got to list length " << list_length << ", parsed " << elements_parsed << "\n";
-    }
-
+    } else {
+  	  std::cout << "list id " << FileNodeListID << ", element " << elements_parsed << " position " << input->tell() << ", next fragment @" << next_fragment_location << "\n\n";
+  	}
 	  return node;
 	}
 

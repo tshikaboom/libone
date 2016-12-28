@@ -21,34 +21,58 @@ namespace libone {
       ObjectSpace space;
       FileDataStore store;
       FileNodeList list(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
-
+      FileNodeList list2(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
+      (void) store;
       long old = input->tell();
       input->seek(header.fcrFileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
 
-
-
+      /* Iterate twice through the list: the first time is to get the root
+         object and the FileDataStores. Then parse the root object space. */
       while (!list.is_end()) {
       node = list.get_next_node(input);
         switch (node.get_FileNodeID()) {
+           break;
+          case FileNode::ObjectSpaceManifestRootFND:
+            RootObject.parse(input);
+            cout << "RootFileNodeList ObjectSpaceManifestRootFND " << RootObject.to_string() << "\n";
+            break;
+          case FileNode::FileDataStoreListReferenceFND:
+            cout << "RootFileNodeList FileDataStoreObjectReferenceFND\n";
+            store.parse(input, node.get_ref());
+            break;
+          case FileNode::ObjectSpaceManifestListReferenceFND: // parse this later
+            std::cout << "RootFileNodeList ObjectSpaceManifestListReferenceFND skipping\n";
+            node.skip_node(input);
+            break;
+          default:
+            node.skip_node(input);
+            std::cout << "RootFileNodeList unknown filenodeid " << std::hex << node.get_FileNodeID() << "position " << input->tell() << "\n";
+            break;
+        }
+      }
+
+      input->seek(header.fcrFileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
+      while (!list2.is_end()) {
+        node = list2.get_next_node(input);
+        switch (node.get_FileNodeID()) {
           case FileNode::ObjectSpaceManifestListReferenceFND:
-				    guid.parse(input);
-				    cout << "ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
+  				  guid.parse(input);
+				    cout << "RootFileNodeList2 ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
             ObjectSpaces.insert({ guid.to_string(), space});
             space.list_parse(input, guid, node.get_ref());
             break;
           case FileNode::ObjectSpaceManifestRootFND:
-            RootObject.parse(input);
-            cout << "ObjectSpaceManifestRootFND " << RootObject.to_string() << "\n";
+            node.skip_node(input);
             break;
           case FileNode::FileDataStoreListReferenceFND:
-            cout << "FileDataStoreObjectReferenceFND\n";
-            store.parse(input, node.get_ref());
+            node.skip_node(input);
             break;
           default:
-            std::cout << __FUNCTION__ << " unknown filenodeid " << std::hex << node.get_FileNodeID() << "\n";
+            node.skip_node(input);
+            std::cout << "RootFileNodeList2 unknown filenodeid " << std::hex << node.get_FileNodeID() << "position " << input->tell() << "\n";
             break;
+          }
         }
-      }
 
       input->seek(old, librevenge::RVNG_SEEK_SET);
     }

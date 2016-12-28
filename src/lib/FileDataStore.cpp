@@ -42,6 +42,8 @@ namespace libone {
         std::cout << "parsed filedatastore footer " << header.to_string () << "\n";
         input->seek(old2, librevenge::RVNG_SEEK_SET);
         break;
+      case FileNode::ChunkTerminatorFND:
+        break;
       default:
         std::cout << "FileDataStore: filenodeid not good " << node.get_FileNodeID() << "\n";
         break;

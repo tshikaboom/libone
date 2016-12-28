@@ -19,13 +19,14 @@
 namespace libone {
 
   void StringInStorageBuffer::parse(librevenge::RVNGInputStream *input) {
-    uint16_t temp;
+    char16_t temp;
+    std::stringstream stream;
     uint32_t i;
     length = readU32(input);
     std::cout << "reading ";
     for (i=0; i<length; i++) {
-      temp = readU16(input);
-      chars.push_back(temp);
+      temp = tolower(readU16(input));
+      chars += temp;
       std::cout << (char) temp;
     }
     std::cout << "\n";
@@ -34,12 +35,7 @@ namespace libone {
   }
 
   std::string StringInStorageBuffer::to_string() {
-    uint32_t i;
-    std::stringstream stream;
-    for (i=0; i<length; i++) {
-      stream << tolower((char) chars[i]);
-    }
-    return stream.str();
+    return chars;
   }
 
 
