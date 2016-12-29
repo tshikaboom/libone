@@ -48,8 +48,9 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	FileNodeList.cpp \
 	FileNodeList.h \
 	Header.cpp \
-	Header. h \
+	Header.h \
 	JCID.h \
+	JCID.cpp \
 	Revision.cpp \
 	Revision.h \
 	RootFileNodeList.cpp \

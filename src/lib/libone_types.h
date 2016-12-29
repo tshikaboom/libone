@@ -30,6 +30,8 @@
 #include "FileDataStore.h"
 #include "Header.h"
 
+namespace libone {
+
 extern std::unordered_map<std::string ,libone::Object> RootObjectSpace;
 extern libone::ExtendedGUID RootObject;
 
@@ -49,5 +51,7 @@ struct FileData {
 };
 
 extern std::unordered_map<std::string, struct FileData> filedata;
+
+}
 
 #endif

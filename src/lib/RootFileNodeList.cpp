@@ -37,7 +37,7 @@ namespace libone {
             cout << "RootFileNodeList ObjectSpaceManifestRootFND " << RootObject.to_string() << "\n";
             break;
           case FileNode::FileDataStoreListReferenceFND:
-            cout << "RootFileNodeList FileDataStoreObjectReferenceFND\n";
+            cout << "RootFileNodeList FileDataStoreListReferenceFND\n";
             store.parse(input, node.get_ref());
             break;
           case FileNode::ObjectSpaceManifestListReferenceFND: // parse this later

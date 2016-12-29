@@ -21,7 +21,7 @@ namespace libone {
     input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
     long old2 = 0;
     GUID reference = GUID();
-    GUID header = GUID();
+    GUID _header = GUID();
     while (!list.is_end()) {
       struct FileData data;
       node = list.get_next_node(input);
@@ -32,14 +32,14 @@ namespace libone {
         std::cout << "parsed reference " << reference.to_string () << "\n";
         old2 = input->tell();
         input->seek(node.get_ref().get_location(), librevenge::RVNG_SEEK_SET);
-        header.parse(input);
-        std::cout << "parsed filedatastore header " << header.to_string() << "\n";
+        _header.parse(input);
+//        std::cout << "parsed filedatastore header " << header.to_string() << "\n";
         data.length = readU64 (input);
         skip(input, 12);
         data.location = input->tell();
         filedata[reference.to_string()] = data;
-        header.parse(input);
-        std::cout << "parsed filedatastore footer " << header.to_string () << "\n";
+        _header.parse(input);
+//        std::cout << "parsed filedatastore footer " << header.to_string () << "\n";
         input->seek(old2, librevenge::RVNG_SEEK_SET);
         break;
       case FileNode::ChunkTerminatorFND:

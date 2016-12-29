@@ -13,6 +13,7 @@
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
 
+#include "ObjectSpaceStreams.h"
 #include "ExtendedGUID.h"
 #include "FileNodeList.h"
 #include "GUID.h"
@@ -32,6 +33,9 @@ class Object {
     void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
 
   private:
+  	ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs();
+	  ObjectSpaceStreamOfOSIDs osids = ObjectSpaceStreamOfOSIDs();
+	  ObjectSpaceStreamOfContextIDs contexts = ObjectSpaceStreamOfContextIDs();
     bool read_only = false;
     ExtendedGUID guid = ExtendedGUID();
     JCID jcid = JCID(0);

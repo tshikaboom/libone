@@ -12,9 +12,11 @@
 
 #include <string>
 #include <cstdint>
+#include <vector>
 #include <librevenge-stream/librevenge-stream.h>
 
 #include "libone_utils.h"
+#include "ExtendedGUID.h"
 
 namespace libone {
 

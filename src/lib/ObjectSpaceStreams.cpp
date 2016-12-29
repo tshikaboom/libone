@@ -56,8 +56,8 @@ namespace libone {
 
   std::string ObjectSpaceStreamOfOIDs::to_string() {
     std::stringstream stream;
-    for (uint32_t i=0; i < Count; i++) {
-      stream << "object guid " << object_ids[i].to_string();
+    for (uint32_t i=0; i < object_ids.size(); i++) {
+      stream << "object guid " << object_ids[i].to_string() << "\n";
     }
     return stream.str();
   }
@@ -73,8 +73,8 @@ namespace libone {
 
   std::string ObjectSpaceStreamOfOSIDs::to_string() {
     std::stringstream stream;
-    for (uint32_t i=0; i < Count; i++) {
-      stream << "objectspace guid " << space_ids[i].to_string();
+    for (uint32_t i=0; i < space_ids.size(); i++) {
+      stream << "objectspace guid " << space_ids[i].to_string() << "\n";
     }
     return stream.str();
   }
@@ -90,8 +90,8 @@ namespace libone {
 
   std::string ObjectSpaceStreamOfContextIDs::to_string() {
     std::stringstream stream;
-    for (uint32_t i=0; i < Count; i++) {
-      stream << "context guid " << context_ids[i].to_string();
+    for (uint32_t i=0; i < context_ids.size(); i++) {
+      stream << "context guid " << context_ids[i].to_string() << "\n";
     }
     return stream.str();
   }

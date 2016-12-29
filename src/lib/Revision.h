@@ -13,6 +13,7 @@
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
 #include <unordered_map>
+#include "libone_types.h"
 #include "CompactID.h"
 #include "ExtendedGUID.h"
 #include "Object.h"

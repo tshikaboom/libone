@@ -27,6 +27,10 @@ using librevenge::RVNGInputStream;
 using std::equal;
 
 
+
+namespace libone
+{
+
 std::unordered_map<std::string ,libone::Object> RootObjectSpace = std::unordered_map<std::string ,libone::Object>();
 libone::ExtendedGUID RootObject;
 
@@ -42,8 +46,6 @@ libone::Header header;
 
 std::unordered_map<std::string, struct FileData> filedata = std::unordered_map<std::string, struct FileData>();
 
-namespace libone
-{
 
 ONEAPI ONEDocument::Confidence ONEDocument::isSupported(librevenge::RVNGInputStream *const input, Type *const type) try
 {

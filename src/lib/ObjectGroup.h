@@ -13,8 +13,9 @@
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
 #include "ExtendedGUID.h"
-#include "FileNodeList.h"
-#include "GUID.h"
+#include "FileChunkReference.h"
+#include "Object.h"
+#include "libone_types.h"
 
 namespace libone {
 
@@ -22,7 +23,7 @@ class ObjectGroup {
   public:
     void list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
     std::string get_guid();
-    std::unordered_map<std::string, Object> objects = std::unordered_map<std::string, Object>();
+    std::unordered_map<std::string, libone::Object> objects = std::unordered_map<std::string, libone::Object>();
 
   private:
     ExtendedGUID oid = ExtendedGUID();

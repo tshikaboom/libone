@@ -21,8 +21,8 @@ namespace libone {
     uint8_t temp2;
     temp.parse(input);
     guid = temp.to_EGUID();
-    std::cout << "object compact " << temp.to_string () << " eguid " << guid.to_string ();
     jcid = JCID(readU32(input));
+    std::cout << "object compact " << temp.to_string () << " eguid " << guid.to_string ();
     temp2 = readU8 (input);
     fHasOsidReferences = temp2 >> 7;
     fHasOidReferences = (temp2 >> 6) & 1;
@@ -68,27 +68,31 @@ namespace libone {
 
 	std::string Object::to_string() {
 	  std::stringstream stream;
-	  stream << "Object " << guid.to_string() << " ref_count " << ref_count << "\n";
+	  stream << std::hex;
+	  stream << "Object " << guid.to_string() << " ref_count " << ref_count << " jcid " << jcid.get_value() << "\n";
+	  stream << "referencing " << oids.get_list().size() << " objects:\n";
+	  stream << oids.to_string() << "\n";
+	  stream << "referencing " << osids.get_list().size() << " object spaces:\n";
+	  stream << osids.to_string() << "\n";
+	  stream << "referencing " << contexts.get_list().size() << " contexts:\n";
+	  stream << contexts.to_string() << "\n";
     return stream.str();
 	}
 
 	void Object::parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref) {
-  	ObjectSpaceStreamOfOIDs oids;
-	  ObjectSpaceStreamOfOSIDs osids;
-	  ObjectSpaceStreamOfContextIDs contexts;
 	  FileNodeList list(ref.get_location(), ref.get_size());
 	  FileNode node;
 	  long old = input->tell();
 	  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
 	  oids.parse(input);
-	  std::cout << oids.to_string();
+//	  std::cout << oids.to_string();
 	  if (!oids.get_B()) {
 	    osids.parse(input);
-	    std::cout << osids.to_string();
+//	    std::cout << osids.to_string();
 	  }
 	  if (oids.get_A()) {
       contexts.parse(input);
-      std::cout << contexts.to_string();
+//      std::cout << contexts.to_string();
 	  }
 
 	  object_refs = oids.get_list();
