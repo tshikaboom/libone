@@ -51,6 +51,10 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	Header.h \
 	JCID.h \
 	JCID.cpp \
+	PropertySet.h \
+	PropertySet.cpp \
+	PropertyID.h \
+	PropertyID.cpp \
 	Revision.cpp \
 	Revision.h \
 	RootFileNodeList.cpp \

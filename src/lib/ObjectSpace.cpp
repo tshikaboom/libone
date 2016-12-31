@@ -57,6 +57,12 @@ namespace libone {
     }
     std::cout << "done?\n";
   }
+
+  std::string ObjectSpace::to_string() {
+    std::stringstream stream;
+    stream << "ObjectSpace " << guid.to_string() << " context " << context.to_string () << " containing " << revisions.size() << " revisions\n";
+    return stream.str();
+  }
 }
 
 

@@ -15,6 +15,7 @@
 #include "FileNodeList.h"
 #include "ExtendedGUID.h"
 #include "Revision.h"
+#include <sstream>
 #include <unordered_map>
 #include <librevenge-stream/librevenge-stream.h>
 
@@ -26,6 +27,7 @@ class ObjectSpace {
 //    std::unordered_map<std::string, libone::Object> ObjectMap = std::unordered_map<std::string, libone::Object>();
     std::unordered_map<std::string, libone::Revision> RevisionMap = std::unordered_map<std::string, libone::Revision>();
     void to_document(librevenge::RVNGDrawingInterface *document);
+    std::string to_string();
 
   private:
     ExtendedGUID guid = ExtendedGUID();

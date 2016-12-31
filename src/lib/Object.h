@@ -14,6 +14,7 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <librevenge/librevenge.h>
 
+#include "PropertySet.h"
 #include "ObjectSpaceStreams.h"
 #include "ExtendedGUID.h"
 #include "FileNodeList.h"
@@ -35,9 +36,7 @@ class Object {
     void to_document(librevenge::RVNGDrawingInterface *document);
 
   private:
-  	ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs();
-	  ObjectSpaceStreamOfOSIDs osids = ObjectSpaceStreamOfOSIDs();
-	  ObjectSpaceStreamOfContextIDs contexts = ObjectSpaceStreamOfContextIDs();
+    PropertySet set = PropertySet();
     bool read_only = false;
     ExtendedGUID guid = ExtendedGUID();
     JCID jcid = JCID(0);

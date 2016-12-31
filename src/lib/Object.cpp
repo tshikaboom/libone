@@ -7,8 +7,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <iomanip>
 #include <iostream>
+#include <iomanip>
 #include "libone_utils.h"
 #include "Object.h"
 #include "ObjectSpaceStreams.h"
@@ -69,38 +69,44 @@ namespace libone {
 	std::string Object::to_string() {
 	  std::stringstream stream;
 	  stream << std::hex;
-	  stream << "Object " << guid.to_string() << " ref_count " << ref_count << " jcid " << jcid.get_value() << "\n";
-	  stream << "referencing " << oids.get_list().size() << " objects:\n";
-	  stream << oids.to_string() << "\n";
-	  stream << "referencing " << osids.get_list().size() << " object spaces:\n";
-	  stream << osids.to_string() << "\n";
-	  stream << "referencing " << contexts.get_list().size() << " contexts:\n";
-	  stream << contexts.to_string() << "\n";
+	  stream << "Object " << guid.to_string() << " ref_count " << ref_count << " jcid " << jcid.to_string() << "\n";
+	  stream << "referencing " << object_refs.size() << " objects:\n";
+	  for (auto &i: object_refs)
+  	  stream << i.to_string() << "\n";
+	  stream << "referencing " << object_spaces_refs.size() << " object spaces:\n";
+	  for (auto &i: object_spaces_refs)
+  	  stream << i.to_string() << "\n";
+	  stream << "referencing " << context_refs.size() << " contexts:\n";
+	  for (auto &i: context_refs)
+  	  stream << i.to_string() << "\n";
+  	stream << set.to_string();
     return stream.str();
 	}
 
 	void Object::parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref) {
+  	ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs(guid);
+	  ObjectSpaceStreamOfOSIDs osids = ObjectSpaceStreamOfOSIDs();
+	  ObjectSpaceStreamOfContextIDs contexts = ObjectSpaceStreamOfContextIDs();
 	  FileNodeList list(ref.get_location(), ref.get_size());
 	  FileNode node;
 	  long old = input->tell();
 	  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-	  oids.parse(input);
-//	  std::cout << oids.to_string();
+
+	  object_refs = oids.parse(input);
 	  if (!oids.get_B()) {
-	    osids.parse(input);
-//	    std::cout << osids.to_string();
+  	  object_spaces_refs = osids.parse(input);
 	  }
 	  if (oids.get_A()) {
-      contexts.parse(input);
-//      std::cout << contexts.to_string();
+	    context_refs = contexts.parse(input);
 	  }
+
     for (auto &i: object_refs) {
       if (i.is_equal(guid))
         std::cout << "found duplicate, would remove nah?\n";
     }
-	  object_refs = oids.get_list();
-	  context_refs = contexts.get_list();
-	  object_spaces_refs = osids.get_list();
+
+    if (jcid.IsPropertySet())
+      set.parse(input);
 
 	  input->seek(old, librevenge::RVNG_SEEK_SET);
 	}

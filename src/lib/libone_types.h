@@ -28,6 +28,8 @@
 #include "RootFileNodeList.h"
 #include "StringInStorageBuffer.h"
 #include "FileDataStore.h"
+#include "PropertySet.h"
+#include "PropertyID.h"
 #include "Header.h"
 
 namespace libone {

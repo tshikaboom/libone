@@ -21,16 +21,16 @@ class JCID {
     JCID(uint32_t val) { value = val; }
     uint32_t get_value() { return value; }
     uint16_t index() { return (value & 0xFFFF); }
-    uint16_t IsBinary() { return (value & 0x100000) >> 15; }
-    uint16_t IsPropertySet() { return (value & 0x200000) >> 14; }
-    uint16_t IsGraphNode() { return (value & 0x400000) >> 13; }
-    uint16_t IsFileData() { return (value & 0x800000) >> 12; }
-    uint16_t IsReadOnly() { return (value & 0x1000000) >> 11; }
-    void set_IsReadOnly(bool val) { value |= (val << 11); }
-    void set_IsFileData(bool val) { value |= (val << 12); }
-    void set_IsGraphNode(bool val) { value |= (val << 13); }
-    void set_IsPropertySet(bool val) { value |= (val << 14); }
-    void set_IsBinary(bool val) { value |= (val << 15); }
+    uint16_t IsBinary() { return (value & 0x10000) >> 16; }
+    uint16_t IsPropertySet() { return (value & 0x20000) >> 17; }
+    uint16_t IsGraphNode() { return (value & 0x40000) >> 18; }
+    uint16_t IsFileData() { return (value & 0x80000) >> 19; }
+    uint16_t IsReadOnly() { return (value & 0x100000) >> 20; }
+    void set_IsReadOnly(bool val) { value |= (val << 20); }
+    void set_IsFileData(bool val) { value |= (val << 19); }
+    void set_IsGraphNode(bool val) { value |= (val << 18); }
+    void set_IsPropertySet(bool val) { value |= (val << 17); }
+    void set_IsBinary(bool val) { value |= (val << 16); }
     void set_index(uint16_t val) { value |= val; }
     std::string to_string();
 

@@ -44,58 +44,42 @@ namespace libone {
 	  return b;
 	}
 
-  void ObjectSpaceStreamOfOIDs::parse(librevenge::RVNGInputStream *input) {
+  std::vector<ExtendedGUID> ObjectSpaceStreamOfOIDs::parse(librevenge::RVNGInputStream *input) {
+    std::vector<ExtendedGUID> ret = std::vector<ExtendedGUID>();
     parse_header(input);
     CompactID temp;
     std::cout << header_string() << "\n";
     for (uint32_t i=0; i < Count; i++) {
       temp.parse(input);
-      object_ids.push_back(temp.to_EGUID());
+      if (!guid.is_equal(temp.to_EGUID())) {
+        std::cout << "pushing " << temp.to_EGUID().to_string() << "\n";
+        ret.push_back(temp.to_EGUID());
+      } else {
+        std::cout << "not pushing " << temp.to_EGUID().to_string() << " because equal to " << guid.to_string() << "\n";
+      }
     }
+    return ret;
   }
 
-  std::string ObjectSpaceStreamOfOIDs::to_string() {
-    std::stringstream stream;
-    for (uint32_t i=0; i < object_ids.size(); i++) {
-      stream << "object guid " << object_ids[i].to_string() << "\n";
-    }
-    return stream.str();
-  }
-
-  void ObjectSpaceStreamOfOSIDs::parse(librevenge::RVNGInputStream *input) {
+  std::vector<ExtendedGUID> ObjectSpaceStreamOfOSIDs::parse(librevenge::RVNGInputStream *input) {
+    std::vector<ExtendedGUID> ret = std::vector<ExtendedGUID>();
     parse_header(input);
     CompactID temp;
       for (uint32_t i=0; i < Count; i++) {
         temp.parse(input);
-        space_ids.push_back(temp.to_EGUID());
+        ret.push_back(temp.to_EGUID());
     }
+    return ret;
   }
 
-  std::string ObjectSpaceStreamOfOSIDs::to_string() {
-    std::stringstream stream;
-    for (uint32_t i=0; i < space_ids.size(); i++) {
-      stream << "objectspace guid " << space_ids[i].to_string() << "\n";
-    }
-    return stream.str();
-  }
-
-  void ObjectSpaceStreamOfContextIDs::parse(librevenge::RVNGInputStream *input) {
+  std::vector<ExtendedGUID> ObjectSpaceStreamOfContextIDs::parse(librevenge::RVNGInputStream *input) {
+    std::vector<ExtendedGUID> ret = std::vector<ExtendedGUID>();
     parse_header(input);
     CompactID temp;
     for (uint32_t i=0; i < Count; i++) {
       temp.parse(input);
-      context_ids.push_back(temp.to_EGUID());
+      ret.push_back(temp.to_EGUID());
     }
+    return ret;
   }
-
-  std::string ObjectSpaceStreamOfContextIDs::to_string() {
-    std::stringstream stream;
-    for (uint32_t i=0; i < context_ids.size(); i++) {
-      stream << "context guid " << context_ids[i].to_string() << "\n";
-    }
-    return stream.str();
-  }
-
-
-
 }
