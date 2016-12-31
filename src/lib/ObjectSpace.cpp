@@ -45,8 +45,17 @@ namespace libone {
     std::cout << "trying to parse last revision\n";
     rev.list_parse(input, node2.get_ref());
     revisions.push_back(rev);
-
+    std::cout << "object space id " << guid.to_string() << " revisions size " << revisions.size() << "\n";
     input->seek(old, librevenge::RVNG_SEEK_SET);
+  }
+
+  void ObjectSpace::to_document(librevenge::RVNGDrawingInterface *document) {
+    (void) document;
+    std::cout << "revision len " << revisions.size() << "\n";
+    for (auto i : revisions) {
+      i.to_document(document);
+    }
+    std::cout << "done?\n";
   }
 }
 

@@ -12,8 +12,9 @@
 #include "ObjectGroup.h"
 namespace libone {
 
-  void ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
+  std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
     FileNodeList list (ref.get_location(), ref.get_size());
+    std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();
     Object object;
     uint32_t index;
     GUID temp = GUID();
@@ -44,7 +45,7 @@ namespace libone {
           std::cout << "ObjectDeclaration2RefCountFND\n";
           std::cout << "going to parse " << node.get_ref().get_location() << '\n';
           object.parse(input, node.get_ref());
-          objects[object.get_guid().to_string()] = object;
+          object_map[object.get_guid().to_string()] = object;
           std::cout << object.to_string();
           break;
         case FileNode::ObjectGroupStartFND:
@@ -61,11 +62,12 @@ namespace libone {
         case FileNode::ObjectDeclarationFileData3RefCountFND:
           std::cout << "ObjectDeclarationFileData3RefCountFND\n";
           object.parse_3(input);
+          object_map[object.get_guid().to_string()] = object;
           break;
         case FileNode::ReadOnlyObjectDeclaration2RefCountFND:
           std::cout << "ReadOnlyObjectDeclaration2RefCountFND\n";
           object.parse(input, node.get_ref());
-          objects[object.get_guid().to_string()] = object;
+          object_map[object.get_guid().to_string()] = object;
           skip(input, 16);
           break;
         default:
@@ -76,7 +78,7 @@ namespace libone {
     }
     std::cout << "end of object group";
     input->seek(old, librevenge::RVNG_SEEK_SET);
-
+    return object_map;
   }
 
 }

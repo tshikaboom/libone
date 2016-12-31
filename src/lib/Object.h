@@ -12,6 +12,7 @@
 
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
+#include <librevenge/librevenge.h>
 
 #include "ObjectSpaceStreams.h"
 #include "ExtendedGUID.h"
@@ -31,6 +32,7 @@ class Object {
     std::string to_string();
     unsigned int ref_count = 0;
     void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
+    void to_document(librevenge::RVNGDrawingInterface *document);
 
   private:
   	ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs();

@@ -150,13 +150,12 @@ namespace libone {
 		Size = (temp >> 10) & 0x1FFF;
 		FileNodeID = temp & 0x3FF;
 		if (d == 0) {
-	    std::bitset<32> y(temp);
-	    std::cout << "filenodeid " << std::hex << FileNodeID << " filenode bits " << y << '\n';
 	    std::bitset<13> z(Size);
 	    std::cout << "Size " << std::hex << Size << " " << z << '\n';
 	    std::cout << "warning: d is zero\n";
-	    std::cout << "A " << StpFormat << " B " << CbFormat << " C " << BaseType << " D " << d << '\n';
     }
+    std::bitset<32> y(temp);
+    std::cout << std::hex << "filenodeid " << FileNodeID << " filenode bits " << y << '\n';
 		switch(get_Basetype()) {
 		  case 1:
   			reference.parse(input, get_StpFormat(), get_CbFormat());

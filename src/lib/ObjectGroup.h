@@ -21,9 +21,8 @@ namespace libone {
 
 class ObjectGroup {
   public:
-    void list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
+    std::unordered_map<std::string, libone::Object> list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
     std::string get_guid();
-    std::unordered_map<std::string, libone::Object> objects = std::unordered_map<std::string, libone::Object>();
 
   private:
     ExtendedGUID oid = ExtendedGUID();

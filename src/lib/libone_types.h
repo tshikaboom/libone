@@ -32,7 +32,7 @@
 
 namespace libone {
 
-extern std::unordered_map<std::string ,libone::Object> RootObjectSpace;
+//extern std::unordered_map<std::string ,libone::Object> RootObjectSpace;
 extern libone::ExtendedGUID RootObject;
 
 extern std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces;
@@ -44,6 +44,8 @@ extern libone::ExtendedGUID DataSignatureGroup;
 
 extern std::unordered_map<uint32_t, uint32_t> Transactions;
 extern libone::Header header;
+
+extern int debug;
 
 struct FileData {
   long location = 0;

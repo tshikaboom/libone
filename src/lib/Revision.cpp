@@ -50,9 +50,9 @@ namespace libone {
             break;
           case FileNode::ObjectGroupListReferenceFND:
             cout << "ObjectGroupListReferenceFND\n";
-            group.list_parse(input, node.get_ref());
+            objects = group.list_parse(input, node.get_ref());
             std::cout << "got these objects:\n";
-            for (auto i : group.objects) {
+            for (auto i : objects) {
               std::cout << i.first << " " << i.second.to_string() << "\n";
             }
             break;
@@ -67,9 +67,9 @@ namespace libone {
             parse_dependencies (input, node);
             break;
           case FileNode::RootObjectReference3FND:
-            std::cout << "RootObjectReference3FND\n";
             temp.parse(input);
             root_objects[temp.to_string()] = readU32 (input);
+            std::cout << "RootObjectReference3FND: parsed" << temp.to_string () << " = " << root_objects[temp.to_string()] << "\n";
             break;
           default:
             cout << "Revision.cpp filenodeid unknown " << node.get_FileNodeID() << "\n";
@@ -127,6 +127,17 @@ namespace libone {
 
     if (!node.get_ref().is_fcrNil())
       input->seek(old, librevenge::RVNG_SEEK_SET);
+
+  }
+
+  void Revision::to_document(librevenge::RVNGDrawingInterface *document) {
+    (void) document;
+
+    for (auto i: root_objects) {
+      std::cout << "revision root object " << i.first << " role " << i.second << "\n";
+      if (i.second == 2)
+        objects[i.first].to_document(document);
+    }
 
   }
 

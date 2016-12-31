@@ -94,12 +94,20 @@ namespace libone {
       contexts.parse(input);
 //      std::cout << contexts.to_string();
 	  }
-
+    for (auto &i: object_refs) {
+      if (i.is_equal(guid))
+        std::cout << "found duplicate, would remove nah?\n";
+    }
 	  object_refs = oids.get_list();
 	  context_refs = contexts.get_list();
 	  object_spaces_refs = osids.get_list();
 
 	  input->seek(old, librevenge::RVNG_SEEK_SET);
 	}
+
+  void Object::to_document(librevenge::RVNGDrawingInterface *document) {
+    (void) document;
+    std::cout << to_string() << "\n";
+  }
 }
 

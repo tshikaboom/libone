@@ -57,9 +57,13 @@ namespace libone {
         switch (node.get_FileNodeID()) {
           case FileNode::ObjectSpaceManifestListReferenceFND:
   				  guid.parse(input);
-				    cout << "RootFileNodeList2 ObjectSpaceManifestListReferenceFND " << guid.to_string () << "\n";
-            ObjectSpaces.insert({ guid.to_string(), space});
-            space.list_parse(input, guid, node.get_ref());
+  				  if (guid.is_equal(RootObject)) {
+				      cout << "RootFileNodeList2 parsing root object space\n";
+				      } else {
+				        cout << "RootFileNodeList2 parsing object space " << guid.to_string() << "\n";
+				      }
+              space.list_parse(input, guid, node.get_ref());
+              ObjectSpaces[guid.to_string()] = space;
             break;
           case FileNode::ObjectSpaceManifestRootFND:
             node.skip_node(input);

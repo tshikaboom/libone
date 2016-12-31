@@ -31,7 +31,7 @@ using std::equal;
 namespace libone
 {
 
-std::unordered_map<std::string ,libone::Object> RootObjectSpace = std::unordered_map<std::string ,libone::Object>();
+//std::unordered_map<std::string ,libone::Object> RootObjectSpace = std::unordered_map<std::string ,libone::Object>();
 libone::ExtendedGUID RootObject;
 
 std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces = std::unordered_map<std::string, libone::ObjectSpace>();
@@ -45,6 +45,8 @@ libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
 libone::Header header;
 
 std::unordered_map<std::string, struct FileData> filedata = std::unordered_map<std::string, struct FileData>();
+
+int debug = 0;
 
 
 ONEAPI ONEDocument::Confidence ONEDocument::isSupported(librevenge::RVNGInputStream *const input, Type *const type) try
@@ -104,7 +106,12 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
   std::cout << "test fileNodeList " << '\n';
   root_list.parse(input);
+  std::cout << "root object is " << RootObject.to_string() << "\n";
 
+  for (auto i: ObjectSpaces)
+    std::cout << "object space " << i.first << "\n";
+
+  ObjectSpaces[RootObject.to_string()].to_document(document);
 
   std::cout << "nothing broke!\n";
 
