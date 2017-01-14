@@ -22,6 +22,7 @@ class FileNodeList {
   public:
     FileNodeList(uint64_t, uint64_t);
     FileNode get_next_node(librevenge::RVNGInputStream *input);
+    FileNode force_get_next_node(librevenge::RVNGInputStream *input);
     bool is_end();
     std::string to_string();
 
@@ -40,7 +41,7 @@ class FileNodeList {
     bool end = false;
     bool header_parsed = false;
     long next_fragment_location = 0;
-    uint32_t list_length = 0xABCD;
+    uint32_t list_length = 0;
     uint32_t elements_parsed = 0;
 
 };

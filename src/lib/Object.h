@@ -33,10 +33,11 @@ class Object {
     std::string to_string();
     unsigned int ref_count = 0;
     void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
-    void to_document(librevenge::RVNGDrawingInterface *document);
+    void to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects);
 
   private:
     PropertySet set = PropertySet();
+    void parse_ObjectDeclaration2Body(librevenge::RVNGInputStream *input);
     bool read_only = false;
     ExtendedGUID guid = ExtendedGUID();
     JCID jcid = JCID(0);

@@ -99,7 +99,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
   log_fragment.parse(input);
   input->seek(old, librevenge::RVNG_SEEK_SET);
-//  std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
+  std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
 
 
 

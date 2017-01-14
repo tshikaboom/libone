@@ -135,7 +135,7 @@ namespace libone {
 
     for (auto i: root_objects) {
       std::cout << "revision root object " << i.first << " role " << i.second << "\n";
-        objects[i.first].to_document(document);
+        objects[i.first].to_document(document, objects);
     }
 
   }

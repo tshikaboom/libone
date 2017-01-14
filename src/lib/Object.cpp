@@ -17,18 +17,22 @@
 namespace libone {
 
   void Object::parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
+    parse_ObjectDeclaration2Body (input);
+    ref_count = readU8 (input);
+    std::cout << "object ref_count" << ref_count << "\n";
+    parse_list(input, ref);
+  }
+
+  void Object::parse_ObjectDeclaration2Body(librevenge::RVNGInputStream *input) {
     CompactID temp;
     uint8_t temp2;
     temp.parse(input);
     guid = temp.to_EGUID();
-    jcid = JCID(readU32(input));
+    jcid = JCID(readU32 (input));
     std::cout << "object compact " << temp.to_string () << " eguid " << guid.to_string ();
     temp2 = readU8 (input);
-    fHasOsidReferences = temp2 >> 7;
-    fHasOidReferences = (temp2 >> 6) & 1;
-    ref_count = readU8 (input);
-    std::cout << "object ref_count" << ref_count << "\n";
-    parse_list(input, ref);
+    fHasOidReferences = (temp2 >> 7) & 0x01;
+    fHasOsidReferences = (temp2 >> 6) & 0x01;
   }
 
   void Object::parse_3(librevenge::RVNGInputStream *input) {
@@ -79,7 +83,7 @@ namespace libone {
 	  stream << "referencing " << context_refs.size() << " contexts:\n";
 	  for (auto &i: context_refs)
   	  stream << i.to_string() << "\n";
-  	stream << set.to_string();
+//  	stream << set.to_string();
     return stream.str();
 	}
 
@@ -111,9 +115,20 @@ namespace libone {
 	  input->seek(old, librevenge::RVNG_SEEK_SET);
 	}
 
-  void Object::to_document(librevenge::RVNGDrawingInterface *document) {
+  void Object::to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects) {
     (void) document;
+    (void) objects;
     std::cout << to_string() << "\n";
+    for (auto &i: object_refs) {
+      std::cout << "documenting " << i.to_string() << " yas?\n";
+      objects[i.to_string()].to_document(document, objects);
+    }
+
+    switch (jcid.get_value()) {
+      default:
+        cout << "unknown JCID " << jcid.to_string() << " for object " << guid.to_string() << "\n";
+        break;
+    }
   }
 }
 
