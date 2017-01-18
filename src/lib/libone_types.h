@@ -11,15 +11,22 @@
 #ifndef INCLUDED_LIBONE_TYPES_H
 #define INCLUDED_LIBONE_TYPES_H
 
-#include "Object.h"
+
+#include <vector>
+
+#include "JCID.h"
+#include "ExtendedGUID.h"
+#include "ObjectGroup.h"
+#include "FileChunkReference.h"
+#include "PropertySet.h"
+#include "PropertyID.h"
 #include "ObjectSpace.h"
+#include "ObjectParser.h"
+#include "PageMetaData.h"
 #include "ObjectSpaceStreams.h"
 #include "GUID.h"
-#include "ObjectGroup.h"
-#include "ExtendedGUID.h"
-#include "FileChunkReference.h"
+#include "Object.h"
 #include "CompactID.h"
-#include "JCID.h"
 #include "Revision.h"
 #include "FileNode.h"
 #include "FileNodeList.h"
@@ -28,8 +35,7 @@
 #include "RootFileNodeList.h"
 #include "StringInStorageBuffer.h"
 #include "FileDataStore.h"
-#include "PropertySet.h"
-#include "PropertyID.h"
+#include "FileDataObject.h"
 #include "Header.h"
 
 namespace libone {
@@ -52,6 +58,15 @@ extern int debug;
 struct FileData {
   long location = 0;
   uint64_t length = 0;
+};
+
+struct object_header {
+  ExtendedGUID guid = ExtendedGUID();
+  FileChunkReference body = FileChunkReference();
+  JCID jcid = JCID(0);
+  uint32_t ref_count = 0;
+  uint16_t fHasOidReferences = 0;
+  uint16_t fHasOsidReferences = 0;
 };
 
 extern std::unordered_map<std::string, struct FileData> filedata;

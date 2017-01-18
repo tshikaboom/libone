@@ -16,28 +16,35 @@
 namespace libone {
 
     void PropertySet::parse(librevenge::RVNGInputStream *input) {
+      bool unknown = false;
       count = readU16(input);
       uint32_t temp = 0;
-      bool equal = false;
       for (int i=0; i < count; i++) {
         temp = readU32 (input);
-        for (auto &j: prop_ids) {
-          if (j.get_value() == temp) equal = true;
-        }
-        if (equal) {
-          equal = false;
-        } else {
-          prop_ids.push_back(PropertyID(temp));
-        }
+        prop_ids.push_back(PropertyID(temp));
       }
+      for (int i=0; i < count; i++) {
+        switch (prop_ids[i].get_value()) {
+          case PropertyID::CachedTitleString:
+          default:
+          unknown = true;
+            break;
+        }
+        if (unknown) {
+          std::cout << "unknown property id " << prop_ids[i].to_string() << " bailing out! position " << input->tell() << endl;
+          break;
+      }
+    }
     }
 
 
     std::string PropertySet::to_string() {
       std::stringstream stream;
+      if (prop_ids.size()) {
         stream << "property count " << prop_ids.size() << "\n";
         for (auto j: prop_ids)
           stream << j.to_string() << "\n";
+      }
       return stream.str();
   }
 }

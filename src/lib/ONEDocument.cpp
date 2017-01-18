@@ -100,6 +100,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   log_fragment.parse(input);
   input->seek(old, librevenge::RVNG_SEEK_SET);
   std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
+  std::cout << header.cTransactionsInLog << " transactions in header\n";
 
 
 

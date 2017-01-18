@@ -10,12 +10,15 @@
 #ifndef INCLUDED_LIBONE_OBJECTGROUP_H
 #define INCLUDED_LIBONE_OBJECTGROUP_H
 
+#include <iostream>
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
-#include "ExtendedGUID.h"
-#include "FileChunkReference.h"
-#include "Object.h"
+#include <unordered_map>
+
 #include "libone_types.h"
+#include "libone_utils.h"
+
+#include "Object.h"
 
 namespace libone {
 

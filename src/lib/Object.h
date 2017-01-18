@@ -13,34 +13,36 @@
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
 #include <librevenge/librevenge.h>
+#include <unordered_map>
+#include "libone_utils.h"
+#include "libone_types.h"
 
+#include "FileChunkReference.h"
 #include "PropertySet.h"
-#include "ObjectSpaceStreams.h"
-#include "ExtendedGUID.h"
-#include "FileNodeList.h"
-#include "GUID.h"
-#include "JCID.h"
 
 namespace libone {
 
 class Object {
+
   public:
-    void parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
-    void parse_3(librevenge::RVNGInputStream *input);
+    Object(librevenge::RVNGInputStream *input, struct object_header _header);
     bool get_read_only();
     void set_read_only(bool new_);
     ExtendedGUID get_guid();
     std::string to_string();
-    unsigned int ref_count = 0;
-    void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
     void to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects);
 
+  protected:
+    void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
+
   private:
+    FileChunkReference body = FileChunkReference();
     PropertySet set = PropertySet();
-    void parse_ObjectDeclaration2Body(librevenge::RVNGInputStream *input);
+
     bool read_only = false;
     ExtendedGUID guid = ExtendedGUID();
     JCID jcid = JCID(0);
+    uint32_t ref_count = 0;
     uint16_t fHasOidReferences = 0;
     uint16_t fHasOsidReferences = 0;
     std::vector<ExtendedGUID> object_refs = std::vector<ExtendedGUID>();

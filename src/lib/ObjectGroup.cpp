@@ -7,15 +7,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#include <iostream>
-#include "libone_utils.h"
+
 #include "ObjectGroup.h"
+
 namespace libone {
 
   std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
     FileNodeList list (ref.get_location(), ref.get_size());
     std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();
-    Object object;
+    ObjectParser parser;
     uint32_t index;
     GUID temp = GUID();
     oid.parse(input);
@@ -44,9 +44,10 @@ namespace libone {
         case FileNode::ObjectDeclaration2RefCountFND:
           std::cout << "ObjectDeclaration2RefCountFND\n";
           std::cout << "going to parse " << node.get_ref().get_location() << '\n';
-          object.parse(input, node.get_ref());
-          object_map[object.get_guid().to_string()] = object;
-          std::cout << object.to_string();
+          parser.parse_ObjectDeclaration2RefCountFND(input, ref);
+//          object.parse(input, node.get_ref());
+//          object_map[object.get_guid().to_string()] = object;
+//          std::cout << object.to_string();
           break;
         case FileNode::ObjectGroupStartFND:
           std::cout << "ObjectGroupStartFND\n";
@@ -61,13 +62,15 @@ namespace libone {
           break;
         case FileNode::ObjectDeclarationFileData3RefCountFND:
           std::cout << "ObjectDeclarationFileData3RefCountFND\n";
-          object.parse_3(input);
-          object_map[object.get_guid().to_string()] = object;
+          parser.parse_ObjectDeclarationFileData3RefCountFND(input, ref);
+
           break;
         case FileNode::ReadOnlyObjectDeclaration2RefCountFND:
           std::cout << "ReadOnlyObjectDeclaration2RefCountFND\n";
-          object.parse(input, node.get_ref());
-          object_map[object.get_guid().to_string()] = object;
+          parser.parse_ObjectDeclaration2RefCountFND(input, ref);
+//          object.parse(input, node.get_ref());
+
+//          object_map[object.get_guid().to_string()] = object;
           skip(input, 16);
           break;
         default:
