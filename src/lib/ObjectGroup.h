@@ -15,9 +15,6 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <unordered_map>
 
-#include "libone_types.h"
-#include "libone_utils.h"
-
 #include "Object.h"
 
 namespace libone {

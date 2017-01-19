@@ -19,7 +19,7 @@ namespace libone {
 //    ObjectGroup group;
     long old = input->tell();
     ExtendedGUID temp;
-    Object object;
+//    Object object;
     input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
     cout << "trying to revision at " << input->tell() << "\n";
 

@@ -14,7 +14,6 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <librevenge/librevenge.h>
 #include <unordered_map>
-#include "libone_utils.h"
 #include "libone_types.h"
 
 #include "FileChunkReference.h"
