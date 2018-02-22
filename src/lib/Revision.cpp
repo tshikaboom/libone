@@ -40,6 +40,7 @@ namespace libone {
             break;
           case FileNode::RevisionManifestStart7FND:
             cout << "RevisionManifestStart7FND NOT 6\n";
+            break;
           case FileNode::RevisionManifestStart6FND:
             cout << "RevisionManifestStart6FND\n";
             guid.parse(input);
