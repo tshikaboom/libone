@@ -15,7 +15,10 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <unordered_map>
 
+#include "libone_utils.h"
 #include "Object.h"
+
+extern std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 
 namespace libone {
 

@@ -14,6 +14,7 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <unordered_map>
 
+#include "Object.h"
 #include "ObjectGroup.h"
 
 namespace libone {

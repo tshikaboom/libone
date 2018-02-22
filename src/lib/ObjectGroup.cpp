@@ -15,7 +15,6 @@ namespace libone {
   std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
     FileNodeList list (ref.get_location(), ref.get_size());
     std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();
-    ObjectParser parser;
     uint32_t index;
     GUID temp = GUID();
     oid.parse(input);

@@ -14,8 +14,10 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <librevenge/librevenge.h>
 #include <unordered_map>
-#include "libone_types.h"
 
+#include "ExtendedGUID.h"
+#include "JCID.h"
+#include "FileNodeList.h"
 #include "FileChunkReference.h"
 #include "PropertySet.h"
 

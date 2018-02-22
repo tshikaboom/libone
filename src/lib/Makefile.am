@@ -29,12 +29,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_LDFLAGS = $(version_info) -exp
 libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	CompactID.cpp \
 	CompactID.h \
-	FileDataObject.cpp \
-	FileDataObject.h \
 	Object.h \
 	Object.cpp \
-	ObjectParser.h \
-	ObjectParser.cpp \
 	PageMetaData.h \
 	PageMetaData.cpp \
 	ObjectGroup.h \

@@ -21,7 +21,6 @@
 #include "PropertySet.h"
 #include "PropertyID.h"
 #include "ObjectSpace.h"
-#include "ObjectParser.h"
 #include "PageMetaData.h"
 #include "ObjectSpaceStreams.h"
 #include "GUID.h"
@@ -35,7 +34,6 @@
 #include "RootFileNodeList.h"
 #include "StringInStorageBuffer.h"
 #include "FileDataStore.h"
-#include "FileDataObject.h"
 #include "Header.h"
 
 namespace libone {

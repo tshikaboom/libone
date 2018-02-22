@@ -10,11 +10,11 @@
 #ifndef INCLUDED_LIBONE_OBJECTSPACE_H
 #define INCLUDED_LIBONE_OBJECTSPACE_H
 
+#include "Revision.h"
 #include "Object.h"
 #include "FileChunkReference.h"
 #include "FileNodeList.h"
 #include "ExtendedGUID.h"
-#include "Revision.h"
 #include <sstream>
 #include <unordered_map>
 #include <librevenge-stream/librevenge-stream.h>
