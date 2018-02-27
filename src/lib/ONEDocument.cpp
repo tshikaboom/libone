@@ -26,25 +26,20 @@ using librevenge::RVNGInputStream;
 
 using std::equal;
 
+namespace {
+
+enum OneNoteVersion
+{
+  ONENOTE_UNKNOWN_VERSION,
+  ONENOTE,
+  ONETOC2
+};
+
+}
 
 
 namespace libone
 {
-
-//std::unordered_map<std::string ,libone::Object> RootObjectSpace = std::unordered_map<std::string ,libone::Object>();
-libone::ExtendedGUID RootObject;
-
-std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces = std::unordered_map<std::string, libone::ObjectSpace>();
-// the string is the Object's guid
-
-std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable = std::unordered_map<uint32_t, libone::GUID>();
-
-std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_t, uint32_t>({{0, 0}});
-
-libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
-libone::Header header;
-
-std::unordered_map<std::string, struct FileData> filedata = std::unordered_map<std::string, struct FileData>();
 
 int debug = 0;
 
