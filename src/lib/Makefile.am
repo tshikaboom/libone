@@ -51,6 +51,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	Header.h \
 	JCID.h \
 	JCID.cpp \
+	OneNoteParser.h \
+	OneNoteParser.cpp \
 	PropertySet.h \
 	PropertySet.cpp \
 	PropertyID.h \
