@@ -18,6 +18,7 @@
 #include <libone/libone.h>
 #include <libone/ONEDocument.h>
 #include "libone_utils.h"
+#include "OneNoteParser.h"
 
 using boost::scoped_ptr;
 using boost::shared_ptr;
@@ -84,6 +85,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
   const RVNGInputStreamPtr_t input_(input, ONEDummyDeleter());
 
+  OneNoteParser parser = OneNoteParser(input, document);
 
   return RESULT_UNKNOWN_ERROR;
 }
