@@ -28,7 +28,7 @@
 namespace libone {
   class OneNoteParser: public Object {
     public:
-      OneNoteParser(librevenge::RVNGInputStream *input, struct object_header _header);
+      OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document);
   };
 
 

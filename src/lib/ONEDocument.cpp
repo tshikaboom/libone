@@ -74,8 +74,6 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const input, librevenge::RVNGDrawingInterface *const document, const ONEDocument::Type type, const char *const) try
 {
   header.parse(input);
-  RootFileNodeList root_list;
-  long old;
 
   (void) document;
   // sanity check
@@ -86,29 +84,6 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
   const RVNGInputStreamPtr_t input_(input, ONEDummyDeleter());
 
-  input_->seek(0, librevenge::RVNG_SEEK_SET);
-  TransactionLogFragment log_fragment(header.cTransactionsInLog);
-
-  std::cout << "trying transactions, jumping to " << header.fcrTransactionLog.get_location() << '\n';
-  old = input->tell();
-  input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
-  log_fragment.parse(input);
-  input->seek(old, librevenge::RVNG_SEEK_SET);
-  std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
-
-
-
-
-  std::cout << "test fileNodeList " << '\n';
-  root_list.parse(input);
-  std::cout << "root object is " << RootObject.to_string() << "\n";
-
-  for (auto i: ObjectSpaces)
-    std::cout << "object space " << i.first << "\n";
-
-  ObjectSpaces[RootObject.to_string()].to_document(document);
-
-  std::cout << "nothing broke!\n";
 
   return RESULT_UNKNOWN_ERROR;
 }
