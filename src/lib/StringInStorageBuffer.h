@@ -12,6 +12,7 @@
 
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
+#include <librevenge/librevenge.h>
 #include <vector>
 
 namespace libone {
@@ -23,7 +24,7 @@ class StringInStorageBuffer {
     std::string to_string();
 
   private:
-    std::string chars = std::string();
+    librevenge::RVNGString ustring = librevenge::RVNGString();
 };
 
 }
