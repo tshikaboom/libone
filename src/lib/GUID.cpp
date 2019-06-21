@@ -17,6 +17,8 @@
 
 #include "libone_utils.h"
 
+#include "GUID.h"
+
 using std::string;
 
 namespace libone {

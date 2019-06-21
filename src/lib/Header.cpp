@@ -15,6 +15,11 @@
 #include <libone/libone.h>
 
 #include "libone_utils.h"
+#include "libone_types.h"
+
+#include "Header.h"
+#include "FileChunkReference.h"
+#include "GUID.h"
 
 using std::string;
 

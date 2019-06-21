@@ -9,6 +9,7 @@
 #include "libone_utils.h"
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <cstdint>
 #include <librevenge-stream/librevenge-stream.h>
 #include "PropertySet.h"
@@ -31,7 +32,7 @@ namespace libone {
             break;
         }
         if (unknown) {
-          std::cout << "unknown property id " << prop_ids[i].to_string() << " bailing out! position " << input->tell() << endl;
+          std::cout << "unknown property id " << prop_ids[i].to_string() << " bailing out! position " << input->tell() << std::endl;
           break;
       }
     }

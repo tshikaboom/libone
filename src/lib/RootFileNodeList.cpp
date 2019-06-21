@@ -12,6 +12,7 @@
 #include <iostream>
 #include <librevenge-stream/librevenge-stream.h>
 #include "RootFileNodeList.h"
+#include "FileDataStore.h"
 
 namespace libone {
 

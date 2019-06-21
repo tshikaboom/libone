@@ -14,6 +14,8 @@
 #include <iomanip>
 #include <libone/libone.h>
 
+#include "ExtendedGUID.h"
+
 #include "libone_utils.h"
 
 using std::string;

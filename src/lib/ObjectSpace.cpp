@@ -8,6 +8,9 @@
  */
 #include <iostream>
 #include "libone_utils.h"
+
+#include "ObjectSpace.h"
+
 namespace libone {
 
 

@@ -7,7 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-
+#include "libone_types.h"
 #include "ObjectGroup.h"
 
 namespace libone {
@@ -43,7 +43,7 @@ namespace libone {
         case FileNode::ObjectDeclaration2RefCountFND:
           std::cout << "ObjectDeclaration2RefCountFND\n";
           std::cout << "going to parse " << node.get_ref().get_location() << '\n';
-          parser.parse_ObjectDeclaration2RefCountFND(input, ref);
+//          node.parse_ObjectDeclaration2RefCountFND(input, ref);
 //          object.parse(input, node.get_ref());
 //          object_map[object.get_guid().to_string()] = object;
 //          std::cout << object.to_string();
@@ -61,12 +61,12 @@ namespace libone {
           break;
         case FileNode::ObjectDeclarationFileData3RefCountFND:
           std::cout << "ObjectDeclarationFileData3RefCountFND\n";
-          parser.parse_ObjectDeclarationFileData3RefCountFND(input, ref);
+//          parser.parse_ObjectDeclarationFileData3RefCountFND(input, ref);
 
           break;
         case FileNode::ReadOnlyObjectDeclaration2RefCountFND:
           std::cout << "ReadOnlyObjectDeclaration2RefCountFND\n";
-          parser.parse_ObjectDeclaration2RefCountFND(input, ref);
+//          parser.parse_ObjectDeclaration2RefCountFND(input, ref);
 //          object.parse(input, node.get_ref());
 
 //          object_map[object.get_guid().to_string()] = object;

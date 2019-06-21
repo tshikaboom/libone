@@ -12,6 +12,7 @@
 #include "libone_types.h"
 #include "libone_utils.h"
 #include "Object.h"
+#include "ObjectSpaceStreams.h"
 
 namespace libone {
 

@@ -12,6 +12,9 @@
 #include <iostream>
 #include "libone_utils.h"
 
+#include "libone_types.h"
+
+#include "TransactionLogFragment.h"
 
 namespace libone {
 

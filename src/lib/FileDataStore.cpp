@@ -12,6 +12,10 @@
 #include "libone_utils.h"
 #include "libone_types.h"
 
+#include "FileDataStore.h"
+#include "FileChunkReference.h"
+#include "FileNodeList.h"
+
 namespace libone {
 
   void FileDataStore::parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {

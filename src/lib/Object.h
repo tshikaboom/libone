@@ -23,6 +23,15 @@
 
 namespace libone {
 
+  struct object_header {
+    ExtendedGUID guid = ExtendedGUID();
+    FileChunkReference body = FileChunkReference();
+    JCID jcid = JCID(0);
+    uint32_t ref_count = 0;
+    uint16_t fHasOidReferences = 0;
+    uint16_t fHasOsidReferences = 0;
+};
+
 class Object {
 
   public:

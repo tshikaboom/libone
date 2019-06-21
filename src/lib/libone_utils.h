@@ -22,8 +22,6 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <librevenge/librevenge.h>
 
-#include "libone_types.h"
-
 #ifdef _MSC_VER
 
 typedef unsigned char uint8_t;

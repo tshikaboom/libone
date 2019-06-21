@@ -11,6 +11,11 @@
 #include <iomanip>
 #include "libone_utils.h"
 
+#include "libone_types.h"
+
+#include "Revision.h"
+#include "CompactID.h"
+
 namespace libone {
 
   void Revision::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
@@ -136,7 +141,7 @@ namespace libone {
 
     for (auto i: root_objects) {
       std::cout << "revision root object " << i.first << " role " << i.second << "\n";
-        objects[i.first].to_document(document, objects);
+        //objects[i.first].to_document(document, objects);
     }
 
   }

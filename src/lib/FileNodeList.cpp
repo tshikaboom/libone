@@ -15,6 +15,9 @@
 
 #include "FileNodeList.h"
 #include "libone_utils.h"
+
+#include "libone_types.h"
+
 using namespace std;
 using std::string;
 

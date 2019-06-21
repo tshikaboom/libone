@@ -11,7 +11,7 @@
 #define INCLUDED_LIBONE_TRANSACTIONLOGFRAGMENT_H
 #include <vector>
 
-
+#include "FileChunkReference.h"
 #include "TransactionEntry.h"
 
 namespace libone {

@@ -26,7 +26,7 @@
 #include "libone_utils.h"
 
 namespace libone {
-  class OneNoteParser: public Object {
+  class OneNoteParser {
     public:
       OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document);
   };

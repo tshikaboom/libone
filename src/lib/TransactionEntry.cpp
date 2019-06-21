@@ -14,6 +14,8 @@
 #include "libone_utils.h"
 #include <sstream>
 
+#include "TransactionEntry.h"
+
 namespace libone {
 
     void TransactionEntry::parse(librevenge::RVNGInputStream *input) {
@@ -21,7 +23,7 @@ namespace libone {
     	TransactionEntrySwitch = readU32(input);
     }
 
-	string TransactionEntry::to_string() {
+    std::string TransactionEntry::to_string() {
 		std::stringstream stream;
 		stream << "TransactionEntry srcID " << srcID << " Switch " << TransactionEntrySwitch;
 

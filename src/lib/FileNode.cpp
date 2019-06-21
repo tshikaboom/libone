@@ -15,6 +15,9 @@
 #include "libone_utils.h"
 
 #include <bitset>
+
+#include "FileNode.h"
+
 using namespace std;
 using std::string;
 

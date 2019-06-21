@@ -9,11 +9,19 @@
 
 #include "libone_types.h"
 #include "OneNoteParser.h"
+#include "RootFileNodeList.h"
+#include "Object.h"
+#include "TransactionLogFragment.h"
 
 namespace libone {
 
+  libone::ExtendedGUID RootObject;
+  libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
+  std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_t, uint32_t>{{{0, 0}}};
+
     OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document) {
       RootFileNodeList root_list;
+
       long old;
 
       input->seek(0, librevenge::RVNG_SEEK_SET);
@@ -43,16 +51,14 @@ namespace libone {
     }
 
     //std::unordered_map<std::string ,libone::Object> RootObjectSpace = std::unordered_map<std::string ,libone::Object>();
-    libone::ExtendedGUID RootObject;
+//    libone::ExtendedGUID RootObject;
 
     std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces = std::unordered_map<std::string, libone::ObjectSpace>();
     // the string is the Object's guid
 
     std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable = std::unordered_map<uint32_t, libone::GUID>();
 
-    std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_t, uint32_t>({{0, 0}});
 
-    libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
     libone::Header header;
 
     std::unordered_map<std::string, struct FileData> filedata = std::unordered_map<std::string, struct FileData>();

@@ -16,6 +16,10 @@
 
 #include "libone_utils.h"
 
+#include "ObjectSpaceStreams.h"
+#include "CompactID.h"
+
+
 using std::string;
 
 namespace libone {
