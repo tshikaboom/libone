@@ -31,6 +31,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	CompactID.h \
 	Object.h \
 	Object.cpp \
+	PageMetaData.h \
+	PageMetaData.cpp \
 	ObjectGroup.h \
 	ObjectGroup.cpp \
 	ObjectSpace.cpp \

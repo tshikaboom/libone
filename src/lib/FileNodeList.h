@@ -20,7 +20,7 @@ namespace libone {
 
 class FileNodeList {
   public:
-    FileNodeList(uint64_t, uint64_t);
+    FileNodeList(uint64_t new_location, uint64_t new_size);
     FileNode get_next_node(librevenge::RVNGInputStream *input);
     FileNode force_get_next_node(librevenge::RVNGInputStream *input);
     bool is_end();

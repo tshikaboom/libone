@@ -10,12 +10,15 @@
 #ifndef INCLUDED_LIBONE_OBJECTGROUP_H
 #define INCLUDED_LIBONE_OBJECTGROUP_H
 
+#include <iostream>
 #include <string>
 #include <librevenge-stream/librevenge-stream.h>
-#include "ExtendedGUID.h"
-#include "FileChunkReference.h"
+#include <unordered_map>
+
+#include "libone_utils.h"
 #include "Object.h"
-#include "libone_types.h"
+
+extern std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 
 namespace libone {
 

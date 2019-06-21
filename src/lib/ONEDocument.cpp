@@ -86,7 +86,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   const RVNGInputStreamPtr_t input_(input, ONEDummyDeleter());
 
   OneNoteParser parser = OneNoteParser(input, document);
-
+  (void) parser;
   return RESULT_UNKNOWN_ERROR;
 }
 catch (const FileAccessError &)
