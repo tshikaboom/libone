@@ -26,59 +26,54 @@ namespace libone {
     ExtendedGUID temp;
 //    Object object;
     input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-    cout << "trying to revision at " << input->tell() << "\n";
+    ONE_DEBUG_MSG(("trying to revision at %lu\n", input->tell()));
 
     while (!list.is_end()) {
     node = list.get_next_node(input);
-//      std::cout << node.to_string ();
         switch(node.get_FileNodeID()) {
           case FileNode::RevisionManifestListStartFND:
-            cout << "RevisionManifestListStartFND\n";
+            ONE_DEBUG_MSG(("RevisionManifestListStartFND\n"));
             temp.parse(input);
             skip(input, 4);
             break;
           case FileNode::RevisionManifestStart4FND:
-            cout << "RevisionManifestStart4FND\n";
+            ONE_DEBUG_MSG(("RevisionManifestStart4FND\n"));
             skip(input, 8);
             role = readU32(input, false);
             skip(input, 2);
             break;
           case FileNode::RevisionManifestStart7FND:
-            cout << "RevisionManifestStart7FND NOT 6\n";
+            ONE_DEBUG_MSG(("RevisionManifestStart7FND NOT 6\n"));
             break;
           case FileNode::RevisionManifestStart6FND:
-            cout << "RevisionManifestStart6FND\n";
+            ONE_DEBUG_MSG(("RevisionManifestStart6FND\n"));
             guid.parse(input);
             dependent.parse(input);
             role = readU32(input, false);
             odcsDefault = readU16(input, false);
-            std::cout << to_string();
             break;
           case FileNode::ObjectGroupListReferenceFND:
-            cout << "ObjectGroupListReferenceFND\n";
+            ONE_DEBUG_MSG(("ObjectGroupListReferenceFND\n"));
             objects = group.list_parse(input, node.get_ref());
-            std::cout << "got these objects:\n";
-            for (auto i : objects) {
-              std::cout << i.first << " " << i.second.to_string() << "\n";
-            }
+            ONE_DEBUG_MSG(("got these objects:\n"));
             break;
 
           case FileNode::RevisionManifestEndFND:
-            std::cout << "RevisionManifestEndFND\n";
+            ONE_DEBUG_MSG(("RevisionManifestEndFND\n"));
             DataSignatureGroup.zero();
             GlobalIdentificationTable.clear();
             break;
           case FileNode::ObjectInfoDependencyOverridesFND:
-            cout << "ObjectInfoDependencyOverridesFND\n";
+            ONE_DEBUG_MSG(("ObjectInfoDependencyOverridesFND\n"));
             parse_dependencies (input, node);
             break;
           case FileNode::RootObjectReference3FND:
             temp.parse(input);
             root_objects[temp.to_string()] = readU32 (input);
-            std::cout << "RootObjectReference3FND: parsed" << temp.to_string () << " = " << root_objects[temp.to_string()] << "\n";
+            ONE_DEBUG_MSG(("RootObjectReference3FND: parsed %s = %s\n", temp.to_string().c_str(), root_objects[temp.to_string()].to_string().c_str()));
             break;
           default:
-            cout << "Revision.cpp filenodeid unknown " << node.get_FileNodeID() << "\n";
+            ONE_DEBUG_MSG(("Revision.cpp filenodeid unknown %lu\n", node.get_FileNodeID()));
             break;
         }
         if (node.get_FileNodeID() == FileNode::RevisionManifestStart7FND)
@@ -109,26 +104,28 @@ namespace libone {
 
     (void) crc;
     (void) i;
+    (void) n_8bitoverrides;
+    (void) n_32bitoverrides;
 
     if (!node.get_ref().is_fcrNil()) {
-      std::cout << "seeking to " << node.get_ref().get_location() << " for dependencies\n";
+      ONE_DEBUG_MSG((" for dependencies\n"));
       old = input->tell();
       input->seek(node.get_ref().get_location(), librevenge::RVNG_SEEK_SET);
     }
 
     n_8bitoverrides = readU32 (input, false);
     n_32bitoverrides = readU32(input, false);
-    std::cout << (unsigned) n_8bitoverrides << " 8bit overrides, " << n_32bitoverrides << " 32bit overrides\n";
+    ONE_DEBUG_MSG((" 32bit overrides\n"));
     crc = readU32(input, false);
 /*    for (i = 0; i < n_8bitoverrides; i++) {
       temp.parse(input);
       group.objects[temp.to_EGUID().to_string()].ref_count = readU8 (input);
-      std::cout << "updated refcount for " << temp.to_EGUID().to_string() << "\n";
+      ONE_DEBUG_MSG(("\n"));
     }
     for (i = 0; i < n_32bitoverrides; i++) {
       temp.parse(input);
       group.objects[temp.to_EGUID().to_string()].ref_count = readU32(input);
-      std::cout << "updated refcount for " << temp.to_EGUID().to_string() << "\n";
+      ONE_DEBUG_MSG(("\n"));
     } */
 
     if (!node.get_ref().is_fcrNil())
@@ -140,7 +137,7 @@ namespace libone {
     (void) document;
 
     for (auto i: root_objects) {
-      std::cout << "revision root object " << i.first << " role " << i.second << "\n";
+      ONE_DEBUG_MSG(("\n"));
         //objects[i.first].to_document(document, objects);
     }
 

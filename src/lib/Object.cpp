@@ -69,16 +69,16 @@ namespace libone {
   void Object::to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects) {
     (void) document;
     (void) objects;
-    std::cout << to_string() << "\n";
-    for (auto &i: object_refs) {
-      std::cout << "documenting " << i.to_string() << " yas?\n";
+    ONE_DEBUG_MSG(("\n"));
+//    for (auto &i: object_refs) {
+      ONE_DEBUG_MSG((" yas?\n"));
 //      objects[i.to_string()].to_document(document, objects);
-    }
+//    }
 
     switch (jcid.get_value()) {
 
       default:
-        cout << "unknown JCID " << jcid.to_string() << " for object " << guid.to_string() << "\n";
+        ONE_DEBUG_MSG(("unknown JCID %s for object %s\n", jcid.to_string().c_str(), guid.to_string().c_str()));
         break;
     }
   }
@@ -104,8 +104,9 @@ namespace libone {
 	  }
 
     for (auto &i: object_refs) {
-      if (i.is_equal(guid))
-        std::cout << "found duplicate, would remove nah?\n";
+      if (i.is_equal(guid)) {
+        ONE_DEBUG_MSG(("found duplicate, would remove nah?\n"));
+      }
     }
 
     if (jcid.IsPropertySet())

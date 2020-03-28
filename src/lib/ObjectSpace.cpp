@@ -28,37 +28,38 @@ namespace libone {
       switch (node.get_FileNodeID()) {
         case FileNode::ObjectSpaceManifestListStartFND:
           guid.parse(input);
-          std::cout << "ObjectSpaceManifestListStartFND " << guid.to_string() << "\n";
+          ONE_DEBUG_MSG(("\n"));
           if (!guid.is_equal(expected_guid)) {
-            if (!guid.is_equal(temp))
-              std::cout << "pos " << input->tell() << " not a good guid! " << guid.to_string() << expected_guid.to_string();
+            if (!guid.is_equal(temp)) {
+              ONE_DEBUG_MSG((" not a good guid! %s expected %s\n", guid.to_string().c_str(), expected_guid.to_string().c_str()));
+	    }
           }
           break;
         case FileNode::RevisionManifestListReferenceFND:
-          std::cout << "RevisionManifestListReferenceFND\n";
+          ONE_DEBUG_MSG(("RevisionManifestListReferenceFND\n"));
           node2 = node;
           node.skip_node(input);
           break;
         default:
-          cout << "ObjectSpace unknown filenodeid" << node.get_FileNodeID() << "\n";
+          ONE_DEBUG_MSG(("ObjectSpace unknown filenodeid %d\n", node.get_FileNodeID()));
           break;
         }
     }
 
-    std::cout << "trying to parse last revision\n";
+    ONE_DEBUG_MSG(("trying to parse last revision\n"));
     rev.list_parse(input, node2.get_ref());
     revisions.push_back(rev);
-    std::cout << "object space id " << guid.to_string() << " revisions size " << revisions.size() << "\n";
+    ONE_DEBUG_MSG(("\n"));
     input->seek(old, librevenge::RVNG_SEEK_SET);
   }
 
   void ObjectSpace::to_document(librevenge::RVNGDrawingInterface *document) {
     (void) document;
-    std::cout << "revision len " << revisions.size() << "\n";
+    ONE_DEBUG_MSG(("\n"));
     for (auto i : revisions) {
       i.to_document(document);
     }
-    std::cout << "done?\n";
+    ONE_DEBUG_MSG(("done?\n"));
   }
 
   std::string ObjectSpace::to_string() {

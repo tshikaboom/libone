@@ -32,7 +32,7 @@ namespace libone {
 	      parse(input, 0, 0);
 	      break;
 	    default:
-	      std::cout << "FileChunkReference: not good!\n";
+	      ONE_DEBUG_MSG(("FileChunkReference: not good!\n"));
 	      break;
 	  }
 	}

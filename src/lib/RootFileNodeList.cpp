@@ -35,19 +35,19 @@ namespace libone {
            break;
           case FileNode::ObjectSpaceManifestRootFND:
             RootObject.parse(input);
-            cout << "RootFileNodeList ObjectSpaceManifestRootFND " << RootObject.to_string() << "\n";
+            ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestRootFND %s"));
             break;
           case FileNode::FileDataStoreListReferenceFND:
-            cout << "RootFileNodeList FileDataStoreListReferenceFND\n";
+            ONE_DEBUG_MSG(("RootFileNodeList FileDataStoreListReferenceFND\n"));
             store.parse(input, node.get_ref());
             break;
           case FileNode::ObjectSpaceManifestListReferenceFND: // parse this later
-            std::cout << "RootFileNodeList ObjectSpaceManifestListReferenceFND skipping\n";
+            ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestListReferenceFND skipping\n"));
             node.skip_node(input);
             break;
           default:
             node.skip_node(input);
-            std::cout << "RootFileNodeList unknown filenodeid " << std::hex << node.get_FileNodeID() << "position " << input->tell() << "\n";
+            ONE_DEBUG_MSG(("\n"));
             break;
         }
       }
@@ -59,9 +59,9 @@ namespace libone {
           case FileNode::ObjectSpaceManifestListReferenceFND:
   				  guid.parse(input);
   				  if (guid.is_equal(RootObject)) {
-				      cout << "RootFileNodeList2 parsing root object space\n";
+				      ONE_DEBUG_MSG(("RootFileNodeList2 parsing root object space\n"));
 				      } else {
-				        cout << "RootFileNodeList2 parsing object space " << guid.to_string() << "\n";
+				        ONE_DEBUG_MSG(("RootFileNodeList2 parsing object space %s\n", guid.to_string()));
 				      }
               space.list_parse(input, guid, node.get_ref());
               ObjectSpaces[guid.to_string()] = space;
@@ -74,7 +74,7 @@ namespace libone {
             break;
           default:
             node.skip_node(input);
-            std::cout << "RootFileNodeList2 unknown filenodeid " << std::hex << node.get_FileNodeID() << "position " << input->tell() << "\n";
+            ONE_DEBUG_MSG(("\n"));
             break;
           }
         }

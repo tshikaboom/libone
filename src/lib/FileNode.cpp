@@ -51,18 +51,18 @@ namespace libone {
       case FileNode::FileDataStoreObjectReferenceFND:
         break;
 			case FileNode::ChunkTerminatorFND:
-			  std::cout << "ChunkTerminatorFND\n";
+			  ONE_DEBUG_MSG(("ChunkTerminatorFND\n"));
 				is_end = true;
 				break;
 			case FileNode::TYPES_END:
-				cout << "padding everywhere\n";
+				ONE_DEBUG_MSG(("padding everywhere\n"));
 //				while (readU16 (input) ==  0) {}
 //				input->seek(-2, librevenge::RVNG_SEEK_CUR);
 //        ref.parse(input, FileChunkReference::mode::Type64x32);
 				is_end = true;
 				break;
 			default:
-				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
+				ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
 				FileNodeID = DUNNO;
 //				input->seek(-4, librevenge::RVNG_SEEK_CUR);
 //				skip(input, Size);
@@ -77,63 +77,63 @@ namespace libone {
 
 		switch (FileNodeID) {
 			case FileNode::ObjectSpaceManifestListStartFND:
-				cout << "ObjectSpaceManifestListStartFND\n";
+				ONE_DEBUG_MSG(("ObjectSpaceManifestListStartFND\n"));
 				break;
 			case FileNode::ChunkTerminatorFND:
-				cout << "ChunkTerminatorFND\n";
+				ONE_DEBUG_MSG(("ChunkTerminatorFND\n"));
 				break;
 		  case FileNode::RevisionManifestListStartFND:
-				cout << "RevisionManifestListStart\n";
+				ONE_DEBUG_MSG(("RevisionManifestListStart\n"));
 				break;
 			case FileNode::RevisionManifestStart4FND:
-			  cout << "RevisionManifestStart4FND\n";
+			  ONE_DEBUG_MSG(("RevisionManifestStart4FND\n"));
 			  break;
 			case FileNode::RevisionManifestStart6FND:
-			  cout << "RevisionManifestStart6FND\n";
+			  ONE_DEBUG_MSG(("RevisionManifestStart6FND\n"));
 			  break;
 			case FileNode::RevisionManifestStart7FND:
-				cout << "RevisionManifestStart\n";
+				ONE_DEBUG_MSG(("RevisionManifestStart\n"));
 				break;
 			case FileNode::RevisionManifestListReferenceFND:
-			    cout << "RevisionManifestListReferenceFND\n";
+			    ONE_DEBUG_MSG(("RevisionManifestListReferenceFND\n"));
 				break;
 			case FileNode::ObjectGroupListReferenceFND:
-			  cout << "ObjectGroupListReferenceFND\n";
+			  ONE_DEBUG_MSG(("ObjectGroupListReferenceFND\n"));
 			  break;
 			case FileNode::ObjectSpaceManifestListReferenceFND:
 				break;
 			case FileNode::ObjectSpaceManifestRootFND:
-			  cout << "ObjectSpaceManifestListRootFND\n";
+			  ONE_DEBUG_MSG(("ObjectSpaceManifestListRootFND\n"));
 				break;
 			case FileNode::FileDataStoreListReferenceFND:
-			  cout << "FileDataStoreListReferenceFND\n";
+			  ONE_DEBUG_MSG(("FileDataStoreListReferenceFND\n"));
 				break;
 			case FileNode::ObjectGroupStartFND:
-			  cout << "ObjectGroupStartFND\n";
+			  ONE_DEBUG_MSG(("ObjectGroupStartFND\n"));
 			  break;
 			case FileNode::GlobalIdTableStart2FND:
-			  cout << "GlobalIdTableStart2FND\n";
+			  ONE_DEBUG_MSG(("GlobalIdTableStart2FND\n"));
 			  break;
 		  case FileNode::GlobalIdTableEntryFNDX:
-		    cout << "GlobalIdTableEntryFNDX\n";
+		    ONE_DEBUG_MSG(("GlobalIdTableEntryFNDX\n"));
 		    break;
 		  case FileNode::GlobalIdTableEndFNDX:
-		    cout << "GlobalIdTableEndFNDX\n";
+		    ONE_DEBUG_MSG(("GlobalIdTableEndFNDX\n"));
 		    break;
 			case FileNode::TYPES_END:
-			  cout << "NO TYPE\n";
+			  ONE_DEBUG_MSG(("NO TYPE\n"));
 				break;
       case FileNode::DataSignatureGroupDefinitionFND:
-        cout << "DataSignatureGroupDefinitionFND\n";
+        ONE_DEBUG_MSG(("DataSignatureGroupDefinitionFND\n"));
         break;
       case FileNode::ObjectDeclaration2RefCountFND:
-        cout << "ObjectDeclaration2RefCountFND\n";
+        ONE_DEBUG_MSG(("ObjectDeclaration2RefCountFND\n"));
         break;
       case FileNode::ObjectGroupEndFND:
-        cout << "ObjectGroupEndFND\n";
+        ONE_DEBUG_MSG(("ObjectGroupEndFND\n"));
         break;
 			default:
-				cout << "dunno but value is " << std::hex << FileNodeID << '\n';
+				ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
 				break;
     }
 		stream << std::hex << "Size " << Size << '\n';
@@ -154,24 +154,24 @@ namespace libone {
 		FileNodeID = temp & 0x3FF;
 		if (d == 0) {
 	    std::bitset<13> z(Size);
-	    std::cout << "Size " << std::hex << Size << " " << z << '\n';
-	    std::cout << "warning: d is zero\n";
+	    ONE_DEBUG_MSG(("%s\n", z.to_string().c_str()));
+	    ONE_DEBUG_MSG(("warning: d is zero\n"));
     }
     std::bitset<32> y(temp);
-    std::cout << std::hex << "filenodeid " << FileNodeID << " filenode bits " << y << '\n';
+    ONE_DEBUG_MSG((" filenode bits %s\n", y.to_string().c_str()));
 		switch(get_Basetype()) {
 		  case 1:
   			reference.parse(input, get_StpFormat(), get_CbFormat());
-    		cout << "ref data @ " << reference.to_string() << " position " << input->tell() << "\n";
+    		ONE_DEBUG_MSG(("\n"));
     		break;
     	case 2:
 				reference.parse(input, get_StpFormat(), get_CbFormat());
-    	  cout << "ref list @ " << reference.to_string () << " position " << input->tell() << "\n";
+    	  ONE_DEBUG_MSG(("\n"));
     	  break;
     	case 0:
     	default:
 	      reference.set_zero();
-	      cout << "noref position " << input->tell() << "\n";
+	      ONE_DEBUG_MSG(("\n"));
 		}
 		ref = reference;
 	}
@@ -213,7 +213,7 @@ namespace libone {
 
   (void) ref_size;
    input->seek(Size - ref_size - 4, librevenge::RVNG_SEEK_CUR);
-	  std::cout << "Skipping " << Size - ref_size - 4 << " bytes. size " << Size << " ref_size " << ref_size << ", position " << input->tell() << "\n";
+	  ONE_DEBUG_MSG(("\n"));
 	}
 
 	bool FileNode::isEnd() {

@@ -32,7 +32,7 @@ namespace libone {
             break;
         }
         if (unknown) {
-          std::cout << "unknown property id " << prop_ids[i].to_string() << " bailing out! position " << input->tell() << std::endl;
+          ONE_DEBUG_MSG((" bailing out! position %lu\n", input->tell()));
           break;
       }
     }

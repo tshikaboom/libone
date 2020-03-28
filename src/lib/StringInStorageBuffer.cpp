@@ -26,7 +26,7 @@ namespace libone {
     string.assign(buf, buf+length*2);
     ustring = librevenge::RVNGString((char *) &string[0]);
 
-    std::cout << "read length1 " << length << " length2 " << ustring.len() << " string1 " << &string[0] << " string2 " << ustring.cstr() << " end\n";
+    ONE_DEBUG_MSG(("read length1 %lu length2 %lu string1 %s string2 %s end\n", length, ustring.len(), &string[0], ustring.cstr()));
   }
 
   std::string StringInStorageBuffer::to_string() {

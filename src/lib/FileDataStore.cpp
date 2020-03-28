@@ -31,31 +31,31 @@ namespace libone {
       node = list.get_next_node(input);
       switch (node.get_FileNodeID()) {
         case FileNode::FileDataStoreObjectReferenceFND:
-        std::cout << "FileDataStoreObjectReferenceFND\n";
+        ONE_DEBUG_MSG(("FileDataStoreObjectReferenceFND\n"));
         reference.parse(input);
-        std::cout << "parsed reference " << reference.to_string () << "\n";
+        ONE_DEBUG_MSG(("\n"));
         old2 = input->tell();
         input->seek(node.get_ref().get_location(), librevenge::RVNG_SEEK_SET);
         _header.parse(input);
-//        std::cout << "parsed filedatastore header " << header.to_string() << "\n";
+//        ONE_DEBUG_MSG(("\n"));
         data.length = readU64 (input);
         skip(input, 12);
         data.location = input->tell();
         filedata[reference.to_string()] = data;
         _header.parse(input);
-//        std::cout << "parsed filedatastore footer " << header.to_string () << "\n";
+//        ONE_DEBUG_MSG(("\n"));
         input->seek(old2, librevenge::RVNG_SEEK_SET);
         break;
       case FileNode::ChunkTerminatorFND:
         break;
       default:
-        std::cout << "FileDataStore: filenodeid not good " << node.get_FileNodeID() << "\n";
+        ONE_DEBUG_MSG(("\n"));
         break;
       }
     }
 
     input->seek(old, librevenge::RVNG_SEEK_SET);
-    std::cout << "restored position " << input->tell() << "\n";
+    ONE_DEBUG_MSG(("\n"));
   }
 
   std::string FileDataStore::to_string() {

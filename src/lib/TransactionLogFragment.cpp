@@ -27,21 +27,21 @@ namespace libone {
       entry.parse(input);
       while (transactions_parsed < total_transactions) {
         entry.parse(input);
-//        std::cout << entry.to_string() << "\n";
+//        ONE_DEBUG_MSG(("%s\n", entry.to_string()));
         if (entry.get_srcID() != 0x00000001) {
           sizeTable.push_back(entry);
           Transactions.insert(std::make_pair(entry.get_srcID(), entry.get_Switch()));
         }
         else {
           transactions_parsed++;
-//          std::cout << "parsed " << transactions_parsed << " transactions\n";
+          ONE_DEBUG_MSG(("parsed %d transactions\n", transactions_parsed));
         }
       }
-//      std::cout << "position " << input->tell() << " before next fragment\n";
+//      ONE_DEBUG_MSG << "position " << input->tell() << " before next fragment\n";
       nextFragment.parse(input, FileChunkReference::mode::Type64x32);
-      std::cout << nextFragment.to_string () << " position " << input->tell() << "\n";
-//      std::cout << "last entry " << entry.to_string () << "\n";
-      std::cout << "parsed " << transactions_parsed << ", total " << total_transactions << "\n";
+      ONE_DEBUG_MSG(("%s position %ld\n", nextFragment.to_string().c_str(), input->tell()));
+//      ONE_DEBUG_MSG << "last entry " << entry.to_string () << "\n";
+      ONE_DEBUG_MSG(("parsed %d, total %d\n", transactions_parsed, total_transactions));
     }
 
     std::string TransactionLogFragment::to_string() {
@@ -68,4 +68,3 @@ namespace libone {
       return entry;
     }
 }
-

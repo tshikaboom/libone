@@ -27,10 +27,10 @@ namespace libone {
 	void ObjectSpaceStream::parse_header(librevenge::RVNGInputStream *input) {
 		uint32_t temp = readU32(input);
 		std::bitset<32> x(temp);
-    std::cout << "parsed " << x << '\n';
 		b = temp >> 31;
 		a = (temp >> 30) & 1;
 		Count = temp & 0xFFFFFF;
+		ONE_DEBUG_MSG(("parsed  %s\n", x.to_string().c_str()));
 	}
 
 	std::string ObjectSpaceStream::header_string() {
@@ -52,14 +52,14 @@ namespace libone {
     std::vector<ExtendedGUID> ret = std::vector<ExtendedGUID>();
     parse_header(input);
     CompactID temp;
-    std::cout << header_string() << "\n";
+    ONE_DEBUG_MSG(("\n"));
     for (uint32_t i=0; i < Count; i++) {
       temp.parse(input);
       if (!guid.is_equal(temp.to_EGUID())) {
-        std::cout << "pushing " << temp.to_EGUID().to_string() << "\n";
+        ONE_DEBUG_MSG(("\n"));
         ret.push_back(temp.to_EGUID());
       } else {
-        std::cout << "not pushing " << temp.to_EGUID().to_string() << " because equal to " << guid.to_string() << "\n";
+        ONE_DEBUG_MSG(("\n"));
       }
     }
     return ret;

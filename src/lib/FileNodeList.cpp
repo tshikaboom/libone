@@ -31,33 +31,33 @@ namespace libone {
   void FileNodeList::parse_header(librevenge::RVNGInputStream *input) {
     uint32_t expected_fragment_sequence;
     bool found = false;
-//		std::cout << "fragment position begin " << std::hex << input->tell() << '\n';
+//		ONE_DEBUG_MSG(("fragment position begin ")) << std::hex << input->tell() << '\n';
 		next_fragment_location = input->tell() + size - 8 - 12;
-//		std::cout << "next fragment @ " << next_fragment_location << "\n";
+//		ONE_DEBUG_MSG(("\n"));
 		uintMagic = readU64 (input, false);
 		if (uintMagic != 0xa4567ab1f5f7f4c4) {
-		  cout << "uintMagic not correct; position " << input->tell() << '\n';
+		  ONE_DEBUG_MSG(("uintMagic not correct; position %ld\n", input->tell()));
 		  end = true;
 		}
 		FileNodeListID = readU32 (input, false);
 		for (auto i: Transactions) {
 		  if (i.first == FileNodeListID) {
 		    list_length = i.second;
-//  		  std::cout << std::dec << "got length " << list_length << " for list "<< std::hex << FileNodeListID  << " from transactions\n";
+//  		  ONE_DEBUG_MSG((" from transactions\n"));
   		  found = true;
 		    break;
 		  }
 		}
-		if (!found)
-		  std::cout << "length not found for list " << FileNodeListID << "\n";
-
+		if (!found) {
+		  ONE_DEBUG_MSG(("length not found for list %d\n", FileNodeListID));
+		}
 		expected_fragment_sequence = readU32 (input, false);
 		if (expected_fragment_sequence != nFragmentSequence) {
-		  cout << "expected fragment " << nFragmentSequence << ", got " << expected_fragment_sequence << "\n";
+		  ONE_DEBUG_MSG(("expected fragment %d, got %d\n", nFragmentSequence, expected_fragment_sequence));
 		}
 		else nFragmentSequence++;
 
-//		std::cout << "fragment position end " << input->tell() << " nFragmentSequence " << nFragmentSequence << '\n';
+//		ONE_DEBUG_MSG((" nFragmentSequence ")) << nFragmentSequence << '\n';
   }
 
 	string FileNodeList::to_string() {
@@ -79,10 +79,10 @@ namespace libone {
 	    header_parsed = true;
 	  }
 
-//    std::cout << node.to_string();
+//    ONE_DEBUG_MSG((node.to_string));
 
 	  if ((input->tell() >= next_fragment_location) || (next_fragment_location - input->tell() <= 4)) {
-	    std::cout << "wanting next fragment\n";
+	    ONE_DEBUG_MSG(("wanting next fragment\n"));
 	    next_fragment_wanted = true;
     }
 
@@ -102,7 +102,7 @@ namespace libone {
 
       if (readU64(input, false) != 0x8BC215C38233BA4B) {
         FileNode zero;
-        cout << "footer not correct, position " << input->tell() << "\n";
+        ONE_DEBUG_MSG(("footer not correct, position %ld\n", input->tell()));
         end = true;
         zero.zero();
         return zero;
@@ -113,7 +113,7 @@ namespace libone {
         location = next_fragment.get_location();
         size = next_fragment.get_size();
         input->seek(location, librevenge::RVNG_SEEK_SET);
-        std::cout << "what's up in here? " << input->tell();
+        ONE_DEBUG_MSG(("what's up in here? %ld\n", input->tell()));
         parse_header(input);
         node.parse(input);
     	  elements_parsed++;
@@ -126,9 +126,9 @@ namespace libone {
 
     if (elements_parsed == list_length) {
       end = true;
-      std::cout << "got to list length " << list_length << ", parsed " << elements_parsed << "\n";
+      ONE_DEBUG_MSG(("got to list length %d, parsed %d\n", list_length, elements_parsed));
     } else {
-  	  std::cout << "list id " << FileNodeListID << ", element " << elements_parsed << " length " << list_length << " position " << input->tell() << ", next fragment @" << next_fragment_location << "\n\n";
+  	  ONE_DEBUG_MSG(("list id %d, element %d, length %d, position %ld, next fragment@%ld\n", FileNodeListID, elements_parsed, list_length, input->tell(), next_fragment_location));
   	}
 	  return node;
 	}

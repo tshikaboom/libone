@@ -7,6 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include "libone_utils.h"
 #include "libone_types.h"
 #include "OneNoteParser.h"
 #include "RootFileNodeList.h"
@@ -27,26 +28,27 @@ namespace libone {
       input->seek(0, librevenge::RVNG_SEEK_SET);
       TransactionLogFragment log_fragment(header.cTransactionsInLog);
 
-      std::cout << "trying transactions, jumping to " << header.fcrTransactionLog.get_location() << '\n';
+      ONE_DEBUG_MSG(("trying transactions, jumping to %ld\n", header.fcrTransactionLog.get_location()));
       old = input->tell();
       input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
       log_fragment.parse(input);
       input->seek(old, librevenge::RVNG_SEEK_SET);
-      std::cout << "TransactionLog" << '\n' << log_fragment.to_string() << '\n';
+      ONE_DEBUG_MSG(("TransactionLog\n%s\n", log_fragment.to_string().c_str()));
 
 
 
 
-      std::cout << "test fileNodeList " << '\n';
+      ONE_DEBUG_MSG(("test fileNodeList\n"));
       root_list.parse(input);
-      std::cout << "root object is " << RootObject.to_string() << "\n";
+      ONE_DEBUG_MSG(("root object is %s\n", RootObject.to_string().c_str()));
 
-      for (auto i: ObjectSpaces)
-        std::cout << "object space " << i.first << "\n";
+      for (auto i: ObjectSpaces) {
+        ONE_DEBUG_MSG(("object space %s\n", i.first.c_str()));
+      }
 
       ObjectSpaces[RootObject.to_string()].to_document(document);
 
-      std::cout << "nothing broke!\n";
+      ONE_DEBUG_MSG(("nothing broke!\n"));
 
     }
 
