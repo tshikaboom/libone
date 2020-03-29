@@ -35,10 +35,10 @@ namespace libone {
            break;
           case FileNode::ObjectSpaceManifestRootFND:
             RootObject.parse(input);
-            ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestRootFND %s"));
+            ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestRootFND\n"));
             break;
           case FileNode::FileDataStoreListReferenceFND:
-            ONE_DEBUG_MSG(("RootFileNodeList FileDataStoreListReferenceFND\n"));
+            ONE_DEBUG_MSG(("RootFileNodeList FileDataStoreListReferenceFND"));
             store.parse(input, node.get_ref());
             break;
           case FileNode::ObjectSpaceManifestListReferenceFND: // parse this later
@@ -61,7 +61,7 @@ namespace libone {
   				  if (guid.is_equal(RootObject)) {
 				      ONE_DEBUG_MSG(("RootFileNodeList2 parsing root object space\n"));
 				      } else {
-				        ONE_DEBUG_MSG(("RootFileNodeList2 parsing object space %s\n", guid.to_string()));
+				        ONE_DEBUG_MSG(("RootFileNodeList2 parsing object space %s\n", guid.to_string().c_str()));
 				      }
               space.list_parse(input, guid, node.get_ref());
               ObjectSpaces[guid.to_string()] = space;

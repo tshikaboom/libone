@@ -70,10 +70,10 @@ namespace libone {
           case FileNode::RootObjectReference3FND:
             temp.parse(input);
             root_objects[temp.to_string()] = readU32 (input);
-            ONE_DEBUG_MSG(("RootObjectReference3FND: parsed %s = %s\n", temp.to_string().c_str(), root_objects[temp.to_string()].to_string().c_str()));
+            ONE_DEBUG_MSG(("RootObjectReference3FND: parsed %s = %u\n", temp.to_string().c_str(), root_objects[temp.to_string()]));
             break;
           default:
-            ONE_DEBUG_MSG(("Revision.cpp filenodeid unknown %lu\n", node.get_FileNodeID()));
+            ONE_DEBUG_MSG(("Revision.cpp filenodeid unknown %u\n", node.get_FileNodeID()));
             break;
         }
         if (node.get_FileNodeID() == FileNode::RevisionManifestStart7FND)
