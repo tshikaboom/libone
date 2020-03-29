@@ -21,9 +21,12 @@ namespace libone {
   std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_t, uint32_t>{{{0, 0}}};
 
     OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document) {
+      Header header;
       RootFileNodeList root_list;
 
       long old;
+
+      header.parse(input);
 
       input->seek(0, librevenge::RVNG_SEEK_SET);
       TransactionLogFragment log_fragment(header.cTransactionsInLog);
@@ -37,9 +40,8 @@ namespace libone {
 
 
 
-
       ONE_DEBUG_MSG(("test fileNodeList\n"));
-      root_list.parse(input);
+      root_list.parse(input, header);
       ONE_DEBUG_MSG(("root object is %s\n", RootObject.to_string().c_str()));
 
       for (auto i: ObjectSpaces) {
@@ -59,9 +61,6 @@ namespace libone {
     // the string is the Object's guid
 
     std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable = std::unordered_map<uint32_t, libone::GUID>();
-
-
-    libone::Header header;
 
     std::unordered_map<std::string, struct FileData> filedata = std::unordered_map<std::string, struct FileData>();
 

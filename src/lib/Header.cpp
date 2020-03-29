@@ -26,6 +26,8 @@ using std::string;
 namespace libone {
 
   void Header::parse(librevenge::RVNGInputStream *input) {
+    input->seek(OFFSET_HEADER, librevenge::RVNG_SEEK_SET);
+
     guidFileType.parse(input);
 
     guidFile.parse(input);

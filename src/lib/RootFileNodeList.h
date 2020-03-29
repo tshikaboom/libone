@@ -20,7 +20,7 @@ namespace libone {
 class RootFileNodeList {
 
 public:
-    void parse(librevenge::RVNGInputStream *input);
+    void parse(librevenge::RVNGInputStream *input, libone::Header header);
 };
 
 

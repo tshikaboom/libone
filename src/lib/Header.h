@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <librevenge-stream/librevenge-stream.h>
 
+#define OFFSET_HEADER 0
+
 namespace libone {
 class Header {
   public:

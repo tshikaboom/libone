@@ -16,7 +16,7 @@
 
 namespace libone {
 
-    void RootFileNodeList::parse(librevenge::RVNGInputStream *input) {
+    void RootFileNodeList::parse(librevenge::RVNGInputStream *input, libone::Header header) {
       FileNode node;
       ExtendedGUID guid;
       ObjectSpace space;

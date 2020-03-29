@@ -74,6 +74,7 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
 ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const input, librevenge::RVNGDrawingInterface *const document, const ONEDocument::Type type, const char *const) try
 {
+  Header header;
   header.parse(input);
 
   (void) document;
