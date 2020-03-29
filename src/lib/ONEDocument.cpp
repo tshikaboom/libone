@@ -51,6 +51,10 @@ ONEAPI ONEDocument::Confidence ONEDocument::isSupported(librevenge::RVNGInputStr
   if (type)
     *type = TYPE_UNKNOWN;
 
+  if (type)
+    *type = TYPE_ONE2016;
+
+  return CONFIDENCE_EXCELLENT;
   return CONFIDENCE_NONE;
 }
 catch (...)
