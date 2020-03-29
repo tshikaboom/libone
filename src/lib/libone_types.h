@@ -31,8 +31,6 @@ extern libone::ExtendedGUID DataSignatureGroup;
 
 extern std::unordered_map<uint32_t, uint32_t> Transactions;
 
-extern int debug;
-
 struct FileData {
   long location = 0;
   uint64_t length = 0;
