@@ -64,13 +64,16 @@ typedef __int64 int64_t;
 #ifdef VERBOSE_DEBUG
 #define ONE_DEBUG_MSG(M) std::printf("%15s:%5d: ", __FILE__, __LINE__); std::printf M
 #define ONE_DEBUG(M) M
+#define DBMSG std::cout
 #else
 #define ONE_DEBUG_MSG(M) std::printf M
 #define ONE_DEBUG(M) M
+#define DBMSG std::cout
 #endif
 #else
 #define ONE_DEBUG_MSG(M)
 #define ONE_DEBUG(M)
+#define DBMSG 0 && std::cout
 #endif
 
 #define ONE_NUM_ELEMENTS(array) (sizeof(array) / sizeof(array[0]))
