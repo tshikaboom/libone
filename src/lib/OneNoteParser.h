@@ -23,12 +23,17 @@
 
 #include <libone/libone.h>
 #include <libone/ONEDocument.h>
+#include "RootFileNodeList.h"
 #include "libone_utils.h"
 
 namespace libone {
   class OneNoteParser {
     public:
       OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document);
+
+    private:
+      Header header = Header();
+      RootFileNodeList root_list = RootFileNodeList();
   };
 
 

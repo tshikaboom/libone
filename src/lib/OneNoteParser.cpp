@@ -10,7 +10,6 @@
 #include "libone_utils.h"
 #include "libone_types.h"
 #include "OneNoteParser.h"
-#include "RootFileNodeList.h"
 #include "Object.h"
 #include "TransactionLogFragment.h"
 
@@ -21,8 +20,6 @@ namespace libone {
   std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_t, uint32_t>{{{0, 0}}};
 
     OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document) {
-      Header header;
-      RootFileNodeList root_list;
 
       long old;
 
