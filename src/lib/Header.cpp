@@ -22,8 +22,6 @@
 #include "GUID.h"
 #include "FileDataStore.h"
 
-using std::string;
-
 namespace libone {
 
   void Header::parse(librevenge::RVNGInputStream *input) {

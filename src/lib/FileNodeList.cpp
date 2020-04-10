@@ -18,9 +18,6 @@
 
 #include "libone_types.h"
 
-using namespace std;
-using std::string;
-
 namespace libone {
 
   FileNodeList::FileNodeList(uint64_t new_location, uint64_t new_size) {
@@ -60,7 +57,7 @@ namespace libone {
 //		ONE_DEBUG_MSG((" nFragmentSequence ")) << nFragmentSequence << '\n';
   }
 
-	string FileNodeList::to_string() {
+	std::string FileNodeList::to_string() {
 		std::stringstream stream;
 		stream << std::hex << "uintMagic " << uintMagic << '\n';
 		stream << std::dec << "FileNodeListID " << FileNodeListID << '\n';

@@ -18,8 +18,6 @@
 
 #include "libone_utils.h"
 
-using std::string;
-
 namespace libone {
 
 	void ExtendedGUID::parse(librevenge::RVNGInputStream *input) {
@@ -28,7 +26,7 @@ namespace libone {
 		n = readU32(input, false);
 	}
 
-	string ExtendedGUID::to_string() {
+	std::string ExtendedGUID::to_string() {
 		std::stringstream stream;
 		stream << guid.to_string() << " n=" << n;
 

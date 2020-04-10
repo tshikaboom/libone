@@ -19,9 +19,6 @@
 #include "ObjectSpaceStreams.h"
 #include "CompactID.h"
 
-
-using std::string;
-
 namespace libone {
 
 	void ObjectSpaceStream::parse_header(librevenge::RVNGInputStream *input) {

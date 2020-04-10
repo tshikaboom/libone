@@ -19,8 +19,6 @@
 
 #include "GUID.h"
 
-using std::string;
-
 namespace libone {
 
   void GUID::zero() {
@@ -39,7 +37,7 @@ namespace libone {
 		    Data4[i] = readU16 (input, true);
 	}
 
-	string GUID::to_string() {
+	std::string GUID::to_string() {
 		std::stringstream stream;
 		stream << "{" << std::hex << Data1 << "-" << Data2 << "-" << Data3 << "-" << Data4[0] << "-";
 

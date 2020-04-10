@@ -18,9 +18,6 @@
 
 #include "FileNode.h"
 
-using namespace std;
-using std::string;
-
 namespace libone {
 
 	void FileNode::parse(librevenge::RVNGInputStream *input) {
@@ -71,7 +68,7 @@ namespace libone {
 		}
 	}
 
-	string FileNode::to_string() {
+	std::string FileNode::to_string() {
 		std::stringstream stream;
 		stream << "FileNodeID " << std::hex << FileNodeID << " ";
 

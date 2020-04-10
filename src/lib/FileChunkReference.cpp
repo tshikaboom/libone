@@ -15,8 +15,6 @@
 #include "FileChunkReference.h"
 #include "libone_utils.h"
 
-using std::stringstream;
-
 namespace libone {
 
 	void FileChunkReference::parse(librevenge::RVNGInputStream *input, mode size) {
@@ -96,7 +94,7 @@ namespace libone {
 		return cb;
 	}
 
-	string FileChunkReference::to_string() {
+	std::string FileChunkReference::to_string() {
 		std::stringstream stream;
 		if (is_fcrNil ()) return "fcrNil";
 		if (is_fcrZero ()) return "fcrZero";

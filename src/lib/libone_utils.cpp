@@ -11,8 +11,6 @@
 
 #include "libone_utils.h"
 
-using std::string;
-
 namespace libone
 {
 
@@ -102,11 +100,11 @@ const unsigned char *readNBytes(librevenge::RVNGInputStream *const input, const 
   return s;
 }
 
-string readCString(librevenge::RVNGInputStream *input)
+std::string readCstring(librevenge::RVNGInputStream *input)
 {
   checkStream(input);
 
-  string str;
+  std::string str;
   unsigned char c = readU8(input);
   while (0 != c)
   {
@@ -117,12 +115,12 @@ string readCString(librevenge::RVNGInputStream *input)
   return str;
 }
 
-string readPascalString(librevenge::RVNGInputStream *input)
+std::string readPascalstring(librevenge::RVNGInputStream *input)
 {
   checkStream(input);
 
   const unsigned length = readU8(input);
-  string str;
+  std::string str;
   for (unsigned i = 0; length != i; ++i)
     str.push_back(readU8(input));
 
@@ -204,14 +202,14 @@ const unsigned char *readNBytes(const boost::shared_ptr<librevenge::RVNGInputStr
   return readNBytes(input.get(), numBytes);
 }
 
-std::string readCString(const boost::shared_ptr<librevenge::RVNGInputStream> input)
+std::string readCstring(const boost::shared_ptr<librevenge::RVNGInputStream> input)
 {
-  return readCString(input.get());
+  return readCstring(input.get());
 }
 
-std::string readPascalString(const boost::shared_ptr<librevenge::RVNGInputStream> input)
+std::string readPascalstring(const boost::shared_ptr<librevenge::RVNGInputStream> input)
 {
-  return readPascalString(input.get());
+  return readPascalstring(input.get());
 }
 
 void skip(const boost::shared_ptr<librevenge::RVNGInputStream> input, const unsigned long numBytes)
