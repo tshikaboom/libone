@@ -61,8 +61,6 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	PropertyID.cpp \
 	Revision.cpp \
 	Revision.h \
-	RootFileNodeList.cpp \
-	RootFileNodeList.h \
 	TransactionEntry.h \
 	TransactionEntry.cpp \
 	GUID.cpp \

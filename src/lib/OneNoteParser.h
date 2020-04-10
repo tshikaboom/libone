@@ -23,7 +23,6 @@
 
 #include <libone/libone.h>
 #include <libone/ONEDocument.h>
-#include "RootFileNodeList.h"
 #include "libone_utils.h"
 
 namespace libone {
@@ -33,8 +32,8 @@ namespace libone {
 
     private:
       Header header = Header();
-      RootFileNodeList root_list = RootFileNodeList();
-
+      
+      void parse_root_file_node_list(librevenge::RVNGInputStream *input);
       void parse_transactions(librevenge::RVNGInputStream *input);
   };
 
