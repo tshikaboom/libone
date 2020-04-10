@@ -29,8 +29,6 @@ extern std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 
 extern libone::ExtendedGUID DataSignatureGroup;
 
-extern std::unordered_map<uint32_t, uint32_t> Transactions;
-
 struct FileData {
   long location = 0;
   uint64_t length = 0;

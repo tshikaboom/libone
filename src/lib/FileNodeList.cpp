@@ -39,15 +39,15 @@ namespace libone {
 		  ONE_DEBUG_MSG(("uintMagic not correct; position %ld\n", input->tell()));
 		  end = true;
 		}
-		FileNodeListID = readU32 (input, false);
+		FileNodeListID = readU32 (input, false);/*
 		for (auto i: Transactions) {
 		  if (i.first == FileNodeListID) {
-		    list_length = i.second;
+		    list_length = i.second;*/
 //  		  ONE_DEBUG_MSG((" from transactions\n"));
-  		  found = true;
+/*  		  found = true;
 		    break;
 		  }
-		}
+		}*/
 		if (!found) {
 		  ONE_DEBUG_MSG(("length not found for list %d\n", FileNodeListID));
 		}

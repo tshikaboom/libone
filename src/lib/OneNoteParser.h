@@ -34,6 +34,8 @@ namespace libone {
     private:
       Header header = Header();
       RootFileNodeList root_list = RootFileNodeList();
+
+      void parse_transactions(librevenge::RVNGInputStream *input);
   };
 
 

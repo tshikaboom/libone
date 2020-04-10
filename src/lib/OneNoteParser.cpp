@@ -11,13 +11,11 @@
 #include "libone_types.h"
 #include "OneNoteParser.h"
 #include "Object.h"
-#include "TransactionLogFragment.h"
 
 namespace libone {
 
   libone::ExtendedGUID RootObject;
   libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
-  std::unordered_map<uint32_t, uint32_t> Transactions = std::unordered_map<uint32_t, uint32_t>{{{0, 0}}};
 
     OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document) {
 
@@ -26,14 +24,11 @@ namespace libone {
       header.parse(input);
 
       input->seek(0, librevenge::RVNG_SEEK_SET);
-      TransactionLogFragment log_fragment(header.cTransactionsInLog);
 
       ONE_DEBUG_MSG(("trying transactions, jumping to %ld\n", header.fcrTransactionLog.get_location()));
       old = input->tell();
       input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
-      log_fragment.parse(input);
       input->seek(old, librevenge::RVNG_SEEK_SET);
-      ONE_DEBUG_MSG(("TransactionLog\n%s\n", log_fragment.to_string().c_str()));
 
 
 
@@ -45,10 +40,41 @@ namespace libone {
         ONE_DEBUG_MSG(("object space %s\n", i.first.c_str()));
       }
 
+      parse_transactions(input);
+
       ObjectSpaces[RootObject.to_string()].to_document(document);
 
       ONE_DEBUG_MSG(("nothing broke!\n"));
 
+    }
+
+
+
+    void OneNoteParser::parse_transactions(librevenge::RVNGInputStream *input) {
+      uint32_t total_transactions = header.cTransactionsInLog;
+      uint32_t transactions = 0;
+      TransactionEntry entry;
+      FileChunkReference nextFragment = FileChunkReference();
+
+      input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
+
+      entry.parse(input);
+      while (transactions < total_transactions) {
+        entry.parse(input);
+        DBMSG << "parsed transaction " << entry.to_string() << "\n";
+        if (entry.get_srcID() != 0x00000001) {
+          header.Transactions.push_back(entry);
+        }
+        else {
+          transactions++;
+          ONE_DEBUG_MSG(("parsed %d transactions\n", transactions));
+        }
+      }
+//      ONE_DEBUG_MSG << "position " << input->tell() << " before next fragment\n";
+      nextFragment.parse(input, FileChunkReference::mode::Type64x32);
+      ONE_DEBUG_MSG(("%s position %ld\n", nextFragment.to_string().c_str(), input->tell()));
+//      ONE_DEBUG_MSG << "last entry " << entry.to_string () << "\n";
+      ONE_DEBUG_MSG(("parsed %d, total %d\n", transactions, total_transactions));
     }
 
     //std::unordered_map<std::string ,libone::Object> RootObjectSpace = std::unordered_map<std::string ,libone::Object>();

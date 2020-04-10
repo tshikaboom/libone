@@ -16,6 +16,8 @@
 
 #define OFFSET_HEADER 0
 
+#include "TransactionEntry.h"
+
 namespace libone {
 class Header {
   public:
@@ -80,6 +82,10 @@ class Header {
 
     uint32_t bnNewestWritten = 0;
 
+    std::vector<TransactionEntry> Transactions = std::vector<TransactionEntry>();
+
+  private:
+    void parse_rootFileNodeList(librevenge::RVNGInputStream *input);
 
 };
 
