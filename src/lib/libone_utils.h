@@ -64,11 +64,11 @@ typedef __int64 int64_t;
 #ifdef VERBOSE_DEBUG
 #define ONE_DEBUG_MSG(M) std::printf("%15s:%5d: ", __FILE__, __LINE__); std::printf M
 #define ONE_DEBUG(M) M
-#define DBMSG std::cout
+#define DBMSG std::cout << __FILE__ << ":" << __LINE__ << "; input@" << input->tell() << ": "
 #else
 #define ONE_DEBUG_MSG(M) std::printf M
 #define ONE_DEBUG(M) M
-#define DBMSG std::cout
+#define DBMSG std::cout << __FILE__ << ":" << __LINE__ << ": "
 #endif
 #else
 #define ONE_DEBUG_MSG(M)
