@@ -66,15 +66,15 @@ namespace libone {
       node = list.get_next_node(input);
         switch (node.get_FileNodeID()) {
            break;
-          case FileNode::ObjectSpaceManifestRootFND:
+          case fnd_id::ObjectSpaceManifestRootFND:
             RootObject.parse(input);
             ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestRootFND\n"));
             break;
-          case FileNode::FileDataStoreListReferenceFND:
+          case fnd_id::FileDataStoreListReferenceFND:
             ONE_DEBUG_MSG(("RootFileNodeList FileDataStoreListReferenceFND"));
             store.parse(input, node.get_fnd());
             break;
-          case FileNode::ObjectSpaceManifestListReferenceFND: // parse this later
+          case fnd_id::ObjectSpaceManifestListReferenceFND: // parse this later
             ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestListReferenceFND skipping\n"));
             node.skip_node(input);
             break;
@@ -89,7 +89,7 @@ namespace libone {
       while (!list2.is_end()) {
         node = list2.get_next_node(input);
         switch (node.get_FileNodeID()) {
-          case FileNode::ObjectSpaceManifestListReferenceFND:
+          case fnd_id::ObjectSpaceManifestListReferenceFND:
   				  guid.parse(input);
   				  if (guid.is_equal(RootObject)) {
 				      ONE_DEBUG_MSG(("RootFileNodeList2 parsing root object space\n"));
@@ -99,10 +99,10 @@ namespace libone {
               space.list_parse(input, guid, node.get_fnd());
               ObjectSpaces[guid.to_string()] = space;
             break;
-          case FileNode::ObjectSpaceManifestRootFND:
+          case fnd_id::ObjectSpaceManifestRootFND:
             node.skip_node(input);
             break;
-          case FileNode::FileDataStoreListReferenceFND:
+          case fnd_id::FileDataStoreListReferenceFND:
             node.skip_node(input);
             break;
           default:

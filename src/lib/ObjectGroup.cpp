@@ -26,21 +26,21 @@ namespace libone {
     FileNode node = list.get_next_node(input);
     while (!list.is_end()) {
       switch (node.get_FileNodeID()) {
-        case FileNode::GlobalIdTableStart2FND:
+        case fnd_id::GlobalIdTableStart2FND:
           ONE_DEBUG_MSG(("GlobalIdTableStart2FND\n"));
           GlobalIdentificationTable.clear();
           break;
-        case FileNode::GlobalIdTableEntryFNDX:
+        case fnd_id::GlobalIdTableEntryFNDX:
           ONE_DEBUG_MSG(("GlobalIdTableEntryFNDX\n"));
           index = readU32 (input);
           temp.parse(input);
           GlobalIdentificationTable[index] = temp;
           break;
-        case FileNode::DataSignatureGroupDefinitionFND:
+        case fnd_id::DataSignatureGroupDefinitionFND:
           ONE_DEBUG_MSG(("DataSignatureGroupDefinitionFND\n"));
           DataSignatureGroup.parse(input);
           break;
-        case FileNode::ObjectDeclaration2RefCountFND:
+        case fnd_id::ObjectDeclaration2RefCountFND:
           ONE_DEBUG_MSG(("ObjectDeclaration2RefCountFND\n"));
           ONE_DEBUG_MSG(("going to parse %lu\n",node.get_fnd().get_location()));
 //          node.parse_ObjectDeclaration2RefCountFND(input, ref);
@@ -48,23 +48,23 @@ namespace libone {
 //          object_map[object.get_guid().to_string()] = object;
 //          ONE_DEBUG_MSG((object.to_string()));
           break;
-        case FileNode::ObjectGroupStartFND:
+        case fnd_id::ObjectGroupStartFND:
           ONE_DEBUG_MSG(("ObjectGroupStartFND\n"));
           oid.parse(input);
           break;
-        case FileNode::ObjectGroupEndFND:
+        case fnd_id::ObjectGroupEndFND:
           ONE_DEBUG_MSG(("ObjectGroupEndFND\n"));
           DataSignatureGroup.zero();
           break;
-        case FileNode::GlobalIdTableEndFNDX:
+        case fnd_id::GlobalIdTableEndFNDX:
           ONE_DEBUG_MSG(("GlobalIdTableEndFNDX\n"));
           break;
-        case FileNode::ObjectDeclarationFileData3RefCountFND:
+        case fnd_id::ObjectDeclarationFileData3RefCountFND:
           ONE_DEBUG_MSG(("ObjectDeclarationFileData3RefCountFND\n"));
 //          parser.parse_ObjectDeclarationFileData3RefCountFND(input, ref);
 
           break;
-        case FileNode::ReadOnlyObjectDeclaration2RefCountFND:
+        case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
           ONE_DEBUG_MSG(("ReadOnlyObjectDeclaration2RefCountFND\n"));
 //          parser.parse_ObjectDeclaration2RefCountFND(input, ref);
 //          object.parse(input, node.get_ref());

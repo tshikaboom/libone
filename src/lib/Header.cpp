@@ -105,15 +105,15 @@ namespace libone {
       node = list.get_next_node(input);
         switch (node.get_FileNodeID()) {
            break;
-          case FileNode::ObjectSpaceManifestRootFND:
+          case fnd_id::ObjectSpaceManifestRootFND:
             RootObject.parse(input);
             ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestRootFND\n"));
             break;
-          case FileNode::FileDataStoreListReferenceFND:
+          case fnd_id::FileDataStoreListReferenceFND:
             ONE_DEBUG_MSG(("RootFileNodeList FileDataStoreListReferenceFND"));
             store.parse(input, node.get_fnd());
             break;
-          case FileNode::ObjectSpaceManifestListReferenceFND: // parse this later
+          case fnd_id::ObjectSpaceManifestListReferenceFND: // parse this later
             ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestListReferenceFND skipping\n"));
             node.skip_node(input);
             break;

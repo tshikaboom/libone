@@ -30,7 +30,7 @@ namespace libone {
       struct FileData data;
       node = list.get_next_node(input);
       switch (node.get_FileNodeID()) {
-        case FileNode::FileDataStoreObjectReferenceFND:
+        case fnd_id::FileDataStoreObjectReferenceFND:
         ONE_DEBUG_MSG(("FileDataStoreObjectReferenceFND\n"));
         reference.parse(input);
         ONE_DEBUG_MSG(("\n"));
@@ -46,7 +46,7 @@ namespace libone {
 //        ONE_DEBUG_MSG(("\n"));
         input->seek(old2, librevenge::RVNG_SEEK_SET);
         break;
-      case FileNode::ChunkTerminatorFND:
+      case fnd_id::ChunkTerminatorFND:
         break;
       default:
         ONE_DEBUG_MSG(("\n"));

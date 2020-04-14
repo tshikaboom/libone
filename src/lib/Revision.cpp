@@ -31,43 +31,43 @@ namespace libone {
     while (!list.is_end()) {
     node = list.get_next_node(input);
         switch(node.get_FileNodeID()) {
-          case FileNode::RevisionManifestListStartFND:
+          case fnd_id::RevisionManifestListStartFND:
             ONE_DEBUG_MSG(("RevisionManifestListStartFND\n"));
             temp.parse(input);
             skip(input, 4);
             break;
-          case FileNode::RevisionManifestStart4FND:
+          case fnd_id::RevisionManifestStart4FND:
             ONE_DEBUG_MSG(("RevisionManifestStart4FND\n"));
             skip(input, 8);
             role = readU32(input, false);
             skip(input, 2);
             break;
-          case FileNode::RevisionManifestStart7FND:
+          case fnd_id::RevisionManifestStart7FND:
             ONE_DEBUG_MSG(("RevisionManifestStart7FND NOT 6\n"));
             break;
-          case FileNode::RevisionManifestStart6FND:
+          case fnd_id::RevisionManifestStart6FND:
             ONE_DEBUG_MSG(("RevisionManifestStart6FND\n"));
             guid.parse(input);
             dependent.parse(input);
             role = readU32(input, false);
             odcsDefault = readU16(input, false);
             break;
-          case FileNode::ObjectGroupListReferenceFND:
+          case fnd_id::ObjectGroupListReferenceFND:
             ONE_DEBUG_MSG(("ObjectGroupListReferenceFND\n"));
             objects = group.list_parse(input, node.get_fnd());
             ONE_DEBUG_MSG(("got these objects:\n"));
             break;
 
-          case FileNode::RevisionManifestEndFND:
+          case fnd_id::RevisionManifestEndFND:
             ONE_DEBUG_MSG(("RevisionManifestEndFND\n"));
             DataSignatureGroup.zero();
             GlobalIdentificationTable.clear();
             break;
-          case FileNode::ObjectInfoDependencyOverridesFND:
+          case fnd_id::ObjectInfoDependencyOverridesFND:
             ONE_DEBUG_MSG(("ObjectInfoDependencyOverridesFND\n"));
             parse_dependencies (input, node);
             break;
-          case FileNode::RootObjectReference3FND:
+          case fnd_id::RootObjectReference3FND:
             temp.parse(input);
             root_objects[temp.to_string()] = readU32 (input);
             ONE_DEBUG_MSG(("RootObjectReference3FND: parsed %s = %u\n", temp.to_string().c_str(), root_objects[temp.to_string()]));
@@ -76,7 +76,7 @@ namespace libone {
             ONE_DEBUG_MSG(("Revision.cpp filenodeid unknown %u\n", node.get_FileNodeID()));
             break;
         }
-        if (node.get_FileNodeID() == FileNode::RevisionManifestStart7FND)
+        if (node.get_FileNodeID() == fnd_id::RevisionManifestStart7FND)
           context.parse(input);
     }
     input->seek(old, librevenge::RVNG_SEEK_SET);

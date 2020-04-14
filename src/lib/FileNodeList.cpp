@@ -83,7 +83,7 @@ namespace libone {
 
     if (!next_fragment_wanted) {
   	  node.parse(input);
-  	  if (node.get_FileNodeID() == FileNode::ChunkTerminatorFND)
+  	  if (node.get_FileNodeID() == fnd_id::ChunkTerminatorFND)
   	    next_fragment_wanted = true;
   	  else
     	  elements_parsed++;
@@ -110,7 +110,7 @@ namespace libone {
       next_fragment_wanted = false;
 	  }
 
-    if (node.get_FileNodeID() == FileNode::DUNNO)
+    if (node.get_FileNodeID() == fnd_id::fnd_invalid_id)
       end = true;
 
     if (elements_parsed == list_length) {

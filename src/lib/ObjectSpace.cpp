@@ -26,7 +26,7 @@ namespace libone {
     while (!list.is_end()) {
     node = list.get_next_node(input);
       switch (node.get_FileNodeID()) {
-        case FileNode::ObjectSpaceManifestListStartFND:
+        case fnd_id::ObjectSpaceManifestListStartFND:
           guid.parse(input);
           ONE_DEBUG_MSG(("\n"));
           if (!guid.is_equal(expected_guid)) {
@@ -35,7 +35,7 @@ namespace libone {
 	    }
           }
           break;
-        case FileNode::RevisionManifestListReferenceFND:
+        case fnd_id::RevisionManifestListReferenceFND:
           ONE_DEBUG_MSG(("RevisionManifestListReferenceFND\n"));
           node2 = node;
           node.skip_node(input);

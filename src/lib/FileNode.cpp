@@ -25,35 +25,35 @@ namespace libone {
 
     parse_header(input);
     switch (FileNodeID) {
-      case FileNode::ObjectSpaceManifestListStartFND:
-      case FileNode::RevisionManifestListStartFND:
-      case FileNode::RevisionManifestStart4FND:
-      case FileNode::RevisionManifestStart6FND:
-      case FileNode::RevisionManifestStart7FND:
-      case FileNode::RevisionManifestListReferenceFND:
-      case FileNode::ObjectGroupListReferenceFND:
-      case FileNode::ObjectSpaceManifestListReferenceFND:
-      case FileNode::ObjectSpaceManifestRootFND:
-      case FileNode::FileDataStoreListReferenceFND:
-      case FileNode::ObjectGroupStartFND:
-      case FileNode::GlobalIdTableStart2FND:
-      case FileNode::GlobalIdTableEntryFNDX:
-      case FileNode::GlobalIdTableEndFNDX:
-      case FileNode::DataSignatureGroupDefinitionFND:
-      case FileNode::ObjectDeclaration2RefCountFND:
-      case FileNode::ObjectGroupEndFND:
-      case FileNode::ObjectInfoDependencyOverridesFND:
-      case FileNode::RootObjectReference3FND:
-      case FileNode::RevisionManifestEndFND:
-      case FileNode::ObjectDeclarationFileData3RefCountFND:
-      case FileNode::ReadOnlyObjectDeclaration2RefCountFND:
-      case FileNode::FileDataStoreObjectReferenceFND:
+      case fnd_id::ObjectSpaceManifestListStartFND:
+      case fnd_id::RevisionManifestListStartFND:
+      case fnd_id::RevisionManifestStart4FND:
+      case fnd_id::RevisionManifestStart6FND:
+      case fnd_id::RevisionManifestStart7FND:
+      case fnd_id::RevisionManifestListReferenceFND:
+      case fnd_id::ObjectGroupListReferenceFND:
+      case fnd_id::ObjectSpaceManifestListReferenceFND:
+      case fnd_id::ObjectSpaceManifestRootFND:
+      case fnd_id::FileDataStoreListReferenceFND:
+      case fnd_id::ObjectGroupStartFND:
+      case fnd_id::GlobalIdTableStart2FND:
+      case fnd_id::GlobalIdTableEntryFNDX:
+      case fnd_id::GlobalIdTableEndFNDX:
+      case fnd_id::DataSignatureGroupDefinitionFND:
+      case fnd_id::ObjectDeclaration2RefCountFND:
+      case fnd_id::ObjectGroupEndFND:
+      case fnd_id::ObjectInfoDependencyOverridesFND:
+      case fnd_id::RootObjectReference3FND:
+      case fnd_id::RevisionManifestEndFND:
+      case fnd_id::ObjectDeclarationFileData3RefCountFND:
+      case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
+      case fnd_id::FileDataStoreObjectReferenceFND:
         break;
-      case FileNode::ChunkTerminatorFND:
+      case fnd_id::ChunkTerminatorFND:
         ONE_DEBUG_MSG(("ChunkTerminatorFND\n"));
         is_end = true;
         break;
-      case FileNode::TYPES_END:
+      case fnd_id::fnd_invalid_id:
         ONE_DEBUG_MSG(("padding everywhere\n"));
 //				while (readU16 (input) ==  0) {}
 //				input->seek(-2, librevenge::RVNG_SEEK_CUR);
@@ -62,7 +62,6 @@ namespace libone {
         break;
       default:
         ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
-        FileNodeID = DUNNO;
 //				input->seek(-4, librevenge::RVNG_SEEK_CUR);
 //				skip(input, Size);
         is_end = true;
@@ -75,62 +74,60 @@ namespace libone {
     stream << "FileNodeID " << std::hex << FileNodeID << " ";
 
     switch (FileNodeID) {
-      case FileNode::ObjectSpaceManifestListStartFND:
+      case fnd_id::ObjectSpaceManifestListStartFND:
         ONE_DEBUG_MSG(("ObjectSpaceManifestListStartFND\n"));
         break;
-      case FileNode::ChunkTerminatorFND:
+      case fnd_id::ChunkTerminatorFND:
         ONE_DEBUG_MSG(("ChunkTerminatorFND\n"));
         break;
-      case FileNode::RevisionManifestListStartFND:
+      case fnd_id::RevisionManifestListStartFND:
         ONE_DEBUG_MSG(("RevisionManifestListStart\n"));
         break;
-      case FileNode::RevisionManifestStart4FND:
+      case fnd_id::RevisionManifestStart4FND:
         ONE_DEBUG_MSG(("RevisionManifestStart4FND\n"));
         break;
-      case FileNode::RevisionManifestStart6FND:
+      case fnd_id::RevisionManifestStart6FND:
         ONE_DEBUG_MSG(("RevisionManifestStart6FND\n"));
         break;
-      case FileNode::RevisionManifestStart7FND:
+      case fnd_id::RevisionManifestStart7FND:
         ONE_DEBUG_MSG(("RevisionManifestStart\n"));
         break;
-      case FileNode::RevisionManifestListReferenceFND:
+      case fnd_id::RevisionManifestListReferenceFND:
           ONE_DEBUG_MSG(("RevisionManifestListReferenceFND\n"));
         break;
-      case FileNode::ObjectGroupListReferenceFND:
+      case fnd_id::ObjectGroupListReferenceFND:
         ONE_DEBUG_MSG(("ObjectGroupListReferenceFND\n"));
         break;
-      case FileNode::ObjectSpaceManifestListReferenceFND:
+      case fnd_id::ObjectSpaceManifestListReferenceFND:
         break;
-      case FileNode::ObjectSpaceManifestRootFND:
+      case fnd_id::ObjectSpaceManifestRootFND:
         ONE_DEBUG_MSG(("ObjectSpaceManifestListRootFND\n"));
         break;
-      case FileNode::FileDataStoreListReferenceFND:
+      case fnd_id::FileDataStoreListReferenceFND:
         ONE_DEBUG_MSG(("FileDataStoreListReferenceFND\n"));
         break;
-      case FileNode::ObjectGroupStartFND:
+      case fnd_id::ObjectGroupStartFND:
         ONE_DEBUG_MSG(("ObjectGroupStartFND\n"));
         break;
-      case FileNode::GlobalIdTableStart2FND:
+      case fnd_id::GlobalIdTableStart2FND:
         ONE_DEBUG_MSG(("GlobalIdTableStart2FND\n"));
         break;
-      case FileNode::GlobalIdTableEntryFNDX:
+      case fnd_id::GlobalIdTableEntryFNDX:
         ONE_DEBUG_MSG(("GlobalIdTableEntryFNDX\n"));
         break;
-      case FileNode::GlobalIdTableEndFNDX:
+      case fnd_id::GlobalIdTableEndFNDX:
         ONE_DEBUG_MSG(("GlobalIdTableEndFNDX\n"));
         break;
-      case FileNode::TYPES_END:
-        ONE_DEBUG_MSG(("NO TYPE\n"));
-        break;
-      case FileNode::DataSignatureGroupDefinitionFND:
+      case fnd_id::DataSignatureGroupDefinitionFND:
         ONE_DEBUG_MSG(("DataSignatureGroupDefinitionFND\n"));
         break;
-      case FileNode::ObjectDeclaration2RefCountFND:
+      case fnd_id::ObjectDeclaration2RefCountFND:
         ONE_DEBUG_MSG(("ObjectDeclaration2RefCountFND\n"));
         break;
-      case FileNode::ObjectGroupEndFND:
+      case fnd_id::ObjectGroupEndFND:
         ONE_DEBUG_MSG(("ObjectGroupEndFND\n"));
         break;
+      case fnd_id::fnd_invalid_id:
       default:
         ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
         break;
