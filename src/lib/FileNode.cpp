@@ -157,6 +157,7 @@ namespace libone {
 	    ONE_DEBUG_MSG(("%s\n", z.to_string().c_str()));
 	    ONE_DEBUG_MSG(("warning: d is zero\n"));
     }
+    assert (d == 1);
 	FileNodeChunkReference reference(format_stp, format_cb, input->tell());
 
     std::bitset<32> y(temp);
