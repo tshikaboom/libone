@@ -21,6 +21,8 @@
 namespace libone {
 
   void FileNode::parse(librevenge::RVNGInputStream *input) {
+    m_offset = input->tell();
+
     parse_header(input);
     switch (FileNodeID) {
       case FileNode::ObjectSpaceManifestListStartFND:
@@ -133,7 +135,7 @@ namespace libone {
         ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
         break;
     }
-    stream << std::hex << "Size " << Size << std::endl;
+    stream << std::hex << "Size " << m_size_in_file << std::endl;
     stream << std::hex << m_base_type << std::endl;
 
     return stream.str();
@@ -150,10 +152,10 @@ namespace libone {
     format_stp = static_cast<stp_format>((temp >> 23) & 0x3);
     format_cb = static_cast<cb_format>((temp >> 25) & 0x3);
     m_base_type = static_cast<fnd_basetype> ((temp >> 27) & 0xF);
-    Size = (temp >> 10) & 0x1FFF;
+    m_size_in_file = (temp >> 10) & 0x1FFF;
     FileNodeID = temp & 0x3FF;
     if (d == 0) {
-      std::bitset<13> z(Size);
+      std::bitset<13> z(m_size_in_file);
       ONE_DEBUG_MSG(("%s\n", z.to_string().c_str()));
       ONE_DEBUG_MSG(("warning: d is zero\n"));
     }
@@ -177,49 +179,7 @@ namespace libone {
   }
 
   void FileNode::skip_node(librevenge::RVNGInputStream *input) {
-    int ref_size = 0;
-    switch (get_Basetype()) {
-      case fnd_ref_data:
-      case fnd_ref_filenodelist:
-        switch (m_fnd.get_stp_fmt()) {
-          case stp_uncompressed_8:
-            ref_size += 8;
-            break;
-          case stp_uncompressed_4:
-          case stp_compressed_4:
-            ref_size += 4;
-            break;
-          case stp_compressed_2:
-            ref_size += 2;
-            break;
-      case stp_invalid:
-      default:
-        break;
-        }
-        switch (m_fnd.get_cb_fmt()) {
-          case cb_uncompressed_4:
-            ref_size += 4;
-            break;
-          case cb_uncompressed_8:
-            ref_size += 8;
-            break;
-          case cb_compressed_1:
-            ref_size += 1;
-            break;
-          case cb_compressed_2:
-            ref_size += 2;
-            break;
-      case cb_invalid:
-      default:
-        break;
-          }
-        default:
-          break;
-        }
-
-  (void) ref_size;
-   input->seek(Size - ref_size - 4, librevenge::RVNG_SEEK_CUR);
-    ONE_DEBUG_MSG(("\n"));
+    input->seek(m_offset + m_size_in_file, librevenge::RVNG_SEEK_CUR);
   }
 
   bool FileNode::isEnd() {
@@ -231,7 +191,7 @@ namespace libone {
   }
 
   uint32_t FileNode::get_Size() {
-    return Size;
+    return m_size_in_file;
   }
 
   enum fnd_basetype FileNode::get_Basetype() {

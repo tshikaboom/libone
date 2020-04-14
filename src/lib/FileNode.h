@@ -83,8 +83,9 @@ class FileNode {
 
 
   private:
+    uint32_t m_offset = 0;
     uint32_t FileNodeID = 0;
-    uint32_t Size = 0;
+    uint32_t m_size_in_file = 0;
     enum fnd_basetype m_base_type = fnd_invalid;
     static uint32_t const IDMask = 0xFFC00000;
     static uint32_t const SizeMask = 0x3FFE00;
