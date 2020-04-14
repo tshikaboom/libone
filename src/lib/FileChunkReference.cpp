@@ -26,7 +26,7 @@ namespace libone {
   {}
 
   void FileChunkReference::parse(librevenge::RVNGInputStream *input) {
-    input->seek(m_offset, librevenge::RVNG_SEEK_SET);
+    m_offset = input->tell();
 
     switch (m_type) {
       case Size64x64:
