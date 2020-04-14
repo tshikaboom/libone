@@ -32,10 +32,8 @@ namespace libone {
 		next_fragment_location = input->tell() + size - 8 - 12;
 //		ONE_DEBUG_MSG(("\n"));
 		uintMagic = readU64 (input, false);
-		if (uintMagic != 0xa4567ab1f5f7f4c4) {
-		  ONE_DEBUG_MSG(("uintMagic not correct; position %ld\n", input->tell()));
-		  end = true;
-		}
+		assert(uintMagic == 0xa4567ab1f5f7f4c4);
+
 		FileNodeListID = readU32 (input, false);/*
 		for (auto i: Transactions) {
 		  if (i.first == FileNodeListID) {
@@ -97,13 +95,7 @@ namespace libone {
       input->seek(next_fragment_location, librevenge::RVNG_SEEK_SET);
       next_fragment.parse(input);
 
-      if (readU64(input, false) != 0x8BC215C38233BA4B) {
-        FileNode zero;
-        ONE_DEBUG_MSG(("footer not correct, position %ld\n", input->tell()));
-        end = true;
-        zero.zero();
-        return zero;
-      }
+      assert (readU64(input, false) == 0x8BC215C38233BA4B);
 
       if (next_fragment.is_fcrNil()) end = true;
       else {
