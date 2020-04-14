@@ -20,13 +20,6 @@
 #include "libone_utils.h"
 #include "OneNoteParser.h"
 
-using boost::scoped_ptr;
-using boost::shared_ptr;
-
-using librevenge::RVNGInputStream;
-
-using std::equal;
-
 namespace {
 
 enum OneNoteVersion
