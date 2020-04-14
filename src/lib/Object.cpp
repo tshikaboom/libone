@@ -83,7 +83,7 @@ namespace libone {
     }
   }
 
-	void Object::parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref) {
+	void Object::parse_list(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
   	ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs(guid);
 	  ObjectSpaceStreamOfOSIDs osids = ObjectSpaceStreamOfOSIDs();
 	  ObjectSpaceStreamOfContextIDs contexts = ObjectSpaceStreamOfContextIDs();

@@ -118,7 +118,7 @@ namespace libone {
       uint32_t total_transactions = header.cTransactionsInLog;
       uint32_t transactions = 0;
       TransactionEntry entry;
-      FileChunkReference nextFragment = FileChunkReference();
+      FileChunkReference nextFragment = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
       input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
 
@@ -135,7 +135,7 @@ namespace libone {
         }
       }
 //      ONE_DEBUG_MSG << "position " << input->tell() << " before next fragment\n";
-      nextFragment.parse(input, FileChunkReference::mode::Type64x32);
+      nextFragment.parse(input);
       ONE_DEBUG_MSG(("%s position %ld\n", nextFragment.to_string().c_str(), input->tell()));
 //      ONE_DEBUG_MSG << "last entry " << entry.to_string () << "\n";
       ONE_DEBUG_MSG(("parsed %d, total %d\n", transactions, total_transactions));

@@ -18,14 +18,14 @@
 #include "ExtendedGUID.h"
 #include "JCID.h"
 #include "FileNodeList.h"
-#include "FileChunkReference.h"
+#include "FileNodeChunkReference.h"
 #include "PropertySet.h"
 
 namespace libone {
 
   struct object_header {
     ExtendedGUID guid = ExtendedGUID();
-    FileChunkReference body = FileChunkReference();
+    FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
     JCID jcid = JCID(0);
     uint32_t ref_count = 0;
     uint16_t fHasOidReferences = 0;
@@ -43,10 +43,10 @@ class Object {
     void to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects);
 
   protected:
-    void parse_list(librevenge::RVNGInputStream *input, FileChunkReference ref);
+    void parse_list(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
 
   private:
-    FileChunkReference body = FileChunkReference();
+    FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
     PropertySet set = PropertySet();
 
     bool read_only = false;

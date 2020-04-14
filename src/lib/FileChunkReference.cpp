@@ -17,17 +17,29 @@
 
 namespace libone {
 
-	void FileChunkReference::parse(librevenge::RVNGInputStream *input, mode size) {
-    size_mode = size;
-	  switch (size) {
-	    case Type64x64:
-	      parse(input, 0, 1);
+	FileChunkReference::FileChunkReference(enum FileChunkReferenceSize fcr_size) :
+		m_type(fcr_size),
+		m_offset(0),
+		m_size_in_file(0),
+		m_stp(0),
+		m_cb(0)
+	{}
+
+	void FileChunkReference::parse(librevenge::RVNGInputStream *input) {
+		input->seek(m_offset, librevenge::RVNG_SEEK_SET);
+
+	  switch (m_type) {
+	    case Size64x64:
+	      m_stp = readU64(input, false);
+		  m_cb = readU64(input, false);
 	      break;
-	    case Type32x32:
-	      parse(input, 1, 0);
+	    case Size32x32:
+	      m_stp = readU32(input, false);
+		  m_cb = readU32(input, false);
 	      break;
-	    case Type64x32:
-	      parse(input, 0, 0);
+	    case Size64x32:
+	      m_stp = readU64(input, false);
+		  m_cb = readU32(input, false);
 	      break;
 	    default:
 	      ONE_DEBUG_MSG(("FileChunkReference: not good!\n"));
@@ -35,63 +47,11 @@ namespace libone {
 	  }
 	}
 
-	void FileChunkReference::parse(librevenge::RVNGInputStream *input, uint32_t a, uint32_t b) {
-	  bool stp64 = false;
-	  bool cb64 = false;
-		switch (a) {
-			case 1:
-				stp = readU32 (input, false);
-				size_in_file += 4;
-				break;
-			case 2:
-				stp = readU16 (input, false) * 8;
-				size_in_file += 2;
-				break;
-			case 3:
-				stp = readU32 (input, false) * 8;
-				size_in_file += 4;
-				stp64 = true;
-				break;
-			case 0:
-				stp = readU64 (input, false);
-				size_in_file += 8;
-				stp64 = true;
-				break;
-			default:
-				break;
-		}
-		switch (b) {
-			case 0:
-				cb = readU32(input, false);
-				size_in_file += 4;
-				break;
-			case 1:
-				cb = readU64(input, false);
-				cb64 = true;
-				size_in_file += 8;
-				break;
-			case 2:
-				cb = readU8(input) * 8;
-				size_in_file += 1;
-				break;
-			case 3:
-				cb = readU16(input, false) * 8;
-				size_in_file += 2;
-				break;
-			default:
-				break;
-			}
-
-		if (stp64 && cb64) size_mode = Type64x64;
-		if (stp64 && !cb64) size_mode = Type64x32;
-		if (!stp64 && !cb64) size_mode = Type32x32;
-
-	}
 	long FileChunkReference::get_location() {
-		return stp;
+		return m_stp;
 	}
 	long FileChunkReference::get_size() {
-		return cb;
+		return m_cb;
 	}
 
 	std::string FileChunkReference::to_string() {
@@ -99,19 +59,19 @@ namespace libone {
 		if (is_fcrNil ()) return "fcrNil";
 		if (is_fcrZero ()) return "fcrZero";
 
-    switch (size_mode) {
-      case Type32x32:
-    		stream << std::hex << "stp32 " << stp << " cb32 " << cb;
+    switch (m_type) {
+      case Size32x32:
+    		stream << std::hex << "stp32 " << m_stp << " cb32 " << m_cb;
     		break;
-    	case Type64x32:
-    		stream << std::hex << "stp64 " << stp << " cb32 " << cb;
+    	case Size64x32:
+    		stream << std::hex << "stp64 " << m_stp << " cb32 " << m_cb;
     		break;
-    	case Type64x64:
-    		stream << std::hex << "stp64 " << stp << " cb64 " << cb;
+    	case Size64x64:
+    		stream << std::hex << "stp64 " << m_stp << " cb64 " << m_cb;
     		break;
-    	case NIL:
+    	case fcr_size_invalid:
     	default:
-    	  stream << "NIL invalid FileChunkReference";
+    	  stream << "fcr_size_invalid invalid FileChunkReference";
     	  break;
     }
 
@@ -119,31 +79,31 @@ namespace libone {
 	}
 
   bool FileChunkReference::is_fcrNil() {
-    bool cbval = (cb == 0);
-    switch (size_mode) {
-      case Type32x32:
-        return (cbval && (stp & 0xFFFFFFFF));
-      case Type64x64:
-      case Type64x32:
-        return (cbval && (stp & 0xFFFFFFFFFFFFFFFF));
+    bool cbval = (m_cb == 0);
+    switch (m_type) {
+      case Size32x32:
+        return (cbval && (m_stp & 0xFFFFFFFF));
+      case Size64x64:
+      case Size64x32:
+        return (cbval && (m_stp & 0xFFFFFFFFFFFFFFFF));
       default:
         return false;
     }
   }
 
   bool FileChunkReference::is_fcrZero() {
-    return ((stp == 0) && (cb == 0));
+    return ((m_stp == 0) && (m_cb == 0));
   }
 
   void FileChunkReference::set_zero() {
-    stp = 0;
-    cb = 0;
-    size_in_file = 0;
-    size_mode = NIL;
+    m_stp = 0;
+    m_cb = 0;
+    m_size_in_file = 0;
+    m_type = fcr_size_invalid;
   }
 
   // Size of the structure in bytes. Used for seeking
-  long FileChunkReference::get_size_on_file() {
-    return size_in_file;
+  long FileChunkReference::get_size_in_file() {
+    return m_size_in_file;
   }
 }

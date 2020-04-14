@@ -69,7 +69,7 @@ namespace libone {
 
 	FileNode FileNodeList::get_next_node(librevenge::RVNGInputStream *input) {
 	  bool next_fragment_wanted = false;
-	  FileChunkReference next_fragment;
+	  FileChunkReference next_fragment = FileChunkReference(FileChunkReferenceSize::Size64x32);
 	  FileNode node;
 	  if (!header_parsed) {
 	    parse_header(input);
@@ -95,7 +95,7 @@ namespace libone {
 
 	  if (next_fragment_wanted) {
       input->seek(next_fragment_location, librevenge::RVNG_SEEK_SET);
-      next_fragment.parse(input, FileChunkReference::mode::Type64x32);
+      next_fragment.parse(input);
 
       if (readU64(input, false) != 0x8BC215C38233BA4B) {
         FileNode zero;

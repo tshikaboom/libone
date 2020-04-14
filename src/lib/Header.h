@@ -31,8 +31,8 @@ class Header {
     uint32_t ffvNewestCodeThatHasWrittenToThisFile = 0;
     uint32_t ffvOldestCodeThatMayReadThisFile = 0;
 
-    FileChunkReference fcrLegacyFreeChunkList = FileChunkReference();
-    FileChunkReference fcrLegacyTransactionLog = FileChunkReference();
+    FileChunkReference fcrLegacyFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size32x32);
+    FileChunkReference fcrLegacyTransactionLog = FileChunkReference(FileChunkReferenceSize::Size32x32);
 
     uint32_t cTransactionsInLog = 0;
 
@@ -40,7 +40,7 @@ class Header {
 
     uint64_t rgbPlaceholder = 0;
 
-    FileChunkReference fcrLegacyFileNodeListRoot = FileChunkReference();
+    FileChunkReference fcrLegacyFileNodeListRoot = FileChunkReference(FileChunkReferenceSize::Size32x32);
 
     uint32_t cbLegacyFreeSpaceInFreeChunkList = 0;
 
@@ -50,13 +50,13 @@ class Header {
 
     uint32_t crcName = 0;
 
-    FileChunkReference fcrHashedChunkList = FileChunkReference();
+    FileChunkReference fcrHashedChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    FileChunkReference fcrTransactionLog = FileChunkReference();
+    FileChunkReference fcrTransactionLog = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    FileChunkReference fcrFileNodeListRoot = FileChunkReference();
+    FileChunkReference fcrFileNodeListRoot = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    FileChunkReference fcrFreeChunkList = FileChunkReference();
+    FileChunkReference fcrFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
     uint64_t cbExpectedFileLength = 0;
 
@@ -70,9 +70,9 @@ class Header {
 
     uint32_t grfDebugLogFlags = 0;
 
-    FileChunkReference fcrDebugLog = FileChunkReference();
+    FileChunkReference fcrDebugLog = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    FileChunkReference fcrAllocVerificationFreeChunkList = FileChunkReference();
+    FileChunkReference fcrAllocVerificationFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
     uint32_t bnCreated = 0;
 

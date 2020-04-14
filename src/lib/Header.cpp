@@ -40,9 +40,9 @@ namespace libone {
     ffvOldestCodeThatHasWrittenToThisFile = readU32 (input, false);
     ffvNewestCodeThatHasWrittenToThisFile = readU32 (input, false);
 
-    fcrLegacyFreeChunkList.parse(input, FileChunkReference::mode::Type32x32);
+    fcrLegacyFreeChunkList.parse(input);
 
-    fcrLegacyTransactionLog.parse(input, FileChunkReference::mode::Type32x32);
+    fcrLegacyTransactionLog.parse(input);
 
     cTransactionsInLog = readU32 (input, false);
 
@@ -50,7 +50,7 @@ namespace libone {
 
     rgbPlaceholder = readU64 (input, false);
 
-    fcrLegacyFileNodeListRoot.parse(input, FileChunkReference::mode::Type32x32);
+    fcrLegacyFileNodeListRoot.parse(input);
 
     cbLegacyFreeSpaceInFreeChunkList = readU32 (input, false);
 
@@ -60,13 +60,13 @@ namespace libone {
 
     crcName = readU32 (input, false);
 
-    fcrHashedChunkList.parse(input, FileChunkReference::mode::Type64x32);
+    fcrHashedChunkList.parse(input);
 
-    fcrTransactionLog.parse(input, FileChunkReference::mode::Type64x32);
+    fcrTransactionLog.parse(input);
 
-    fcrFileNodeListRoot.parse(input, FileChunkReference::mode::Type64x32);
+    fcrFileNodeListRoot.parse(input);
 
-    fcrFreeChunkList.parse(input, FileChunkReference::mode::Type64x32);
+    fcrFreeChunkList.parse(input);
 
     cbExpectedFileLength = readU64 (input, false);
 
@@ -80,9 +80,9 @@ namespace libone {
 
     grfDebugLogFlags = readU32 (input, false);
 
-    fcrDebugLog.parse(input, FileChunkReference::mode::Type64x32);
+    fcrDebugLog.parse(input);
 
-    fcrAllocVerificationFreeChunkList.parse(input, FileChunkReference::mode::Type64x32);
+    fcrAllocVerificationFreeChunkList.parse(input);
 
     bnCreated = readU32 (input, false);
     bnLastWroteToThisFile = readU32 (input, false);
