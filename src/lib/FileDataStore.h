@@ -19,7 +19,7 @@ namespace libone {
 class FileDataStore {
   public:
 
-    void parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
+    void parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
     std::string to_string();
 
 

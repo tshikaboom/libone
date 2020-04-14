@@ -133,20 +133,23 @@ namespace libone {
 				ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
 				break;
     }
-		stream << std::hex << "Size " << Size << '\n';
-		stream << std::hex << "A " << StpFormat << " B " << CbFormat << " C " << BaseType << " D " << d << "\n";
+		stream << std::hex << "Size " << Size << std::endl;
+		stream << std::hex << m_base_type << std::endl;
 
 		return stream.str();
 	}
 
 	void FileNode::parse_header(librevenge::RVNGInputStream *input) {
-		unsigned int temp;
-		FileChunkReference reference;
+		uint32_t temp;
+		enum stp_format format_stp;
+		enum cb_format format_cb;
+		int d;
+
 		temp = readU32 (input, false);
 		d = temp >> 31;
-		BaseType = (temp >> 27) & 0xF;
-		CbFormat = (temp >> 25) & 0x3;
-		StpFormat = (temp >> 23) & 0x3;
+		format_stp = static_cast<stp_format>((temp >> 23) & 0x3);
+		format_cb = static_cast<cb_format>((temp >> 25) & 0x3);
+		m_base_type = static_cast<fnd_basetype> ((temp >> 27) & 0xF);
 		Size = (temp >> 10) & 0x1FFF;
 		FileNodeID = temp & 0x3FF;
 		if (d == 0) {
@@ -154,55 +157,60 @@ namespace libone {
 	    ONE_DEBUG_MSG(("%s\n", z.to_string().c_str()));
 	    ONE_DEBUG_MSG(("warning: d is zero\n"));
     }
+	FileNodeChunkReference reference(format_stp, format_cb, input->tell());
+
     std::bitset<32> y(temp);
     ONE_DEBUG_MSG((" filenode bits %s\n", y.to_string().c_str()));
-		switch(get_Basetype()) {
-		  case 1:
-  			reference.parse(input, get_StpFormat(), get_CbFormat());
+		switch(m_base_type) {
+		  case fnd_ref_data:
+		  case fnd_ref_filenodelist:
+  			reference.parse(input);
     		ONE_DEBUG_MSG(("\n"));
     		break;
-    	case 2:
-				reference.parse(input, get_StpFormat(), get_CbFormat());
-    	  ONE_DEBUG_MSG(("\n"));
-    	  break;
-    	case 0:
+    	case fnd_no_data:
     	default:
 	      reference.set_zero();
 	      ONE_DEBUG_MSG(("\n"));
 		}
-		ref = reference;
+		m_fnd = reference;
 	}
 
 	void FileNode::skip_node(librevenge::RVNGInputStream *input) {
 	  int ref_size = 0;
 	  switch (get_Basetype()) {
-	    case 1:
-	    case 2:
-	      switch (get_StpFormat()) {
-	        case 0:
+	    case fnd_ref_data:
+	    case fnd_ref_filenodelist:
+	      switch (m_fnd.get_stp_fmt()) {
+	        case stp_uncompressed_8:
             ref_size += 8;
             break;
-          case 1:
-          case 3:
+          case stp_uncompressed_4:
+          case stp_compressed_4:
             ref_size += 4;
             break;
-          case 2:
+          case stp_compressed_2:
             ref_size += 2;
             break;
+		  case stp_invalid:
+		  default:
+		  	break;
 	      }
-	      switch (get_CbFormat()) {
-	        case 0:
+	      switch (m_fnd.get_cb_fmt()) {
+	        case cb_uncompressed_4:
 	          ref_size += 4;
 	          break;
-	        case 1:
+	        case cb_uncompressed_8:
 	          ref_size += 8;
 	          break;
-	        case 2:
+	        case cb_compressed_1:
 	          ref_size += 1;
 	          break;
-	        case 3:
+	        case cb_compressed_2:
 	          ref_size += 2;
 	          break;
+			case cb_invalid:
+			default:
+			  break;
 	        }
 	      default:
 	        break;
@@ -225,24 +233,12 @@ namespace libone {
 		return Size;
 	}
 
-	uint32_t FileNode::get_StpFormat() {
-		return StpFormat;
+	enum fnd_basetype FileNode::get_Basetype() {
+		return m_base_type;
 	}
 
-	uint32_t FileNode::get_CbFormat() {
-		return CbFormat;
-	}
-
-	uint32_t FileNode::get_Basetype() {
-		return BaseType;
-	}
-
-	uint32_t FileNode::get_D() {
-		return d;
-	}
-
-	FileChunkReference FileNode::get_ref() {
-	  return ref;
+	FileNodeChunkReference FileNode::get_fnd() {
+	  return m_fnd;
 	}
 }
 

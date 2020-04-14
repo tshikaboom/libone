@@ -18,7 +18,7 @@
 
 namespace libone {
 
-  void Revision::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
+  void Revision::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
     FileNodeList list(ref.get_location(), ref.get_size());
     FileNode node;
 //    ObjectGroup group;
@@ -54,7 +54,7 @@ namespace libone {
             break;
           case FileNode::ObjectGroupListReferenceFND:
             ONE_DEBUG_MSG(("ObjectGroupListReferenceFND\n"));
-            objects = group.list_parse(input, node.get_ref());
+            objects = group.list_parse(input, node.get_fnd());
             ONE_DEBUG_MSG(("got these objects:\n"));
             break;
 
@@ -107,10 +107,10 @@ namespace libone {
     (void) n_8bitoverrides;
     (void) n_32bitoverrides;
 
-    if (!node.get_ref().is_fcrNil()) {
+    if (!node.get_fnd().is_fcrNil()) {
       ONE_DEBUG_MSG((" for dependencies\n"));
       old = input->tell();
-      input->seek(node.get_ref().get_location(), librevenge::RVNG_SEEK_SET);
+      input->seek(node.get_fnd().get_location(), librevenge::RVNG_SEEK_SET);
     }
 
     n_8bitoverrides = readU32 (input, false);
@@ -128,7 +128,7 @@ namespace libone {
       ONE_DEBUG_MSG(("\n"));
     } */
 
-    if (!node.get_ref().is_fcrNil())
+    if (!node.get_fnd().is_fcrNil())
       input->seek(old, librevenge::RVNG_SEEK_SET);
 
   }

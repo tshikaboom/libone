@@ -21,7 +21,7 @@ namespace libone {
 
 class Revision {
   public:
-    void list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref);
+    void list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
     std::string get_guid();
     std::string to_string();
     ObjectGroup group = ObjectGroup();

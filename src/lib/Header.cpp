@@ -111,7 +111,7 @@ namespace libone {
             break;
           case FileNode::FileDataStoreListReferenceFND:
             ONE_DEBUG_MSG(("RootFileNodeList FileDataStoreListReferenceFND"));
-            store.parse(input, node.get_ref());
+            store.parse(input, node.get_fnd());
             break;
           case FileNode::ObjectSpaceManifestListReferenceFND: // parse this later
             ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestListReferenceFND skipping\n"));

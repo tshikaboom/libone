@@ -18,7 +18,7 @@
 
 namespace libone {
 
-  void FileDataStore::parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
+  void FileDataStore::parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
     FileNodeList list(ref.get_location(), ref.get_size());
     FileNode node;
     long old = input->tell();
@@ -35,7 +35,7 @@ namespace libone {
         reference.parse(input);
         ONE_DEBUG_MSG(("\n"));
         old2 = input->tell();
-        input->seek(node.get_ref().get_location(), librevenge::RVNG_SEEK_SET);
+        input->seek(node.get_fnd().get_location(), librevenge::RVNG_SEEK_SET);
         _header.parse(input);
 //        ONE_DEBUG_MSG(("\n"));
         data.length = readU64 (input);

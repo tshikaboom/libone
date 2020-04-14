@@ -14,7 +14,7 @@
 namespace libone {
 
 
-  void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileChunkReference ref) {
+  void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileNodeChunkReference ref) {
     Revision rev;
     FileNode node;
     FileNode node2;
@@ -47,7 +47,7 @@ namespace libone {
     }
 
     ONE_DEBUG_MSG(("trying to parse last revision\n"));
-    rev.list_parse(input, node2.get_ref());
+    rev.list_parse(input, node2.get_fnd());
     revisions.push_back(rev);
     ONE_DEBUG_MSG(("\n"));
     input->seek(old, librevenge::RVNG_SEEK_SET);

@@ -23,7 +23,7 @@ namespace libone {
 
 class ObjectSpace {
   public:
-    void list_parse(librevenge::RVNGInputStream *input, ExtendedGUID guid, FileChunkReference ref); // Assume we're at the beginning of a FileNode list
+    void list_parse(librevenge::RVNGInputStream *input, ExtendedGUID guid, FileNodeChunkReference ref); // Assume we're at the beginning of a FileNode list
 //    std::unordered_map<std::string, libone::Object> ObjectMap = std::unordered_map<std::string, libone::Object>();
     std::unordered_map<std::string, libone::Revision> RevisionMap = std::unordered_map<std::string, libone::Revision>();
     void to_document(librevenge::RVNGDrawingInterface *document);

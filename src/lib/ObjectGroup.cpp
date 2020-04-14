@@ -12,7 +12,7 @@
 
 namespace libone {
 
-  std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileChunkReference ref) {
+  std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
     FileNodeList list (ref.get_location(), ref.get_size());
     std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();
     uint32_t index;
@@ -42,7 +42,7 @@ namespace libone {
           break;
         case FileNode::ObjectDeclaration2RefCountFND:
           ONE_DEBUG_MSG(("ObjectDeclaration2RefCountFND\n"));
-          ONE_DEBUG_MSG(("going to parse %lu\n",node.get_ref().get_location()));
+          ONE_DEBUG_MSG(("going to parse %lu\n",node.get_fnd().get_location()));
 //          node.parse_ObjectDeclaration2RefCountFND(input, ref);
 //          object.parse(input, node.get_ref());
 //          object_map[object.get_guid().to_string()] = object;

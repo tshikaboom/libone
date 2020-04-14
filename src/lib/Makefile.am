@@ -43,6 +43,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	ExtendedGUID.h \
 	FileChunkReference.h \
 	FileChunkReference.cpp \
+	FileNodeChunkReference.h \
+	FileNodeChunkReference.cpp \
 	FileDataStore.cpp \
 	FileDataStore.h \
 	FileNode.cpp \

@@ -10,13 +10,20 @@
 #ifndef INCLUDED_LIBONE_FILENODE_H
 #define INCLUDED_LIBONE_FILENODE_H
 
-#include "FileChunkReference.h"
+#include "FileNodeChunkReference.h"
 #include <librevenge-stream/librevenge-stream.h>
 
 
 
 
 namespace libone {
+
+enum fnd_basetype {
+  fnd_no_data = 0,
+  fnd_ref_data = 1,
+  fnd_ref_filenodelist = 2,
+  fnd_invalid
+};
 
 class FileNode {
   public:
@@ -26,12 +33,9 @@ class FileNode {
     void zero() { is_end = true; }
     uint32_t get_FileNodeID();
     uint32_t get_Size();
-    uint32_t get_StpFormat();
-    uint32_t get_CbFormat();
-    uint32_t get_Basetype();
-    uint32_t get_D();
+    enum fnd_basetype get_Basetype();
     bool isEnd();
-    FileChunkReference get_ref();
+    FileNodeChunkReference get_fnd();
 
     enum {
       ObjectSpaceManifestRootFND =          0x004,
@@ -81,13 +85,13 @@ class FileNode {
   private:
     uint32_t FileNodeID = 0;
     uint32_t Size = 0;
-    uint16_t StpFormat = 0, CbFormat = 0, BaseType = 0, d = 0;
+    enum fnd_basetype m_base_type = fnd_invalid;
     static uint32_t const IDMask = 0xFFC00000;
     static uint32_t const SizeMask = 0x3FFE00;
     static uint32_t const ABCDMask = 0x1FF;
     bool is_end = false;
     void parse_header(librevenge::RVNGInputStream *input);
-		FileChunkReference ref = FileChunkReference();
+		FileNodeChunkReference m_fnd = FileNodeChunkReference(stp_invalid, cb_invalid, 0);
 
 
 };
