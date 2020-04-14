@@ -31,8 +31,7 @@ namespace libone {
 //		ONE_DEBUG_MSG(("fragment position begin ")) << std::hex << input->tell() << '\n';
         next_fragment_location = input->tell() + size - 8 - 12;
 //		ONE_DEBUG_MSG(("\n"));
-        uintMagic = readU64 (input, false);
-        assert(uintMagic == 0xa4567ab1f5f7f4c4);
+        assert(readU64 (input, false) == header_magic_id);
 
         FileNodeListID = readU32 (input, false);/*
         for (auto i: Transactions) {
@@ -57,7 +56,6 @@ namespace libone {
 
     std::string FileNodeList::to_string() {
         std::stringstream stream;
-        stream << std::hex << "uintMagic " << uintMagic << '\n';
         stream << std::dec << "FileNodeListID " << FileNodeListID << '\n';
         stream << "nFragmentSequence " << nFragmentSequence << '\n';
         for (FileNode i: rgFileNodes)
@@ -95,7 +93,7 @@ namespace libone {
       input->seek(next_fragment_location, librevenge::RVNG_SEEK_SET);
       next_fragment.parse(input);
 
-      assert (readU64(input, false) == 0x8BC215C38233BA4B);
+      assert (readU64(input, false) == footer_magic_id);
 
       if (next_fragment.is_fcrNil()) end = true;
       else {

@@ -28,7 +28,6 @@ class FileNodeList {
 
   private:
     void parse_header(librevenge::RVNGInputStream *input);
-    uint64_t uintMagic = 0;
     uint32_t FileNodeListID = 0;
     uint32_t nFragmentSequence = 0;
     std::vector<FileNode> rgFileNodes = std::vector<FileNode>();
@@ -44,6 +43,8 @@ class FileNodeList {
     uint32_t list_length = 0;
     uint32_t elements_parsed = 0;
 
+    const uint64_t header_magic_id = 0xA4567AB1F5F7F4C4;
+    const uint64_t footer_magic_id = 0x8BC215C38233BA4B;
 };
 
 
