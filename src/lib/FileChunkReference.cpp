@@ -17,66 +17,66 @@
 
 namespace libone {
 
-	FileChunkReference::FileChunkReference(enum FileChunkReferenceSize fcr_size) :
-		m_type(fcr_size),
-		m_offset(0),
-		m_size_in_file(0),
-		m_stp(0),
-		m_cb(0)
-	{}
+  FileChunkReference::FileChunkReference(enum FileChunkReferenceSize fcr_size) :
+    m_type(fcr_size),
+    m_offset(0),
+    m_size_in_file(0),
+    m_stp(0),
+    m_cb(0)
+  {}
 
-	void FileChunkReference::parse(librevenge::RVNGInputStream *input) {
-		input->seek(m_offset, librevenge::RVNG_SEEK_SET);
+  void FileChunkReference::parse(librevenge::RVNGInputStream *input) {
+    input->seek(m_offset, librevenge::RVNG_SEEK_SET);
 
-	  switch (m_type) {
-	    case Size64x64:
-	      m_stp = readU64(input, false);
-		  m_cb = readU64(input, false);
-	      break;
-	    case Size32x32:
-	      m_stp = readU32(input, false);
-		  m_cb = readU32(input, false);
-	      break;
-	    case Size64x32:
-	      m_stp = readU64(input, false);
-		  m_cb = readU32(input, false);
-	      break;
-	    default:
-	      ONE_DEBUG_MSG(("FileChunkReference: not good!\n"));
-	      break;
-	  }
-	}
+    switch (m_type) {
+      case Size64x64:
+        m_stp = readU64(input, false);
+      m_cb = readU64(input, false);
+        break;
+      case Size32x32:
+        m_stp = readU32(input, false);
+      m_cb = readU32(input, false);
+        break;
+      case Size64x32:
+        m_stp = readU64(input, false);
+      m_cb = readU32(input, false);
+        break;
+      default:
+        ONE_DEBUG_MSG(("FileChunkReference: not good!\n"));
+        break;
+    }
+  }
 
-	long FileChunkReference::get_location() {
-		return m_stp;
-	}
-	long FileChunkReference::get_size() {
-		return m_cb;
-	}
+  long FileChunkReference::get_location() {
+    return m_stp;
+  }
+  long FileChunkReference::get_size() {
+    return m_cb;
+  }
 
-	std::string FileChunkReference::to_string() {
-		std::stringstream stream;
-		if (is_fcrNil ()) return "fcrNil";
-		if (is_fcrZero ()) return "fcrZero";
+  std::string FileChunkReference::to_string() {
+    std::stringstream stream;
+    if (is_fcrNil ()) return "fcrNil";
+    if (is_fcrZero ()) return "fcrZero";
 
     switch (m_type) {
       case Size32x32:
-    		stream << std::hex << "stp32 " << m_stp << " cb32 " << m_cb;
-    		break;
-    	case Size64x32:
-    		stream << std::hex << "stp64 " << m_stp << " cb32 " << m_cb;
-    		break;
-    	case Size64x64:
-    		stream << std::hex << "stp64 " << m_stp << " cb64 " << m_cb;
-    		break;
-    	case fcr_size_invalid:
-    	default:
-    	  stream << "fcr_size_invalid invalid FileChunkReference";
-    	  break;
+        stream << std::hex << "stp32 " << m_stp << " cb32 " << m_cb;
+        break;
+      case Size64x32:
+        stream << std::hex << "stp64 " << m_stp << " cb32 " << m_cb;
+        break;
+      case Size64x64:
+        stream << std::hex << "stp64 " << m_stp << " cb64 " << m_cb;
+        break;
+      case fcr_size_invalid:
+      default:
+        stream << "fcr_size_invalid invalid FileChunkReference";
+        break;
     }
 
-		return stream.str();
-	}
+    return stream.str();
+  }
 
   bool FileChunkReference::is_fcrNil() {
     bool cbval = (m_cb == 0);
