@@ -92,7 +92,7 @@ namespace libone {
     DBMSG << "Will parse at " << m_offset << std::endl;
 
     parse_header(input);
-    switch (FileNodeID) {
+    switch (m_fnd_id) {
       case fnd_id::ObjectSpaceManifestListStartFND:
       case fnd_id::RevisionManifestListStartFND:
       case fnd_id::RevisionManifestStart4FND:
@@ -117,22 +117,10 @@ namespace libone {
       case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
       case fnd_id::FileDataStoreObjectReferenceFND:
         break;
-      case fnd_id::ChunkTerminatorFND:
-        ONE_DEBUG_MSG(("ChunkTerminatorFND\n"));
-        is_end = true;
-        break;
       case fnd_id::fnd_invalid_id:
-        ONE_DEBUG_MSG(("padding everywhere\n"));
-//				while (readU16 (input) ==  0) {}
-//				input->seek(-2, librevenge::RVNG_SEEK_CUR);
-//        ref.parse(input, FileChunkReference::mode::Type64x32);
-        is_end = true;
-        break;
       default:
-        ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
-//				input->seek(-4, librevenge::RVNG_SEEK_CUR);
-//				skip(input, Size);
-        is_end = true;
+        DBMSG << "dunno but value is " << m_fnd_id << std::endl;
+        assert(false);
         break;
     }
   }
@@ -171,12 +159,11 @@ namespace libone {
 
     temp = readU32 (input, false);
     d = temp >> 31;
-    format_stp = static_cast<stp_format>((temp >> 23) & 0x3);
-    format_cb = static_cast<cb_format>((temp >> 25) & 0x3);
-    m_base_type = static_cast<fnd_basetype> ((temp >> 27) & 0xF);
-    m_fnd_id = static_cast<fnd_id> (temp & 0x3FF);
-    m_size_in_file = (temp >> 10) & 0x1FFF;
-    FileNodeID = temp & 0x3FF;
+    format_stp = static_cast<stp_format>((temp >> shift_format_stp) & mask_format_stp);
+    format_cb = static_cast<cb_format>((temp >> shift_format_cb) & mask_format_cb);
+    m_base_type = static_cast<fnd_basetype> ((temp >> shift_base_type) & mask_fnd_base_type);
+    m_fnd_id = static_cast<fnd_id> (temp & mask_fnd_id);
+    m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;
     if (d == 0) {
       std::bitset<13> z(m_size_in_file);
       ONE_DEBUG_MSG(("%s\n", z.to_string().c_str()));

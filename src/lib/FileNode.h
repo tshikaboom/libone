@@ -74,31 +74,32 @@ class FileNode {
   public:
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
+
     void skip_node(librevenge::RVNGInputStream *input);
-    void zero() { is_end = true; }
+
     enum fnd_id get_FileNodeID() { return m_fnd_id; }
     uint32_t get_Size() { return m_size_in_file; }
     enum fnd_basetype get_Basetype() { return m_base_type; }
-    bool isEnd() { return is_end; }
     FileNodeChunkReference get_fnd() { return m_fnd; }
-
-
-
 
   private:
     uint32_t m_offset = 0;
-    uint32_t FileNodeID = 0;
     uint32_t m_size_in_file = 0;
     enum fnd_id m_fnd_id = fnd_invalid_id;
     enum fnd_basetype m_base_type = fnd_invalid_basetype;
-    static uint32_t const IDMask = 0xFFC00000;
-    static uint32_t const SizeMask = 0x3FFE00;
-    static uint32_t const ABCDMask = 0x1FF;
-    bool is_end = false;
     void parse_header(librevenge::RVNGInputStream *input);
 		FileNodeChunkReference m_fnd = FileNodeChunkReference(stp_invalid, cb_invalid, 0);
 
+    static const uint32_t mask_fnd_id        = 0x3FF;
+    static const uint32_t mask_fnd_base_type = 0xF;
+    static const uint32_t mask_fnd_size      = 0x1FFF;
+    static const uint32_t mask_format_stp    = 0x3;
+    static const uint32_t mask_format_cb     = 0x3;
 
+    static const uint32_t shift_format_stp   = 23;
+    static const uint32_t shift_format_cb    = 25;
+    static const uint32_t shift_base_type    = 27;
+    static const uint32_t shift_fnd_size     = 10;
 };
 
 
