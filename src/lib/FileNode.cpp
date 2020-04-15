@@ -195,7 +195,7 @@ namespace libone {
 
   void FileNode::skip_node(librevenge::RVNGInputStream *input) {
     DBMSG << "Skipping file node by jumping over " << m_size_in_file << " bytes to " << m_offset + m_size_in_file << std::endl;
-    input->seek(m_offset + m_size_in_file, librevenge::RVNG_SEEK_CUR);
+    input->seek(m_offset + m_size_in_file, librevenge::RVNG_SEEK_SET);
   }
 
   bool FileNode::isEnd() {
