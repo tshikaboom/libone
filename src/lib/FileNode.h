@@ -74,7 +74,7 @@ class FileNode {
     std::string to_string();
     void skip_node(librevenge::RVNGInputStream *input);
     void zero() { is_end = true; }
-    uint32_t get_FileNodeID();
+    enum fnd_id get_FileNodeID() { return m_fnd_id; }
     uint32_t get_Size();
     enum fnd_basetype get_Basetype();
     bool isEnd();

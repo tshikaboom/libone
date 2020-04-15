@@ -210,10 +210,6 @@ namespace libone {
     return is_end;
   }
 
-  uint32_t FileNode::get_FileNodeID() {
-    return FileNodeID;
-  }
-
   uint32_t FileNode::get_Size() {
     return m_size_in_file;
   }
