@@ -133,7 +133,7 @@ namespace libone {
         break;
     }
     stream << "; ";
-    stream << std::hex << "size " << m_size_in_file << "; ";
+    stream << "size " << m_size_in_file << "; ";
 
     stream << std::hex << "base_type ";
     switch (m_base_type) {
@@ -141,10 +141,10 @@ namespace libone {
         stream << "fnd_no_data";
         break;
       case fnd_ref_data:
-        stream << "fnd_ref_data";
+        stream << "fnd_ref_data@0x" << m_fnd.get_location();
         break;
       case fnd_ref_filenodelist:
-        stream << "fnd_ref_filenodelist";
+        stream << "fnd_ref_filenodelist@0x" << m_fnd.get_location();
         break;
       default:
         stream << "UNKNOWN BASETYPE";
@@ -192,6 +192,7 @@ namespace libone {
   }
 
   void FileNode::skip_node(librevenge::RVNGInputStream *input) {
+    DBMSG << "Skipping file node by jumping over " << m_size_in_file << " bytes to " << m_offset + m_size_in_file << std::endl;
     input->seek(m_offset + m_size_in_file, librevenge::RVNG_SEEK_CUR);
   }
 
