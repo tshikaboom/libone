@@ -20,61 +20,10 @@
 
 namespace libone {
 
-  void FileNode::parse(librevenge::RVNGInputStream *input) {
-    m_offset = input->tell();
-
-    DBMSG << "Will parse at " << m_offset << std::endl;
-
-    parse_header(input);
-    switch (FileNodeID) {
-      case fnd_id::ObjectSpaceManifestListStartFND:
-      case fnd_id::RevisionManifestListStartFND:
-      case fnd_id::RevisionManifestStart4FND:
-      case fnd_id::RevisionManifestStart6FND:
-      case fnd_id::RevisionManifestStart7FND:
-      case fnd_id::RevisionManifestListReferenceFND:
-      case fnd_id::ObjectGroupListReferenceFND:
-      case fnd_id::ObjectSpaceManifestListReferenceFND:
-      case fnd_id::ObjectSpaceManifestRootFND:
-      case fnd_id::FileDataStoreListReferenceFND:
-      case fnd_id::ObjectGroupStartFND:
-      case fnd_id::GlobalIdTableStart2FND:
-      case fnd_id::GlobalIdTableEntryFNDX:
-      case fnd_id::GlobalIdTableEndFNDX:
-      case fnd_id::DataSignatureGroupDefinitionFND:
-      case fnd_id::ObjectDeclaration2RefCountFND:
-      case fnd_id::ObjectGroupEndFND:
-      case fnd_id::ObjectInfoDependencyOverridesFND:
-      case fnd_id::RootObjectReference3FND:
-      case fnd_id::RevisionManifestEndFND:
-      case fnd_id::ObjectDeclarationFileData3RefCountFND:
-      case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
-      case fnd_id::FileDataStoreObjectReferenceFND:
-        break;
-      case fnd_id::ChunkTerminatorFND:
-        ONE_DEBUG_MSG(("ChunkTerminatorFND\n"));
-        is_end = true;
-        break;
-      case fnd_id::fnd_invalid_id:
-        ONE_DEBUG_MSG(("padding everywhere\n"));
-//				while (readU16 (input) ==  0) {}
-//				input->seek(-2, librevenge::RVNG_SEEK_CUR);
-//        ref.parse(input, FileChunkReference::mode::Type64x32);
-        is_end = true;
-        break;
-      default:
-        ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
-//				input->seek(-4, librevenge::RVNG_SEEK_CUR);
-//				skip(input, Size);
-        is_end = true;
-        break;
-    }
-  }
-
-  std::string FileNode::to_string() {
+  std::string fnd_id_to_string(enum fnd_id id_fnd) {
     std::stringstream stream;
 
-    switch (FileNodeID) {
+    switch (id_fnd) {
       case fnd_id::ObjectSpaceManifestListStartFND:
         stream << "ObjectSpaceManifestListStartFND";
         break;
@@ -131,9 +80,67 @@ namespace libone {
         break;
       case fnd_id::fnd_invalid_id:
       default:
-        stream << "dunno but value is " << FileNodeID;
+        stream << "dunno but value is " << id_fnd;
         break;
     }
+    return stream.str();
+  }
+
+  void FileNode::parse(librevenge::RVNGInputStream *input) {
+    m_offset = input->tell();
+
+    DBMSG << "Will parse at " << m_offset << std::endl;
+
+    parse_header(input);
+    switch (FileNodeID) {
+      case fnd_id::ObjectSpaceManifestListStartFND:
+      case fnd_id::RevisionManifestListStartFND:
+      case fnd_id::RevisionManifestStart4FND:
+      case fnd_id::RevisionManifestStart6FND:
+      case fnd_id::RevisionManifestStart7FND:
+      case fnd_id::RevisionManifestListReferenceFND:
+      case fnd_id::ObjectGroupListReferenceFND:
+      case fnd_id::ObjectSpaceManifestListReferenceFND:
+      case fnd_id::ObjectSpaceManifestRootFND:
+      case fnd_id::FileDataStoreListReferenceFND:
+      case fnd_id::ObjectGroupStartFND:
+      case fnd_id::GlobalIdTableStart2FND:
+      case fnd_id::GlobalIdTableEntryFNDX:
+      case fnd_id::GlobalIdTableEndFNDX:
+      case fnd_id::DataSignatureGroupDefinitionFND:
+      case fnd_id::ObjectDeclaration2RefCountFND:
+      case fnd_id::ObjectGroupEndFND:
+      case fnd_id::ObjectInfoDependencyOverridesFND:
+      case fnd_id::RootObjectReference3FND:
+      case fnd_id::RevisionManifestEndFND:
+      case fnd_id::ObjectDeclarationFileData3RefCountFND:
+      case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
+      case fnd_id::FileDataStoreObjectReferenceFND:
+        break;
+      case fnd_id::ChunkTerminatorFND:
+        ONE_DEBUG_MSG(("ChunkTerminatorFND\n"));
+        is_end = true;
+        break;
+      case fnd_id::fnd_invalid_id:
+        ONE_DEBUG_MSG(("padding everywhere\n"));
+//				while (readU16 (input) ==  0) {}
+//				input->seek(-2, librevenge::RVNG_SEEK_CUR);
+//        ref.parse(input, FileChunkReference::mode::Type64x32);
+        is_end = true;
+        break;
+      default:
+        ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
+//				input->seek(-4, librevenge::RVNG_SEEK_CUR);
+//				skip(input, Size);
+        is_end = true;
+        break;
+    }
+  }
+
+  std::string FileNode::to_string() {
+    std::stringstream stream;
+
+    stream << fnd_id_to_string(m_fnd_id);
     stream << "; ";
     stream << "size " << m_size_in_file << "; ";
 
@@ -167,6 +174,7 @@ namespace libone {
     format_stp = static_cast<stp_format>((temp >> 23) & 0x3);
     format_cb = static_cast<cb_format>((temp >> 25) & 0x3);
     m_base_type = static_cast<fnd_basetype> ((temp >> 27) & 0xF);
+    m_fnd_id = static_cast<fnd_id> (temp & 0x3FF);
     m_size_in_file = (temp >> 10) & 0x1FFF;
     FileNodeID = temp & 0x3FF;
     if (d == 0) {
