@@ -205,22 +205,6 @@ namespace libone {
     DBMSG << "Skipping file node by jumping over " << m_size_in_file << " bytes to " << m_offset + m_size_in_file << std::endl;
     input->seek(m_offset + m_size_in_file, librevenge::RVNG_SEEK_SET);
   }
-
-  bool FileNode::isEnd() {
-    return is_end;
-  }
-
-  uint32_t FileNode::get_Size() {
-    return m_size_in_file;
-  }
-
-  enum fnd_basetype FileNode::get_Basetype() {
-    return m_base_type;
-  }
-
-  FileNodeChunkReference FileNode::get_fnd() {
-    return m_fnd;
-  }
 }
 
 

@@ -75,10 +75,10 @@ class FileNode {
     void skip_node(librevenge::RVNGInputStream *input);
     void zero() { is_end = true; }
     enum fnd_id get_FileNodeID() { return m_fnd_id; }
-    uint32_t get_Size();
-    enum fnd_basetype get_Basetype();
-    bool isEnd();
-    FileNodeChunkReference get_fnd();
+    uint32_t get_Size() { return m_size_in_file; }
+    enum fnd_basetype get_Basetype() { return m_base_type; }
+    bool isEnd() { return is_end; }
+    FileNodeChunkReference get_fnd() { return m_fnd; }
 
 
 
