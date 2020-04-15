@@ -68,6 +68,8 @@ namespace libone {
     fnd_invalid_id
   };
 
+  std::string fnd_id_to_string(enum fnd_id id_fnd);
+
 class FileNode {
   public:
     void parse(librevenge::RVNGInputStream *input);
