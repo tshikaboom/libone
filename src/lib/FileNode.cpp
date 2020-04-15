@@ -23,6 +23,8 @@ namespace libone {
   void FileNode::parse(librevenge::RVNGInputStream *input) {
     m_offset = input->tell();
 
+    DBMSG << "Will parse at " << m_offset << std::endl;
+
     parse_header(input);
     switch (FileNodeID) {
       case fnd_id::ObjectSpaceManifestListStartFND:
