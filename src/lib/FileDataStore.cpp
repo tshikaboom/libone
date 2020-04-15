@@ -21,40 +21,9 @@ namespace libone {
   void FileDataStore::parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
     FileNodeList list(ref.get_location(), ref.get_size());
     FileNode node;
-    long old = input->tell();
     input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-    long old2 = 0;
-    GUID reference = GUID();
-    GUID _header = GUID();
-    while (!list.is_end()) {
-      struct FileData data;
-      node = list.get_next_node(input);
-      switch (node.get_FileNodeID()) {
-        case fnd_id::FileDataStoreObjectReferenceFND:
-        ONE_DEBUG_MSG(("FileDataStoreObjectReferenceFND\n"));
-        reference.parse(input);
-        ONE_DEBUG_MSG(("\n"));
-        old2 = input->tell();
-        input->seek(node.get_fnd().get_location(), librevenge::RVNG_SEEK_SET);
-        _header.parse(input);
-//        ONE_DEBUG_MSG(("\n"));
-        data.length = readU64 (input);
-        skip(input, 12);
-        data.location = input->tell();
-        filedata[reference.to_string()] = data;
-        _header.parse(input);
-//        ONE_DEBUG_MSG(("\n"));
-        input->seek(old2, librevenge::RVNG_SEEK_SET);
-        break;
-      case fnd_id::ChunkTerminatorFND:
-        break;
-      default:
-        ONE_DEBUG_MSG(("\n"));
-        break;
-      }
-    }
+    list.parse(input);
 
-    input->seek(old, librevenge::RVNG_SEEK_SET);
     ONE_DEBUG_MSG(("\n"));
   }
 

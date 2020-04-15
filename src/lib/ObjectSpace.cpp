@@ -21,36 +21,15 @@ namespace libone {
     FileNodeList list = FileNodeList (ref.get_location(), ref.get_size());
     ExtendedGUID temp;
     temp.zero();
-    long old = input->tell();
-    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-    while (!list.is_end()) {
-    node = list.get_next_node(input);
-      switch (node.get_FileNodeID()) {
-        case fnd_id::ObjectSpaceManifestListStartFND:
-          guid.parse(input);
-          ONE_DEBUG_MSG(("\n"));
-          if (!guid.is_equal(expected_guid)) {
-            if (!guid.is_equal(temp)) {
-              ONE_DEBUG_MSG((" not a good guid! %s expected %s\n", guid.to_string().c_str(), expected_guid.to_string().c_str()));
-	    }
-          }
-          break;
-        case fnd_id::RevisionManifestListReferenceFND:
-          ONE_DEBUG_MSG(("RevisionManifestListReferenceFND\n"));
-          node2 = node;
-          node.skip_node(input);
-          break;
-        default:
-          ONE_DEBUG_MSG(("ObjectSpace unknown filenodeid %d\n", node.get_FileNodeID()));
-          break;
-        }
-    }
+
+    (void) expected_guid;
+
+    list.parse(input);
 
     ONE_DEBUG_MSG(("trying to parse last revision\n"));
     rev.list_parse(input, node2.get_fnd());
     revisions.push_back(rev);
     ONE_DEBUG_MSG(("\n"));
-    input->seek(old, librevenge::RVNG_SEEK_SET);
   }
 
   void ObjectSpace::to_document(librevenge::RVNGDrawingInterface *document) {

@@ -15,71 +15,11 @@ namespace libone {
   std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
     FileNodeList list (ref.get_location(), ref.get_size());
     std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();
-    uint32_t index;
     GUID temp = GUID();
+    DBMSG << "GUID " << temp.to_string();
     oid.parse(input);
-    ONE_DEBUG_MSG(("\n"));
-    long old = input->tell();
-    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-//    oid.parse(input);
-    ONE_DEBUG_MSG(("\n"));
-    FileNode node = list.get_next_node(input);
-    while (!list.is_end()) {
-      switch (node.get_FileNodeID()) {
-        case fnd_id::GlobalIdTableStart2FND:
-          ONE_DEBUG_MSG(("GlobalIdTableStart2FND\n"));
-          GlobalIdentificationTable.clear();
-          break;
-        case fnd_id::GlobalIdTableEntryFNDX:
-          ONE_DEBUG_MSG(("GlobalIdTableEntryFNDX\n"));
-          index = readU32 (input);
-          temp.parse(input);
-          GlobalIdentificationTable[index] = temp;
-          break;
-        case fnd_id::DataSignatureGroupDefinitionFND:
-          ONE_DEBUG_MSG(("DataSignatureGroupDefinitionFND\n"));
-          DataSignatureGroup.parse(input);
-          break;
-        case fnd_id::ObjectDeclaration2RefCountFND:
-          ONE_DEBUG_MSG(("ObjectDeclaration2RefCountFND\n"));
-          ONE_DEBUG_MSG(("going to parse %lu\n",node.get_fnd().get_location()));
-//          node.parse_ObjectDeclaration2RefCountFND(input, ref);
-//          object.parse(input, node.get_ref());
-//          object_map[object.get_guid().to_string()] = object;
-//          ONE_DEBUG_MSG((object.to_string()));
-          break;
-        case fnd_id::ObjectGroupStartFND:
-          ONE_DEBUG_MSG(("ObjectGroupStartFND\n"));
-          oid.parse(input);
-          break;
-        case fnd_id::ObjectGroupEndFND:
-          ONE_DEBUG_MSG(("ObjectGroupEndFND\n"));
-          DataSignatureGroup.zero();
-          break;
-        case fnd_id::GlobalIdTableEndFNDX:
-          ONE_DEBUG_MSG(("GlobalIdTableEndFNDX\n"));
-          break;
-        case fnd_id::ObjectDeclarationFileData3RefCountFND:
-          ONE_DEBUG_MSG(("ObjectDeclarationFileData3RefCountFND\n"));
-//          parser.parse_ObjectDeclarationFileData3RefCountFND(input, ref);
-
-          break;
-        case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
-          ONE_DEBUG_MSG(("ReadOnlyObjectDeclaration2RefCountFND\n"));
-//          parser.parse_ObjectDeclaration2RefCountFND(input, ref);
-//          object.parse(input, node.get_ref());
-
-//          object_map[object.get_guid().to_string()] = object;
-          skip(input, 16);
-          break;
-        default:
-          ONE_DEBUG_MSG(("?\n"));
-          break;
-      }
-      node = list.get_next_node(input);
-    }
+    list.parse(input);
     ONE_DEBUG_MSG(("end of object group"));
-    input->seek(old, librevenge::RVNG_SEEK_SET);
     return object_map;
   }
 

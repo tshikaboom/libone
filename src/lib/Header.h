@@ -85,7 +85,6 @@ class Header {
     std::vector<TransactionEntry> Transactions = std::vector<TransactionEntry>();
 
   private:
-    void parse_rootFileNodeList(librevenge::RVNGInputStream *input);
 
 };
 

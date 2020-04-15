@@ -51,6 +51,8 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	FileNode.h \
 	FileNodeList.cpp \
 	FileNodeList.h \
+	FileNodeListFragment.cpp \
+	FileNodeListFragment.h \
 	Header.cpp \
 	Header.h \
 	JCID.h \

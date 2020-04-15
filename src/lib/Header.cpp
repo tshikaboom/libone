@@ -90,38 +90,4 @@ namespace libone {
     bnNewestWritten = readU32 (input, false);
   }
 
-  void Header::parse_rootFileNodeList(librevenge::RVNGInputStream *input) {
-      FileNode node;
-      ExtendedGUID guid;
-      ObjectSpace space;
-      FileDataStore store;
-      FileNodeList list(fcrFileNodeListRoot.get_location(), fcrFileNodeListRoot.get_size());
-      (void) store;
-      input->seek(fcrFileNodeListRoot.get_location(), librevenge::RVNG_SEEK_SET);
-
-      /* Iterate twice through the list: the first time is to get the root
-         object and the FileDataStores. Then parse the root object space. */
-      while (!list.is_end()) {
-      node = list.get_next_node(input);
-        switch (node.get_FileNodeID()) {
-           break;
-          case fnd_id::ObjectSpaceManifestRootFND:
-            RootObject.parse(input);
-            ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestRootFND\n"));
-            break;
-          case fnd_id::FileDataStoreListReferenceFND:
-            ONE_DEBUG_MSG(("RootFileNodeList FileDataStoreListReferenceFND"));
-            store.parse(input, node.get_fnd());
-            break;
-          case fnd_id::ObjectSpaceManifestListReferenceFND: // parse this later
-            ONE_DEBUG_MSG(("RootFileNodeList ObjectSpaceManifestListReferenceFND skipping\n"));
-            node.skip_node(input);
-            break;
-          default:
-            node.skip_node(input);
-            ONE_DEBUG_MSG(("\n"));
-            break;
-        }
-      }
-  }
 }
