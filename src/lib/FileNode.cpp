@@ -145,6 +145,7 @@ namespace libone {
         break;
       default:
         stream << "UNKNOWN BASETYPE";
+        assert(false);
         break;
     }
 
@@ -181,9 +182,11 @@ namespace libone {
         ONE_DEBUG_MSG(("\n"));
         break;
       case fnd_no_data:
-      default:
         reference.set_zero();
-        ONE_DEBUG_MSG(("\n"));
+        break;
+      default:
+        assert(false);
+        break;
     }
     m_fnd = reference;
   }
