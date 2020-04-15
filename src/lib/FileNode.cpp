@@ -71,69 +71,85 @@ namespace libone {
 
   std::string FileNode::to_string() {
     std::stringstream stream;
-    stream << "FileNodeID " << std::hex << FileNodeID << " ";
 
     switch (FileNodeID) {
       case fnd_id::ObjectSpaceManifestListStartFND:
-        ONE_DEBUG_MSG(("ObjectSpaceManifestListStartFND\n"));
+        stream << "ObjectSpaceManifestListStartFND";
         break;
       case fnd_id::ChunkTerminatorFND:
-        ONE_DEBUG_MSG(("ChunkTerminatorFND\n"));
+        stream << "ChunkTerminatorFND";
         break;
       case fnd_id::RevisionManifestListStartFND:
-        ONE_DEBUG_MSG(("RevisionManifestListStart\n"));
+        stream << "RevisionManifestListStart";
         break;
       case fnd_id::RevisionManifestStart4FND:
-        ONE_DEBUG_MSG(("RevisionManifestStart4FND\n"));
+        stream << "RevisionManifestStart4FND";
         break;
       case fnd_id::RevisionManifestStart6FND:
-        ONE_DEBUG_MSG(("RevisionManifestStart6FND\n"));
+        stream << "RevisionManifestStart6FND";
         break;
       case fnd_id::RevisionManifestStart7FND:
-        ONE_DEBUG_MSG(("RevisionManifestStart\n"));
+        stream << "RevisionManifestStart";
         break;
       case fnd_id::RevisionManifestListReferenceFND:
-          ONE_DEBUG_MSG(("RevisionManifestListReferenceFND\n"));
+          stream << "RevisionManifestListReferenceFND";
         break;
       case fnd_id::ObjectGroupListReferenceFND:
-        ONE_DEBUG_MSG(("ObjectGroupListReferenceFND\n"));
+        stream << "ObjectGroupListReferenceFND";
         break;
       case fnd_id::ObjectSpaceManifestListReferenceFND:
+        stream << "ObjectSpaceManifestListReferenceFND";
         break;
       case fnd_id::ObjectSpaceManifestRootFND:
-        ONE_DEBUG_MSG(("ObjectSpaceManifestListRootFND\n"));
+        stream << "ObjectSpaceManifestListRootFND";
         break;
       case fnd_id::FileDataStoreListReferenceFND:
-        ONE_DEBUG_MSG(("FileDataStoreListReferenceFND\n"));
+        stream << "FileDataStoreListReferenceFND";
         break;
       case fnd_id::ObjectGroupStartFND:
-        ONE_DEBUG_MSG(("ObjectGroupStartFND\n"));
+        stream << "ObjectGroupStartFND";
         break;
       case fnd_id::GlobalIdTableStart2FND:
-        ONE_DEBUG_MSG(("GlobalIdTableStart2FND\n"));
+        stream << "GlobalIdTableStart2FND";
         break;
       case fnd_id::GlobalIdTableEntryFNDX:
-        ONE_DEBUG_MSG(("GlobalIdTableEntryFNDX\n"));
+        stream << "GlobalIdTableEntryFNDX";
         break;
       case fnd_id::GlobalIdTableEndFNDX:
-        ONE_DEBUG_MSG(("GlobalIdTableEndFNDX\n"));
+        stream << "GlobalIdTableEndFNDX";
         break;
       case fnd_id::DataSignatureGroupDefinitionFND:
-        ONE_DEBUG_MSG(("DataSignatureGroupDefinitionFND\n"));
+        stream << "DataSignatureGroupDefinitionFND";
         break;
       case fnd_id::ObjectDeclaration2RefCountFND:
-        ONE_DEBUG_MSG(("ObjectDeclaration2RefCountFND\n"));
+        stream << "ObjectDeclaration2RefCountFND";
         break;
       case fnd_id::ObjectGroupEndFND:
-        ONE_DEBUG_MSG(("ObjectGroupEndFND\n"));
+        stream << "ObjectGroupEndFND";
         break;
       case fnd_id::fnd_invalid_id:
       default:
-        ONE_DEBUG_MSG(("dunno but value is %x\n", FileNodeID));
+        stream << "dunno but value is " << FileNodeID;
         break;
     }
-    stream << std::hex << "Size " << m_size_in_file << std::endl;
-    stream << std::hex << m_base_type << std::endl;
+    stream << "; ";
+    stream << std::hex << "size " << m_size_in_file << "; ";
+
+    stream << std::hex << "base_type ";
+    switch (m_base_type) {
+      case fnd_no_data:
+        stream << "fnd_no_data";
+        break;
+      case fnd_ref_data:
+        stream << "fnd_ref_data";
+        break;
+      case fnd_ref_filenodelist:
+        stream << "fnd_ref_filenodelist";
+        break;
+      default:
+        stream << "UNKNOWN BASETYPE";
+        break;
+    }
 
     return stream.str();
   }
