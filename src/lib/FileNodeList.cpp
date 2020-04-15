@@ -37,21 +37,23 @@ namespace libone {
       DBMSG << "FileNodeList, going to parse a FileNodeListFragment" << std::endl;
       fragment.parse(input);
 
-      if (fragment.get_next_fragment().is_fcrNil())
-        break;
-
       m_fragment_list.push_back(fragment);
 
-      rgFileNodes.insert(rgFileNodes.end(), fragment.get_file_nodes().begin(), fragment.get_file_nodes().end());
+      DBMSG << "inserted fragment in list, now size " << m_fragment_list.size() << std::endl;
 
-      if (!fragment.get_next_fragment().is_fcrNil())
+      rgFileNodes.insert(std::end(rgFileNodes), std::begin(fragment.get_file_nodes()), std::end(fragment.get_file_nodes()));
+
+      if (fragment.get_next_fragment().is_fcrNil()) {
+        break;
+      }
+      else {
         input->seek(fragment.get_next_fragment().get_location(), librevenge::RVNG_SEEK_SET);
+      }
     } while (!fragment.get_next_fragment().is_fcrNil());
 
-  }
+    DBMSG << m_fragment_list.size() << " fragment(s) parsed, "
+          << rgFileNodes.size() << " nodes parsed" << std::endl;
 
-  std::vector<FileNode> FileNodeList::get_fnd_list() {
-    return rgFileNodes;
   }
 
   std::string FileNodeList::to_string() {

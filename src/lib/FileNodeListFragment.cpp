@@ -48,8 +48,8 @@ namespace libone {
       DBMSG << "input@" << input->tell() << ", node " << node.to_string() << std::endl;
 
       if (node.get_FileNodeID() != fnd_id::ChunkTerminatorFND) {
-        DBMSG << "Adding node to node list" << std::endl;
         m_fnd_list.push_back(node);
+        DBMSG << "Added node to node list of size " << m_fnd_list.size() << std::endl;
       }
 
       node.skip_node(input);

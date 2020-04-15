@@ -27,7 +27,7 @@ class FileNodeList {
     std::string to_string();
 
 
-    std::vector<FileNode> get_fnd_list();
+    std::vector<FileNode>& get_fnd_list() { return rgFileNodes; }
   private:
     long m_offset;
     uint32_t m_fnd_list_id;

@@ -26,7 +26,7 @@ class FileNodeListFragment {
     std::string to_string();
     uint32_t get_list_id() { return m_fnd_list_id; }
     uint32_t get_fragment_sequence() { return m_fragment_sequence; }
-    std::vector<FileNode> get_file_nodes() { return m_fnd_list; }
+    std::vector<FileNode>& get_file_nodes() { return m_fnd_list; }
     FileChunkReference get_next_fragment() { return m_next_fragment; }
 
   private:
