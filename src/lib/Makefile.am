@@ -67,6 +67,10 @@ libone_@ONE_MAJOR_VERSION@_@ONE_MINOR_VERSION@_la_SOURCES = \
 	Revision.h \
 	TransactionEntry.h \
 	TransactionEntry.cpp \
+	TransactionLog.h \
+	TransactionLog.cpp \
+	TransactionLogFragment.h \
+	TransactionLogFragment.cpp \
 	GUID.cpp \
 	GUID.h \
 	ONEDocument.cpp \

@@ -10,19 +10,32 @@
 #ifndef INCLUDED_LIBONE_TRANSACTIONENTRY_H
 #define INCLUDED_LIBONE_TRANSACTIONENTRY_H
 
+#include <cstring>
+#include <iostream>
+#include <iomanip>
+#include <bitset>
+#include <libone/libone.h>
+
 namespace libone {
+
+  struct fnd_list_change {
+    uint32_t fnd_list_id;
+    uint32_t nodes_changed;
+  };
 
 class TransactionEntry {
   public:
+    TransactionEntry();
     void parse(librevenge::RVNGInputStream *input);
     std::string to_string();
-    uint32_t get_srcID();
-    uint32_t get_Switch();
+    std::vector<struct fnd_list_change> get_changes() { return m_fnd_list_changes; }
 
   private:
-    uint32_t srcID;
-    uint32_t TransactionEntrySwitch;
+    long m_offset;
+    std::vector<struct fnd_list_change> m_fnd_list_changes;
+    uint32_t m_crc;
 
+    static const uint32_t val_sentinel = 0x00000001;
 };
 
 }

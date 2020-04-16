@@ -31,11 +31,10 @@ namespace libone {
       OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document);
 
     private:
-      Header header = Header();
       std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces = std::unordered_map<std::string, libone::ObjectSpace>();
 
-      void parse_root_file_node_list(librevenge::RVNGInputStream *input);
-      void parse_transactions(librevenge::RVNGInputStream *input);
+      void parse_root_file_node_list(librevenge::RVNGInputStream *input, Header& header);
+      void parse_transactions(librevenge::RVNGInputStream *input, Header& header);
   };
 
 
