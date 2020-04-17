@@ -16,12 +16,12 @@
 
 namespace libone {
 
-  libone::ExtendedGUID RootObject;
   libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
 
     OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document) {
       Header header = Header();
       long old;
+      libone::ExtendedGUID RootObject;
 
       header.parse(input);
 

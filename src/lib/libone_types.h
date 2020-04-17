@@ -20,17 +20,10 @@
 namespace libone {
 
 //extern std::unordered_map<std::string ,libone::Object> RootObjectSpace;
-extern libone::ExtendedGUID RootObject;
 
 extern std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 
 extern libone::ExtendedGUID DataSignatureGroup;
-
-struct FileData {
-  long location = 0;
-  uint64_t length = 0;
-};
-
 
 extern std::unordered_map<std::string, struct FileData> filedata;
 
