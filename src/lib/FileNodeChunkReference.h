@@ -37,6 +37,7 @@ class FileNodeChunkReference {
     bool is_fcrZero();
     uint64_t get_location();
     uint64_t get_size();
+    uint32_t get_size_in_file();
     void parse(librevenge::RVNGInputStream *input);
     void set_zero();
     enum stp_format get_stp_fmt() { return m_format_stp; }

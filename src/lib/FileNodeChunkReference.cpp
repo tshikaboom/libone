@@ -51,6 +51,47 @@ namespace libone {
 		return m_cb;
 	}
 
+	uint32_t FileNodeChunkReference::get_size_in_file() {
+		uint32_t ret = 0;
+		switch (m_format_stp) {
+			case stp_uncompressed_8:
+				ret += sizeof(uint64_t);
+				break;
+			case stp_uncompressed_4:
+			case stp_compressed_4:
+				ret += sizeof(uint32_t);
+				break;
+			case stp_compressed_2:
+				ret += sizeof(uint16_t);
+				break;
+			case stp_invalid:
+			default:
+				// size would be 0
+				break;
+		}
+
+		switch (m_format_cb) {
+			case cb_uncompressed_8:
+				ret += sizeof(uint64_t);
+				break;
+			case cb_uncompressed_4:
+				ret += sizeof(uint32_t);
+				break;
+			case cb_compressed_2:
+				ret += sizeof(uint16_t);
+				break;
+			case cb_compressed_1:
+				ret += sizeof(uint8_t);
+				break;
+			case cb_invalid:
+			default:
+				// size would be 0
+				break;
+		}
+
+		return ret;
+	}
+
 	void FileNodeChunkReference::parse(librevenge::RVNGInputStream *input) {
 		input->seek(m_offset, librevenge::RVNG_SEEK_SET);
 
