@@ -34,9 +34,7 @@ class FileNodeList {
     uint32_t m_fragment_sequence;
     std::vector<FileNode> rgFileNodes = std::vector<FileNode>();
     uint16_t nextFragment = 0;
-    uint64_t footer = 0;
     uint64_t m_size;
-    long old_seek = 0;
     long seek = 0;
     bool end = false;
     bool header_parsed = false;
