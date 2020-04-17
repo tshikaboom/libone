@@ -32,7 +32,7 @@ namespace libone {
 
 
       ONE_DEBUG_MSG(("test fileNodeList\n"));
-      parse_root_file_node_list(input, header);
+      parse_root_file_node_list(input, header, RootObject);
       ONE_DEBUG_MSG(("root object is %s\n", RootObject.to_string().c_str()));
 
       for (auto i: ObjectSpaces) {
@@ -55,7 +55,8 @@ namespace libone {
       log.parse(input);
     }
 
-    void OneNoteParser::parse_root_file_node_list(librevenge::RVNGInputStream *input, Header& header) {
+    void OneNoteParser::parse_root_file_node_list(librevenge::RVNGInputStream *input,
+                                                  Header& header, ExtendedGUID& root_object) {
       ExtendedGUID guid;
       ObjectSpace space;
       FileDataStore store;
@@ -68,6 +69,20 @@ namespace libone {
 
       for (FileNode& node : list.get_fnd_list()) {
         DBMSG << node.to_string() << std::endl;
+
+        switch (node.get_FileNodeID()) {
+          case ObjectSpaceManifestRootFND:
+            input->seek(node.get_location() + node.header_size, librevenge::RVNG_SEEK_SET);
+            root_object.parse(input);
+            break;
+          case ObjectSpaceManifestListReferenceFND:
+            break;
+          case FileDataStoreListReferenceFND:
+            break;
+          default:
+            assert(false);
+            break;
+        }
       }
 
     }

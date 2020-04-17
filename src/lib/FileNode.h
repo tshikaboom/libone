@@ -81,10 +81,13 @@ class FileNode {
     uint32_t get_Size() { return m_size_in_file; }
     enum fnd_basetype get_Basetype() { return m_base_type; }
     FileNodeChunkReference get_fnd() { return m_fnd; }
+    uint32_t get_location() { return m_offset; }
 
+    static const uint32_t header_size = sizeof(uint32_t);
   private:
     uint32_t m_offset = 0;
     uint32_t m_size_in_file = 0;
+    uint32_t m_header_size = 0;
     enum fnd_id m_fnd_id = fnd_invalid_id;
     enum fnd_basetype m_base_type = fnd_invalid_basetype;
     void parse_header(librevenge::RVNGInputStream *input);

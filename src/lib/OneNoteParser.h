@@ -33,7 +33,8 @@ namespace libone {
     private:
       std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces = std::unordered_map<std::string, libone::ObjectSpace>();
 
-      void parse_root_file_node_list(librevenge::RVNGInputStream *input, Header& header);
+      void parse_root_file_node_list(librevenge::RVNGInputStream *input,
+                                     Header& header, ExtendedGUID& root_object);
       void parse_transactions(librevenge::RVNGInputStream *input, Header& header);
   };
 
