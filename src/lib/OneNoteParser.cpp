@@ -58,7 +58,7 @@ namespace libone {
     void OneNoteParser::parse_root_file_node_list(librevenge::RVNGInputStream *input,
                                                   Header& header, ExtendedGUID& root_object) {
       ExtendedGUID guid;
-      ObjectSpace space;
+      std::vector<ObjectSpace> object_spaces = std::vector<ObjectSpace>();
       FileDataStore store;
       FileNodeList list(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
       (void) store;
@@ -68,6 +68,7 @@ namespace libone {
       DBMSG << "iterating on a " << list.get_fnd_list().size() << " size list" << std::endl;
 
       for (FileNode& node : list.get_fnd_list()) {
+        ObjectSpace object_space = ObjectSpace();
         DBMSG << node.to_string() << std::endl;
 
         switch (node.get_FileNodeID()) {
@@ -76,6 +77,7 @@ namespace libone {
             root_object.parse(input);
             break;
           case ObjectSpaceManifestListReferenceFND:
+            object_space.parse(input, node);
             break;
           case FileDataStoreListReferenceFND:
             break;

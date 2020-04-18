@@ -13,6 +13,24 @@
 
 namespace libone {
 
+  ObjectSpace::ObjectSpace() {
+  }
+
+  void ObjectSpace::parse(librevenge::RVNGInputStream *input, FileNode& node) {
+    m_fnd_list_ref = node.get_fnd();
+
+    FileNodeList list = FileNodeList(m_fnd_list_ref.get_location(), m_fnd_list_ref.get_size());
+
+    // We should then be at the 'gosid' field
+    input->seek(node.get_location() + node.header_size + m_fnd_list_ref.get_size_in_file(),
+                librevenge::RVNG_SEEK_SET);
+    guid.parse(input);
+
+    list.parse(input);
+
+    DBMSG << guid.to_string() << std::endl;
+
+  }
 
   void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileNodeChunkReference ref) {
     Revision rev;
