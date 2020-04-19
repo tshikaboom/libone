@@ -25,4 +25,6 @@ make
 ```
 would suffice to get this build. After that, doing `./src/conv/raw/one2raw <file.one>` would get you some output.
 
-The library is available under MPL 2.0+.
+Licence
+=
+The library is available under MPL 2.0+, as other librevenge-based projects are.
