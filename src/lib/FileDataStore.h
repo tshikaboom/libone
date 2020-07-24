@@ -14,17 +14,19 @@
 #include "libone_utils.h"
 #include "libone_types.h"
 
-namespace libone {
+namespace libone
+{
 
-class FileDataStore {
-  public:
+class FileDataStore
+{
+public:
 
-    void parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
-    std::string to_string();
+  void parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
+  std::string to_string();
 
 
-    // string is GUID
-  private:
+  // string is GUID
+private:
 
 };
 

@@ -15,15 +15,17 @@
 #include <vector>
 #include <librevenge-stream/librevenge-stream.h>
 
-namespace libone {
+namespace libone
+{
 
-class PropertyValue {
-  public:
-    void parse(librevenge::RVNGInputStream *input);
-    std::string to_string();
-  private:
-    uint16_t count = 0;
-    std::vector<PropertyID> prop_ids = std::vector<PropertyID>();
+class PropertyValue
+{
+public:
+  void parse(librevenge::RVNGInputStream *input);
+  std::string to_string();
+private:
+  uint16_t count = 0;
+  std::vector<PropertyID> prop_ids = std::vector<PropertyID>();
 };
 
 }

@@ -20,7 +20,8 @@
 #include "libone_utils.h"
 #include "OneNoteParser.h"
 
-namespace {
+namespace
+{
 
 enum OneNoteVersion
 {

@@ -16,71 +16,73 @@
 
 #define OFFSET_HEADER 0
 
-namespace libone {
-class Header {
-  public:
-    void parse(librevenge::RVNGInputStream *input);
-    GUID guidFileType = GUID();
-    GUID guidFile = GUID();
-    GUID guidLegacyFileVersion = GUID();
-    GUID guidFileFormat = GUID();
-    uint32_t ffvLastCodeThatWroteToThisFile = 0;
-    uint32_t ffvOldestCodeThatHasWrittenToThisFile = 0;
-    uint32_t ffvNewestCodeThatHasWrittenToThisFile = 0;
-    uint32_t ffvOldestCodeThatMayReadThisFile = 0;
+namespace libone
+{
+class Header
+{
+public:
+  void parse(librevenge::RVNGInputStream *input);
+  GUID guidFileType = GUID();
+  GUID guidFile = GUID();
+  GUID guidLegacyFileVersion = GUID();
+  GUID guidFileFormat = GUID();
+  uint32_t ffvLastCodeThatWroteToThisFile = 0;
+  uint32_t ffvOldestCodeThatHasWrittenToThisFile = 0;
+  uint32_t ffvNewestCodeThatHasWrittenToThisFile = 0;
+  uint32_t ffvOldestCodeThatMayReadThisFile = 0;
 
-    FileChunkReference fcrLegacyFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size32x32);
-    FileChunkReference fcrLegacyTransactionLog = FileChunkReference(FileChunkReferenceSize::Size32x32);
+  FileChunkReference fcrLegacyFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size32x32);
+  FileChunkReference fcrLegacyTransactionLog = FileChunkReference(FileChunkReferenceSize::Size32x32);
 
-    uint32_t cTransactionsInLog = 0;
+  uint32_t cTransactionsInLog = 0;
 
-    uint32_t cbLegacyExpectedFileLength = 0;
+  uint32_t cbLegacyExpectedFileLength = 0;
 
-    uint64_t rgbPlaceholder = 0;
+  uint64_t rgbPlaceholder = 0;
 
-    FileChunkReference fcrLegacyFileNodeListRoot = FileChunkReference(FileChunkReferenceSize::Size32x32);
+  FileChunkReference fcrLegacyFileNodeListRoot = FileChunkReference(FileChunkReferenceSize::Size32x32);
 
-    uint32_t cbLegacyFreeSpaceInFreeChunkList = 0;
+  uint32_t cbLegacyFreeSpaceInFreeChunkList = 0;
 
-    uint32_t ignored = 0;
+  uint32_t ignored = 0;
 
-    GUID guidAncestor = GUID();
+  GUID guidAncestor = GUID();
 
-    uint32_t crcName = 0;
+  uint32_t crcName = 0;
 
-    FileChunkReference fcrHashedChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
+  FileChunkReference fcrHashedChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    FileChunkReference fcrTransactionLog = FileChunkReference(FileChunkReferenceSize::Size64x32);
+  FileChunkReference fcrTransactionLog = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    FileChunkReference fcrFileNodeListRoot = FileChunkReference(FileChunkReferenceSize::Size64x32);
+  FileChunkReference fcrFileNodeListRoot = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    FileChunkReference fcrFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
+  FileChunkReference fcrFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    uint64_t cbExpectedFileLength = 0;
+  uint64_t cbExpectedFileLength = 0;
 
-    uint64_t cbFreeSpaceInFreeChunkList = 0;
+  uint64_t cbFreeSpaceInFreeChunkList = 0;
 
-    GUID guidFileVersion = GUID();
+  GUID guidFileVersion = GUID();
 
-    uint64_t nFileVersionGeneration = 0;
+  uint64_t nFileVersionGeneration = 0;
 
-    GUID guidDenyReadFileVersion = GUID();
+  GUID guidDenyReadFileVersion = GUID();
 
-    uint32_t grfDebugLogFlags = 0;
+  uint32_t grfDebugLogFlags = 0;
 
-    FileChunkReference fcrDebugLog = FileChunkReference(FileChunkReferenceSize::Size64x32);
+  FileChunkReference fcrDebugLog = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    FileChunkReference fcrAllocVerificationFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
+  FileChunkReference fcrAllocVerificationFreeChunkList = FileChunkReference(FileChunkReferenceSize::Size64x32);
 
-    uint32_t bnCreated = 0;
+  uint32_t bnCreated = 0;
 
-    uint32_t bnLastWroteToThisFile = 0;
+  uint32_t bnLastWroteToThisFile = 0;
 
-    uint32_t bnOldestWritten = 0;
+  uint32_t bnOldestWritten = 0;
 
-    uint32_t bnNewestWritten = 0;
+  uint32_t bnNewestWritten = 0;
 
-  private:
+private:
 
 };
 

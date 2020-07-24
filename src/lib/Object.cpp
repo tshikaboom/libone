@@ -14,105 +14,121 @@
 #include "Object.h"
 #include "ObjectSpaceStreams.h"
 
-namespace libone {
+namespace libone
+{
 
-  Object::Object(librevenge::RVNGInputStream *input, struct object_header _header) {
-    guid = _header.guid;
-    jcid = _header.jcid;
-    ref_count = _header.ref_count;
-    fHasOidReferences = _header.fHasOidReferences;
-    fHasOsidReferences = _header.fHasOsidReferences;
-    body = _header.body;
-    parse_list(input, body);
+Object::Object(librevenge::RVNGInputStream *input, struct object_header _header)
+{
+  guid = _header.guid;
+  jcid = _header.jcid;
+  ref_count = _header.ref_count;
+  fHasOidReferences = _header.fHasOidReferences;
+  fHasOsidReferences = _header.fHasOsidReferences;
+  body = _header.body;
+  parse_list(input, body);
+}
+
+
+bool Object::get_read_only()
+{
+  return read_only;
+}
+
+void Object::set_read_only(bool new_)
+{
+  read_only = new_;
+}
+
+ExtendedGUID Object::get_guid()
+{
+  return guid;
+}
+
+std::string Object::to_string()
+{
+  std::stringstream stream;
+  stream << std::hex;
+  stream << "Object " << guid.to_string() << " ref_count " << ref_count << " jcid " << jcid.to_string() << "\n";
+  if (object_refs.size())
+  {
+    stream << "referencing " << object_refs.size() << " objects:\n";
+    for (auto &i: object_refs)
+      stream << i.to_string() << "\n";
   }
-
-
-	bool Object::get_read_only() {
-		return read_only;
-	}
-
-	void Object::set_read_only(bool new_) {
-	  read_only = new_;
-	}
-
-	ExtendedGUID Object::get_guid() {
-	  return guid;
+  if (object_spaces_refs.size())
+  {
+    stream << "referencing " << object_spaces_refs.size() << " object spaces:\n";
+    for (auto &i: object_spaces_refs)
+      stream << i.to_string() << "\n";
   }
-
-	std::string Object::to_string() {
-	  std::stringstream stream;
-	  stream << std::hex;
-	  stream << "Object " << guid.to_string() << " ref_count " << ref_count << " jcid " << jcid.to_string() << "\n";
-	  if (object_refs.size()) {
-	    stream << "referencing " << object_refs.size() << " objects:\n";
-	    for (auto &i: object_refs)
-    	  stream << i.to_string() << "\n";
-    }
-    if (object_spaces_refs.size()) {
-	    stream << "referencing " << object_spaces_refs.size() << " object spaces:\n";
-	    for (auto &i: object_spaces_refs)
-    	  stream << i.to_string() << "\n";
-    }
-    if (context_refs.size()) {
-	    stream << "referencing " << context_refs.size() << " contexts:\n";
-	    for (auto &i: context_refs)
-    	  stream << i.to_string() << "\n";
-    }
+  if (context_refs.size())
+  {
+    stream << "referencing " << context_refs.size() << " contexts:\n";
+    for (auto &i: context_refs)
+      stream << i.to_string() << "\n";
+  }
 
 
 //  	stream << set.to_string();
-    return stream.str();
-	}
+  return stream.str();
+}
 
 
 
-  void Object::to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects) {
-    (void) document;
-    (void) objects;
-    ONE_DEBUG_MSG(("\n"));
+void Object::to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects)
+{
+  (void) document;
+  (void) objects;
+  ONE_DEBUG_MSG(("\n"));
 //    for (auto &i: object_refs) {
-      ONE_DEBUG_MSG((" yas?\n"));
+  ONE_DEBUG_MSG((" yas?\n"));
 //      objects[i.to_string()].to_document(document, objects);
 //    }
 
-    switch (jcid.get_value()) {
+  switch (jcid.get_value())
+  {
 
-      default:
-        ONE_DEBUG_MSG(("unknown JCID %s for object %s\n", jcid.to_string().c_str(), guid.to_string().c_str()));
-        break;
+  default:
+    ONE_DEBUG_MSG(("unknown JCID %s for object %s\n", jcid.to_string().c_str(), guid.to_string().c_str()));
+    break;
+  }
+}
+
+void Object::parse_list(librevenge::RVNGInputStream *input, FileNodeChunkReference ref)
+{
+  ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs(guid);
+  ObjectSpaceStreamOfOSIDs osids = ObjectSpaceStreamOfOSIDs();
+  ObjectSpaceStreamOfContextIDs contexts = ObjectSpaceStreamOfContextIDs();
+  FileNodeList list(ref.get_location(), ref.get_size());
+  FileNode node;
+
+  if (jcid.get_value() == 0) return;
+
+  long old = input->tell();
+  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+
+  object_refs = oids.parse(input);
+  if (!oids.get_B())
+  {
+    object_spaces_refs = osids.parse(input);
+  }
+  if (oids.get_A())
+  {
+    context_refs = contexts.parse(input);
+  }
+
+  for (auto &i: object_refs)
+  {
+    if (i.is_equal(guid))
+    {
+      ONE_DEBUG_MSG(("found duplicate, would remove nah?\n"));
     }
   }
 
-	void Object::parse_list(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
-  	ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs(guid);
-	  ObjectSpaceStreamOfOSIDs osids = ObjectSpaceStreamOfOSIDs();
-	  ObjectSpaceStreamOfContextIDs contexts = ObjectSpaceStreamOfContextIDs();
-	  FileNodeList list(ref.get_location(), ref.get_size());
-	  FileNode node;
+  if (jcid.IsPropertySet())
+    set.parse(input);
 
-	  if (jcid.get_value() == 0) return;
-
-	  long old = input->tell();
-	  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-
-	  object_refs = oids.parse(input);
-	  if (!oids.get_B()) {
-  	  object_spaces_refs = osids.parse(input);
-	  }
-	  if (oids.get_A()) {
-	    context_refs = contexts.parse(input);
-	  }
-
-    for (auto &i: object_refs) {
-      if (i.is_equal(guid)) {
-        ONE_DEBUG_MSG(("found duplicate, would remove nah?\n"));
-      }
-    }
-
-    if (jcid.IsPropertySet())
-      set.parse(input);
-
-	  input->seek(old, librevenge::RVNG_SEEK_SET);
-	}
+  input->seek(old, librevenge::RVNG_SEEK_SET);
+}
 }
 

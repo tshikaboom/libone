@@ -19,24 +19,26 @@
 #include <unordered_map>
 #include <librevenge-stream/librevenge-stream.h>
 
-namespace libone {
+namespace libone
+{
 
-class ObjectSpace {
-  public:
-    ObjectSpace();
-    void parse(librevenge::RVNGInputStream *input, FileNode& node);
-    void list_parse(librevenge::RVNGInputStream *input, ExtendedGUID guid, FileNodeChunkReference ref); // Assume we're at the beginning of a FileNode list
+class ObjectSpace
+{
+public:
+  ObjectSpace();
+  void parse(librevenge::RVNGInputStream *input, FileNode &node);
+  void list_parse(librevenge::RVNGInputStream *input, ExtendedGUID guid, FileNodeChunkReference ref); // Assume we're at the beginning of a FileNode list
 //    std::unordered_map<std::string, libone::Object> ObjectMap = std::unordered_map<std::string, libone::Object>();
-    std::unordered_map<std::string, libone::Revision> RevisionMap = std::unordered_map<std::string, libone::Revision>();
-    void to_document(librevenge::RVNGDrawingInterface *document);
-    std::string to_string();
+  std::unordered_map<std::string, libone::Revision> RevisionMap = std::unordered_map<std::string, libone::Revision>();
+  void to_document(librevenge::RVNGDrawingInterface *document);
+  std::string to_string();
 
-  private:
-    uint64_t m_offset = 0;
-    FileNodeChunkReference m_fnd_list_ref = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
-    ExtendedGUID guid = ExtendedGUID();
-    ExtendedGUID context = ExtendedGUID();
-    std::vector<Revision> revisions = std::vector<Revision>();
+private:
+  uint64_t m_offset = 0;
+  FileNodeChunkReference m_fnd_list_ref = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
+  ExtendedGUID guid = ExtendedGUID();
+  ExtendedGUID context = ExtendedGUID();
+  std::vector<Revision> revisions = std::vector<Revision>();
 };
 
 }

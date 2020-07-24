@@ -12,43 +12,53 @@
 
 #include <librevenge-stream/librevenge-stream.h>
 
-namespace libone {
+namespace libone
+{
 
-  enum stp_format {
-		stp_uncompressed_8 = 0,
-		stp_uncompressed_4 = 1,
-		stp_compressed_2 = 2,
-    stp_compressed_4 = 3,
-		stp_invalid
-	};
+enum stp_format
+{
+  stp_uncompressed_8 = 0,
+  stp_uncompressed_4 = 1,
+  stp_compressed_2 = 2,
+  stp_compressed_4 = 3,
+  stp_invalid
+};
 
-  enum cb_format {
-    cb_uncompressed_4 = 0,
-    cb_uncompressed_8 = 1,
-    cb_compressed_1 = 2,
-    cb_compressed_2 = 3,
-    cb_invalid
-  };
+enum cb_format
+{
+  cb_uncompressed_4 = 0,
+  cb_uncompressed_8 = 1,
+  cb_compressed_1 = 2,
+  cb_compressed_2 = 3,
+  cb_invalid
+};
 
-class FileNodeChunkReference {
-  public:
-    FileNodeChunkReference(enum stp_format format_stp, enum cb_format format_cb, long offset);
-    bool is_fcrNil();
-    bool is_fcrZero();
-    uint64_t get_location();
-    uint64_t get_size();
-    uint32_t get_size_in_file();
-    void parse(librevenge::RVNGInputStream *input);
-    void set_zero();
-    enum stp_format get_stp_fmt() { return m_format_stp; }
-    enum cb_format get_cb_fmt() { return m_format_cb; }
+class FileNodeChunkReference
+{
+public:
+  FileNodeChunkReference(enum stp_format format_stp, enum cb_format format_cb, long offset);
+  bool is_fcrNil();
+  bool is_fcrZero();
+  uint64_t get_location();
+  uint64_t get_size();
+  uint32_t get_size_in_file();
+  void parse(librevenge::RVNGInputStream *input);
+  void set_zero();
+  enum stp_format get_stp_fmt()
+  {
+    return m_format_stp;
+  }
+  enum cb_format get_cb_fmt()
+  {
+    return m_format_cb;
+  }
 
-  private:
-    uint64_t m_offset;
-    uint64_t m_stp;
-    uint64_t m_cb;
-    enum stp_format m_format_stp;
-    enum cb_format m_format_cb;
+private:
+  uint64_t m_offset;
+  uint64_t m_stp;
+  uint64_t m_cb;
+  enum stp_format m_format_stp;
+  enum cb_format m_format_cb;
 };
 
 }

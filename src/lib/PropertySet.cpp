@@ -14,38 +14,46 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include "PropertySet.h"
 
-namespace libone {
+namespace libone
+{
 
-    void PropertySet::parse(librevenge::RVNGInputStream *input) {
-      bool unknown = false;
-      count = readU16(input);
-      uint32_t temp = 0;
-      for (int i=0; i < count; i++) {
-        temp = readU32 (input);
-        prop_ids.push_back(PropertyID(temp));
-      }
-      for (int i=0; i < count; i++) {
-        switch (prop_ids[i].get_value()) {
-          case PropertyID::CachedTitleString:
-          default:
-          unknown = true;
-            break;
-        }
-        if (unknown) {
-          ONE_DEBUG_MSG((" bailing out! position %lu\n", input->tell()));
-          break;
-      }
-    }
-    }
-
-
-    std::string PropertySet::to_string() {
-      std::stringstream stream;
-      if (prop_ids.size()) {
-        stream << "property count " << prop_ids.size() << "\n";
-        for (auto j: prop_ids)
-          stream << j.to_string() << "\n";
-      }
-      return stream.str();
+void PropertySet::parse(librevenge::RVNGInputStream *input)
+{
+  bool unknown = false;
+  count = readU16(input);
+  uint32_t temp = 0;
+  for (int i=0; i < count; i++)
+  {
+    temp = readU32(input);
+    prop_ids.push_back(PropertyID(temp));
   }
+  for (int i=0; i < count; i++)
+  {
+    switch (prop_ids[i].get_value())
+    {
+    case PropertyID::CachedTitleString:
+    default:
+      unknown = true;
+      break;
+    }
+    if (unknown)
+    {
+      ONE_DEBUG_MSG((" bailing out! position %lu\n", input->tell()));
+      break;
+    }
+  }
+}
+
+
+std::string PropertySet::to_string()
+{
+  std::stringstream stream;
+  if (prop_ids.size())
+  {
+    stream << "property count " << prop_ids.size() << "\n";
+    for (auto j: prop_ids)
+      stream << j.to_string() << "\n";
+  }
+  return stream.str();
+}
 }

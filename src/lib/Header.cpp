@@ -22,72 +22,74 @@
 #include "GUID.h"
 #include "FileDataStore.h"
 
-namespace libone {
+namespace libone
+{
 
-  void Header::parse(librevenge::RVNGInputStream *input) {
-    input->seek(OFFSET_HEADER, librevenge::RVNG_SEEK_SET);
+void Header::parse(librevenge::RVNGInputStream *input)
+{
+  input->seek(OFFSET_HEADER, librevenge::RVNG_SEEK_SET);
 
-    guidFileType.parse(input);
+  guidFileType.parse(input);
 
-    guidFile.parse(input);
+  guidFile.parse(input);
 
-    guidLegacyFileVersion.parse(input);
+  guidLegacyFileVersion.parse(input);
 
-    guidFileFormat.parse(input);
+  guidFileFormat.parse(input);
 
-    ffvLastCodeThatWroteToThisFile = readU32 (input, false);
-    ffvOldestCodeThatMayReadThisFile = readU32 (input, false);
-    ffvOldestCodeThatHasWrittenToThisFile = readU32 (input, false);
-    ffvNewestCodeThatHasWrittenToThisFile = readU32 (input, false);
+  ffvLastCodeThatWroteToThisFile = readU32(input, false);
+  ffvOldestCodeThatMayReadThisFile = readU32(input, false);
+  ffvOldestCodeThatHasWrittenToThisFile = readU32(input, false);
+  ffvNewestCodeThatHasWrittenToThisFile = readU32(input, false);
 
-    fcrLegacyFreeChunkList.parse(input);
+  fcrLegacyFreeChunkList.parse(input);
 
-    fcrLegacyTransactionLog.parse(input);
+  fcrLegacyTransactionLog.parse(input);
 
-    cTransactionsInLog = readU32 (input, false);
+  cTransactionsInLog = readU32(input, false);
 
-    cbLegacyExpectedFileLength = readU32 (input, false);
+  cbLegacyExpectedFileLength = readU32(input, false);
 
-    rgbPlaceholder = readU64 (input, false);
+  rgbPlaceholder = readU64(input, false);
 
-    fcrLegacyFileNodeListRoot.parse(input);
+  fcrLegacyFileNodeListRoot.parse(input);
 
-    cbLegacyFreeSpaceInFreeChunkList = readU32 (input, false);
+  cbLegacyFreeSpaceInFreeChunkList = readU32(input, false);
 
-    ignored = readU32 (input, false);
+  ignored = readU32(input, false);
 
-    guidAncestor.parse(input);
+  guidAncestor.parse(input);
 
-    crcName = readU32 (input, false);
+  crcName = readU32(input, false);
 
-    fcrHashedChunkList.parse(input);
+  fcrHashedChunkList.parse(input);
 
-    fcrTransactionLog.parse(input);
+  fcrTransactionLog.parse(input);
 
-    fcrFileNodeListRoot.parse(input);
+  fcrFileNodeListRoot.parse(input);
 
-    fcrFreeChunkList.parse(input);
+  fcrFreeChunkList.parse(input);
 
-    cbExpectedFileLength = readU64 (input, false);
+  cbExpectedFileLength = readU64(input, false);
 
-    cbFreeSpaceInFreeChunkList = readU64 (input, false);
+  cbFreeSpaceInFreeChunkList = readU64(input, false);
 
-    guidFileVersion.parse(input);
+  guidFileVersion.parse(input);
 
-    nFileVersionGeneration = readU64 (input, false);
+  nFileVersionGeneration = readU64(input, false);
 
-    guidDenyReadFileVersion.parse(input);
+  guidDenyReadFileVersion.parse(input);
 
-    grfDebugLogFlags = readU32 (input, false);
+  grfDebugLogFlags = readU32(input, false);
 
-    fcrDebugLog.parse(input);
+  fcrDebugLog.parse(input);
 
-    fcrAllocVerificationFreeChunkList.parse(input);
+  fcrAllocVerificationFreeChunkList.parse(input);
 
-    bnCreated = readU32 (input, false);
-    bnLastWroteToThisFile = readU32 (input, false);
-    bnOldestWritten = readU32 (input, false);
-    bnNewestWritten = readU32 (input, false);
-  }
+  bnCreated = readU32(input, false);
+  bnLastWroteToThisFile = readU32(input, false);
+  bnOldestWritten = readU32(input, false);
+  bnNewestWritten = readU32(input, false);
+}
 
 }

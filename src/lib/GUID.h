@@ -14,19 +14,21 @@
 #include <cstdint>
 #include <librevenge-stream/librevenge-stream.h>
 
-namespace libone {
+namespace libone
+{
 
-class GUID {
-  public:
-    void parse(librevenge::RVNGInputStream *input);
-    std::string to_string();
-    bool is_equal(GUID other);
-    uint32_t Data1 = 0;
-    uint16_t Data2 = 0;
-    uint16_t Data3 = 0;
-    uint16_t Data4[4] = { 0 };
-    void zero();
-    void from_string(std::string str);
+class GUID
+{
+public:
+  void parse(librevenge::RVNGInputStream *input);
+  std::string to_string();
+  bool is_equal(GUID other);
+  uint32_t Data1 = 0;
+  uint16_t Data2 = 0;
+  uint16_t Data3 = 0;
+  uint16_t Data4[4] = { 0 };
+  void zero();
+  void from_string(std::string str);
 };
 
 }

@@ -18,43 +18,52 @@
 
 #include "libone_utils.h"
 
-namespace libone {
+namespace libone
+{
 
-	void ExtendedGUID::parse(librevenge::RVNGInputStream *input) {
-		guid.parse(input);
+void ExtendedGUID::parse(librevenge::RVNGInputStream *input)
+{
+  guid.parse(input);
 
-		n = readU32(input, false);
-	}
+  n = readU32(input, false);
+}
 
-	std::string ExtendedGUID::to_string() {
-		std::stringstream stream;
-		stream << guid.to_string() << " n=" << n;
+std::string ExtendedGUID::to_string()
+{
+  std::stringstream stream;
+  stream << guid.to_string() << " n=" << n;
 
-		return stream.str();
-	}
+  return stream.str();
+}
 
-	uint32_t ExtendedGUID::get_n() {
-		return n;
-	}
+uint32_t ExtendedGUID::get_n()
+{
+  return n;
+}
 
-	bool ExtendedGUID::is_equal(ExtendedGUID other) {
-	  if ((guid.is_equal(other.guid)) && (n == other.n)) {
-  	  return true;
-	  }
-	  return false;
-	}
+bool ExtendedGUID::is_equal(ExtendedGUID other)
+{
+  if ((guid.is_equal(other.guid)) && (n == other.n))
+  {
+    return true;
+  }
+  return false;
+}
 
-	void ExtendedGUID::zero() {
-	  guid.zero();
-	  n = 0;
-	}
+void ExtendedGUID::zero()
+{
+  guid.zero();
+  n = 0;
+}
 
-	void ExtendedGUID::set_n(uint32_t new_n) {
-	  n = new_n;
-	}
+void ExtendedGUID::set_n(uint32_t new_n)
+{
+  n = new_n;
+}
 
-	void ExtendedGUID::set_GUID(GUID new_guid) {
-	  guid = new_guid;
-	}
+void ExtendedGUID::set_GUID(GUID new_guid)
+{
+  guid = new_guid;
+}
 
 }

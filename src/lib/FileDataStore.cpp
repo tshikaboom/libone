@@ -16,20 +16,23 @@
 #include "FileChunkReference.h"
 #include "FileNodeList.h"
 
-namespace libone {
+namespace libone
+{
 
-  void FileDataStore::parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
-    FileNodeList list(ref.get_location(), ref.get_size());
-    FileNode node;
-    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-    list.parse(input);
+void FileDataStore::parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref)
+{
+  FileNodeList list(ref.get_location(), ref.get_size());
+  FileNode node;
+  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+  list.parse(input);
 
-    ONE_DEBUG_MSG(("\n"));
-  }
+  ONE_DEBUG_MSG(("\n"));
+}
 
-  std::string FileDataStore::to_string() {
-    return "";
-  }
+std::string FileDataStore::to_string()
+{
+  return "";
+}
 
 
 }

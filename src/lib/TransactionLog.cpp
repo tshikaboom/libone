@@ -16,50 +16,54 @@
 
 #include "TransactionLog.h"
 
-namespace libone {
+namespace libone
+{
 
-  TransactionLog::TransactionLog(uint64_t location, uint32_t size, uint32_t max_transactions) :
-    m_offset(location), m_size(size), m_total_transactions(max_transactions),
-    m_fragments(std::vector<TransactionLogFragment>()),
-    m_transactions(std::vector<TransactionEntry>())
-    {
-      DBMSG << m_total_transactions << " transactions to parse" << std::endl;
-    }
+TransactionLog::TransactionLog(uint64_t location, uint32_t size, uint32_t max_transactions) :
+  m_offset(location), m_size(size), m_total_transactions(max_transactions),
+  m_fragments(std::vector<TransactionLogFragment>()),
+  m_transactions(std::vector<TransactionEntry>())
+{
+  DBMSG << m_total_transactions << " transactions to parse" << std::endl;
+}
 
 
-  void TransactionLog::parse(librevenge::RVNGInputStream *input) {
-      TransactionLogFragment fragment = TransactionLogFragment();
-      uint64_t location = m_offset;
-      uint32_t transactions_parsed = 0;
+void TransactionLog::parse(librevenge::RVNGInputStream *input)
+{
+  TransactionLogFragment fragment = TransactionLogFragment();
+  uint64_t location = m_offset;
+  uint32_t transactions_parsed = 0;
 
-      DBMSG << "begin, input@" << input->tell() << std::endl;
+  DBMSG << "begin, input@" << input->tell() << std::endl;
 
-      for (uint32_t i=0; i<m_total_transactions; ) {
-        DBMSG << "seeking to fragment @" << location << std::endl;
-        input->seek(location, librevenge::RVNG_SEEK_SET);
-        i += fragment.parse(input, m_offset, m_size, m_total_transactions-i);
-        transactions_parsed += i;
+  for (uint32_t i=0; i<m_total_transactions;)
+  {
+    DBMSG << "seeking to fragment @" << location << std::endl;
+    input->seek(location, librevenge::RVNG_SEEK_SET);
+    i += fragment.parse(input, m_offset, m_size, m_total_transactions-i);
+    transactions_parsed += i;
 
-        DBMSG << "Parsed one fragment, got " << i << " transactions" << std::endl;
+    DBMSG << "Parsed one fragment, got " << i << " transactions" << std::endl;
 
-        m_fragments.push_back(fragment);
+    m_fragments.push_back(fragment);
 
-        DBMSG << "pushed back fragment" << std::endl;
+    DBMSG << "pushed back fragment" << std::endl;
 
-        m_transactions.insert(std::end(m_transactions), std::begin(fragment.get_transactions()), std::end(fragment.get_transactions()));
+    m_transactions.insert(std::end(m_transactions), std::begin(fragment.get_transactions()), std::end(fragment.get_transactions()));
 
-        DBMSG << "inserted fragment transactions" << std::endl;
+    DBMSG << "inserted fragment transactions" << std::endl;
 
-        location = fragment.get_next_fragment().get_location();
-      }
-
-      DBMSG << "parsed " << transactions_parsed << " transactions" << std::endl;
+    location = fragment.get_next_fragment().get_location();
   }
 
-  std::string TransactionLog::to_string() {
-      std::stringstream stream;
+  DBMSG << "parsed " << transactions_parsed << " transactions" << std::endl;
+}
 
-      return stream.str();
+std::string TransactionLog::to_string()
+{
+  std::stringstream stream;
 
-  }
+  return stream.str();
+
+}
 }

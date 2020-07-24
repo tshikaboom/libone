@@ -17,35 +17,40 @@
 #include "FileNode.h"
 #include "FileNodeListFragment.h"
 
-namespace libone {
+namespace libone
+{
 
-class FileNodeList {
-  public:
-    FileNodeList(uint64_t new_location, uint64_t new_size);
-    void parse(librevenge::RVNGInputStream *input);
-    bool is_end();
-    std::string to_string();
+class FileNodeList
+{
+public:
+  FileNodeList(uint64_t new_location, uint64_t new_size);
+  void parse(librevenge::RVNGInputStream *input);
+  bool is_end();
+  std::string to_string();
 
 
-    std::vector<FileNode>& get_fnd_list() { return rgFileNodes; }
-  private:
-    long m_offset;
-    uint32_t m_fnd_list_id;
-    uint32_t m_fragment_sequence;
-    std::vector<FileNode> rgFileNodes = std::vector<FileNode>();
-    uint16_t nextFragment = 0;
-    uint64_t m_size;
-    long seek = 0;
-    bool end = false;
-    bool header_parsed = false;
-    long next_fragment_location = 0;
-    uint32_t list_length = 0;
-    uint32_t elements_parsed = 0;
+  std::vector<FileNode> &get_fnd_list()
+  {
+    return rgFileNodes;
+  }
+private:
+  long m_offset;
+  uint32_t m_fnd_list_id;
+  uint32_t m_fragment_sequence;
+  std::vector<FileNode> rgFileNodes = std::vector<FileNode>();
+  uint16_t nextFragment = 0;
+  uint64_t m_size;
+  long seek = 0;
+  bool end = false;
+  bool header_parsed = false;
+  long next_fragment_location = 0;
+  uint32_t list_length = 0;
+  uint32_t elements_parsed = 0;
 
-    std::vector<FileNodeListFragment> m_fragment_list;
+  std::vector<FileNodeListFragment> m_fragment_list;
 
-    const uint64_t header_magic_id = 0xA4567AB1F5F7F4C4;
-    const uint64_t footer_magic_id = 0x8BC215C38233BA4B;
+  const uint64_t header_magic_id = 0xA4567AB1F5F7F4C4;
+  const uint64_t footer_magic_id = 0x8BC215C38233BA4B;
 };
 
 

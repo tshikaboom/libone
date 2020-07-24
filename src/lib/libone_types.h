@@ -17,7 +17,8 @@
 #include "ObjectSpace.h"
 #include "Header.h"
 
-namespace libone {
+namespace libone
+{
 
 extern std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 

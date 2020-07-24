@@ -16,81 +16,88 @@
 #include "Revision.h"
 #include "CompactID.h"
 
-namespace libone {
+namespace libone
+{
 
-  void Revision::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
-    FileNodeList list(ref.get_location(), ref.get_size());
-    FileNode node;
+void Revision::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref)
+{
+  FileNodeList list(ref.get_location(), ref.get_size());
+  FileNode node;
 //    ObjectGroup group;
-    ExtendedGUID temp;
+  ExtendedGUID temp;
 //    Object object;
-    input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
-    ONE_DEBUG_MSG(("trying to revision at %lu\n", input->tell()));
+  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+  ONE_DEBUG_MSG(("trying to revision at %lu\n", input->tell()));
 
-    list.parse(input);
+  list.parse(input);
 
+}
+
+std::string Revision::to_string()
+{
+  std::stringstream stream;
+  stream << "Revision guid " << guid.to_string() << "\n";
+  stream << "Revision dep " << dependent.to_string() << "\n";
+  stream << "Revision root " << root_object.to_string() << "\n";
+  stream << "Revision role " << role << "\n";
+  stream << "Revision context " << context.to_string() << "\n";
+
+
+  return stream.str();
+}
+
+void Revision::parse_dependencies(librevenge::RVNGInputStream *input, FileNode node)
+{
+  CompactID temp;
+  uint32_t n_8bitoverrides;
+  uint32_t n_32bitoverrides;
+  uint32_t crc;
+  uint32_t i = 0;
+  long old = -1;
+
+  (void) crc;
+  (void) i;
+  (void) n_8bitoverrides;
+  (void) n_32bitoverrides;
+
+  if (!node.get_fnd().is_fcrNil())
+  {
+    ONE_DEBUG_MSG((" for dependencies\n"));
+    old = input->tell();
+    input->seek(node.get_fnd().get_location(), librevenge::RVNG_SEEK_SET);
   }
 
-  std::string Revision::to_string() {
-    std::stringstream stream;
-    stream << "Revision guid " << guid.to_string() << "\n";
-    stream << "Revision dep " << dependent.to_string() << "\n";
-    stream << "Revision root " << root_object.to_string() << "\n";
-    stream << "Revision role " << role << "\n";
-    stream << "Revision context " << context.to_string() << "\n";
+  n_8bitoverrides = readU32(input, false);
+  n_32bitoverrides = readU32(input, false);
+  ONE_DEBUG_MSG((" 32bit overrides\n"));
+  crc = readU32(input, false);
+  /*    for (i = 0; i < n_8bitoverrides; i++) {
+        temp.parse(input);
+        group.objects[temp.to_EGUID().to_string()].ref_count = readU8 (input);
+        ONE_DEBUG_MSG(("\n"));
+      }
+      for (i = 0; i < n_32bitoverrides; i++) {
+        temp.parse(input);
+        group.objects[temp.to_EGUID().to_string()].ref_count = readU32(input);
+        ONE_DEBUG_MSG(("\n"));
+      } */
 
+  if (!node.get_fnd().is_fcrNil())
+    input->seek(old, librevenge::RVNG_SEEK_SET);
 
-    return stream.str();
+}
+
+void Revision::to_document(librevenge::RVNGDrawingInterface *document)
+{
+  (void) document;
+
+  for (auto i: root_objects)
+  {
+    ONE_DEBUG_MSG(("\n"));
+    //objects[i.first].to_document(document, objects);
   }
 
-  void Revision::parse_dependencies(librevenge::RVNGInputStream *input, FileNode node) {
-    CompactID temp;
-    uint32_t n_8bitoverrides;
-    uint32_t n_32bitoverrides;
-    uint32_t crc;
-    uint32_t i = 0;
-    long old = -1;
-
-    (void) crc;
-    (void) i;
-    (void) n_8bitoverrides;
-    (void) n_32bitoverrides;
-
-    if (!node.get_fnd().is_fcrNil()) {
-      ONE_DEBUG_MSG((" for dependencies\n"));
-      old = input->tell();
-      input->seek(node.get_fnd().get_location(), librevenge::RVNG_SEEK_SET);
-    }
-
-    n_8bitoverrides = readU32 (input, false);
-    n_32bitoverrides = readU32(input, false);
-    ONE_DEBUG_MSG((" 32bit overrides\n"));
-    crc = readU32(input, false);
-/*    for (i = 0; i < n_8bitoverrides; i++) {
-      temp.parse(input);
-      group.objects[temp.to_EGUID().to_string()].ref_count = readU8 (input);
-      ONE_DEBUG_MSG(("\n"));
-    }
-    for (i = 0; i < n_32bitoverrides; i++) {
-      temp.parse(input);
-      group.objects[temp.to_EGUID().to_string()].ref_count = readU32(input);
-      ONE_DEBUG_MSG(("\n"));
-    } */
-
-    if (!node.get_fnd().is_fcrNil())
-      input->seek(old, librevenge::RVNG_SEEK_SET);
-
-  }
-
-  void Revision::to_document(librevenge::RVNGDrawingInterface *document) {
-    (void) document;
-
-    for (auto i: root_objects) {
-      ONE_DEBUG_MSG(("\n"));
-        //objects[i.first].to_document(document, objects);
-    }
-
-  }
+}
 
 }
 

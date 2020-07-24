@@ -14,81 +14,88 @@
 #include "FileDataStore.h"
 #include "TransactionLog.h"
 
-namespace libone {
+namespace libone
+{
 
-  libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
+libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
 
-    OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document) {
-      Header header = Header();
-      libone::ExtendedGUID RootObject;
+OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document)
+{
+  Header header = Header();
+  libone::ExtendedGUID RootObject;
 
-      header.parse(input);
+  header.parse(input);
 
-      input->seek(0, librevenge::RVNG_SEEK_SET);
+  input->seek(0, librevenge::RVNG_SEEK_SET);
 
-      ONE_DEBUG_MSG(("trying transactions, jumping to %ld\n", header.fcrTransactionLog.get_location()));
-      input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
+  ONE_DEBUG_MSG(("trying transactions, jumping to %ld\n", header.fcrTransactionLog.get_location()));
+  input->seek(header.fcrTransactionLog.get_location(), librevenge::RVNG_SEEK_SET);
 
 
 
-      ONE_DEBUG_MSG(("test fileNodeList\n"));
-      parse_root_file_node_list(input, header, RootObject);
-      ONE_DEBUG_MSG(("root object is %s\n", RootObject.to_string().c_str()));
+  ONE_DEBUG_MSG(("test fileNodeList\n"));
+  parse_root_file_node_list(input, header, RootObject);
+  ONE_DEBUG_MSG(("root object is %s\n", RootObject.to_string().c_str()));
 
-      for (auto i: ObjectSpaces) {
-        ONE_DEBUG_MSG(("object space %s\n", i.first.c_str()));
-      }
+  for (auto i: ObjectSpaces)
+  {
+    ONE_DEBUG_MSG(("object space %s\n", i.first.c_str()));
+  }
 
-      // TODO: replace with proper transaction implementation
-      parse_transactions(input, header);
+  // TODO: replace with proper transaction implementation
+  parse_transactions(input, header);
 
-      ObjectSpaces[RootObject.to_string()].to_document(document);
+  ObjectSpaces[RootObject.to_string()].to_document(document);
 
-      ONE_DEBUG_MSG(("nothing broke!\n"));
+  ONE_DEBUG_MSG(("nothing broke!\n"));
 
+}
+
+void OneNoteParser::parse_transactions(librevenge::RVNGInputStream *input, Header &header)
+{
+  TransactionLog log = TransactionLog(header.fcrTransactionLog.get_location(),
+                                      header.fcrTransactionLog.get_size(),
+                                      header.cTransactionsInLog);
+  log.parse(input);
+}
+
+void OneNoteParser::parse_root_file_node_list(librevenge::RVNGInputStream *input,
+                                              Header &header, ExtendedGUID &root_object)
+{
+  ExtendedGUID guid;
+  std::vector<ObjectSpace> object_spaces = std::vector<ObjectSpace>();
+  FileDataStore store;
+  FileNodeList list(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
+  (void) store;
+
+  list.parse(input);
+
+  DBMSG << "iterating on a " << list.get_fnd_list().size() << " size list" << std::endl;
+
+  for (FileNode &node : list.get_fnd_list())
+  {
+    ObjectSpace object_space = ObjectSpace();
+    DBMSG << node.to_string() << std::endl;
+
+    switch (node.get_FileNodeID())
+    {
+    case ObjectSpaceManifestRootFND:
+      input->seek(node.get_location() + node.header_size, librevenge::RVNG_SEEK_SET);
+      root_object.parse(input);
+      break;
+    case ObjectSpaceManifestListReferenceFND:
+      object_space.parse(input, node);
+      break;
+    case FileDataStoreListReferenceFND:
+      break;
+    default:
+      assert(false);
+      break;
     }
+  }
 
-    void OneNoteParser::parse_transactions(librevenge::RVNGInputStream *input, Header& header) {
-      TransactionLog log = TransactionLog(header.fcrTransactionLog.get_location(),
-                                          header.fcrTransactionLog.get_size(),
-                                          header.cTransactionsInLog);
-      log.parse(input);
-    }
+}
 
-    void OneNoteParser::parse_root_file_node_list(librevenge::RVNGInputStream *input,
-                                                  Header& header, ExtendedGUID& root_object) {
-      ExtendedGUID guid;
-      std::vector<ObjectSpace> object_spaces = std::vector<ObjectSpace>();
-      FileDataStore store;
-      FileNodeList list(header.fcrFileNodeListRoot.get_location(), header.fcrFileNodeListRoot.get_size());
-      (void) store;
-
-      list.parse(input);
-
-      DBMSG << "iterating on a " << list.get_fnd_list().size() << " size list" << std::endl;
-
-      for (FileNode& node : list.get_fnd_list()) {
-        ObjectSpace object_space = ObjectSpace();
-        DBMSG << node.to_string() << std::endl;
-
-        switch (node.get_FileNodeID()) {
-          case ObjectSpaceManifestRootFND:
-            input->seek(node.get_location() + node.header_size, librevenge::RVNG_SEEK_SET);
-            root_object.parse(input);
-            break;
-          case ObjectSpaceManifestListReferenceFND:
-            object_space.parse(input, node);
-            break;
-          case FileDataStoreListReferenceFND:
-            break;
-          default:
-            assert(false);
-            break;
-        }
-      }
-
-    }
-
-    std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable = std::unordered_map<uint32_t, libone::GUID>();
+std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable = std::unordered_map<uint32_t, libone::GUID>();
 
 }
