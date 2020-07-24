@@ -6,3 +6,10 @@ librevenge and the rest of Fridrich's libraries. Please run
     astyle --options=astyle.options \*.cpp \*.h
 
 before committing.
+
+
+Alternatively, set hooks for your git repository
+
+    git config --local core.hooksPath .githooks
+
+to run astyle on every commit.
