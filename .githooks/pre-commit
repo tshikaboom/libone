@@ -44,7 +44,7 @@ If you know what you are doing you can disable this check using:
 EOF
 	exit 1
 fi
-
+REPO_TOPLEVEL=$(git rev-parse --show-toplevel)
 ASTYLE=astyle
 ASTYLEOPTIONS="../../astyle.options"
 
