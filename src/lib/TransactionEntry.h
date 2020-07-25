@@ -16,26 +16,32 @@
 #include <bitset>
 #include <libone/libone.h>
 
-namespace libone {
+namespace libone
+{
 
-  struct fnd_list_change {
-    uint32_t fnd_list_id;
-    uint32_t nodes_changed;
-  };
+struct fnd_list_change
+{
+  uint32_t fnd_list_id;
+  uint32_t nodes_changed;
+};
 
-class TransactionEntry {
-  public:
-    TransactionEntry();
-    void parse(librevenge::RVNGInputStream *input);
-    std::string to_string();
-    std::vector<struct fnd_list_change> get_changes() { return m_fnd_list_changes; }
+class TransactionEntry
+{
+public:
+  TransactionEntry();
+  void parse(librevenge::RVNGInputStream *input);
+  std::string to_string();
+  std::vector<struct fnd_list_change> get_changes()
+  {
+    return m_fnd_list_changes;
+  }
 
-  private:
-    long m_offset;
-    std::vector<struct fnd_list_change> m_fnd_list_changes;
-    uint32_t m_crc;
+private:
+  long m_offset;
+  std::vector<struct fnd_list_change> m_fnd_list_changes;
+  uint32_t m_crc;
 
-    static const uint32_t val_sentinel = 0x00000001;
+  static const uint32_t val_sentinel = 0x00000001;
 };
 
 }

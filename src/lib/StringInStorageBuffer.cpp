@@ -16,22 +16,25 @@
 #include "StringInStorageBuffer.h"
 #include "libone_utils.h"
 
-namespace libone {
+namespace libone
+{
 
-  void StringInStorageBuffer::parse(librevenge::RVNGInputStream *input) {
-    std::stringstream stream;
-    length = readU32(input);
-    std::vector<char> string;
-    char *buf = (char *) readNBytes(input, length*2);
-    string.assign(buf, buf+length*2);
-    ustring = librevenge::RVNGString((char *) &string[0]);
+void StringInStorageBuffer::parse(librevenge::RVNGInputStream *input)
+{
+  std::stringstream stream;
+  length = readU32(input);
+  std::vector<char> string;
+  char *buf = (char *) readNBytes(input, length*2);
+  string.assign(buf, buf+length*2);
+  ustring = librevenge::RVNGString((char *) &string[0]);
 
-    ONE_DEBUG_MSG(("read length1 %u length2 %u string1 %s string2 %s end\n", length, ustring.len(), &string[0], ustring.cstr()));
-  }
+  ONE_DEBUG_MSG(("read length1 %u length2 %u string1 %s string2 %s end\n", length, ustring.len(), &string[0], ustring.cstr()));
+}
 
-  std::string StringInStorageBuffer::to_string() {
-    return ustring.cstr();
-  }
+std::string StringInStorageBuffer::to_string()
+{
+  return ustring.cstr();
+}
 
 
 }

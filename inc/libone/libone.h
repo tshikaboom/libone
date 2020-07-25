@@ -14,7 +14,8 @@
 
 #include <vector>
 #include <string>
-namespace libone {
+namespace libone
+{
 
 
 

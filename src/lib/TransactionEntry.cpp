@@ -12,43 +12,51 @@
 
 #include "TransactionEntry.h"
 
-namespace libone {
+namespace libone
+{
 
-	TransactionEntry::TransactionEntry() :
-		m_offset(0),
-		m_fnd_list_changes(std::vector<struct fnd_list_change>()),
-		m_crc(0)
-	{}
+TransactionEntry::TransactionEntry() :
+  m_offset(0),
+  m_fnd_list_changes(std::vector<struct fnd_list_change>()),
+  m_crc(0)
+{}
 
-    void TransactionEntry::parse(librevenge::RVNGInputStream *input) {
-		m_offset = input->tell();
-		while (true) {
-			struct fnd_list_change element = {
-				readU32(input),
-				readU32(input)
-			};
+void TransactionEntry::parse(librevenge::RVNGInputStream *input)
+{
+  m_offset = input->tell();
+  while (true)
+  {
+    struct fnd_list_change element =
+    {
+      readU32(input),
+      readU32(input)
+    };
 
-			if (element.fnd_list_id == val_sentinel) {
-				m_crc = element.nodes_changed;
-				break;
-			}
-			else {
-				m_fnd_list_changes.push_back(element);
-			}
-		}
+    if (element.fnd_list_id == val_sentinel)
+    {
+      m_crc = element.nodes_changed;
+      break;
     }
+    else
+    {
+      m_fnd_list_changes.push_back(element);
+    }
+  }
+}
 
-    std::string TransactionEntry::to_string() {
-		std::stringstream stream;
+std::string TransactionEntry::to_string()
+{
+  std::stringstream stream;
 
-		for (struct fnd_list_change& iter : m_fnd_list_changes) {
-			stream << "fnd_list " << iter.fnd_list_id;
-			stream << "; " << iter.nodes_changed << " changes; ";
-		}
+  for (struct fnd_list_change &iter : m_fnd_list_changes)
+  {
+    stream << "fnd_list " << iter.fnd_list_id;
+    stream << "; " << iter.nodes_changed << " changes; ";
+  }
 
-		stream << "crc " << m_crc;
+  stream << "crc " << m_crc;
 
-		return stream.str();
-	}
+  return stream.str();
+}
 
 }

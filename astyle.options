@@ -8,5 +8,4 @@ unpad-paren
 max-instatement-indent=120
 
 # processing options
-recursive
 suffix=none

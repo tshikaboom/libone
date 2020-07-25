@@ -21,43 +21,46 @@
 #include "FileNodeChunkReference.h"
 #include "PropertySet.h"
 
-namespace libone {
+namespace libone
+{
 
-  struct object_header {
-    ExtendedGUID guid = ExtendedGUID();
-    FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
-    JCID jcid = JCID(0);
-    uint32_t ref_count = 0;
-    uint16_t fHasOidReferences = 0;
-    uint16_t fHasOsidReferences = 0;
+struct object_header
+{
+  ExtendedGUID guid = ExtendedGUID();
+  FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
+  JCID jcid = JCID(0);
+  uint32_t ref_count = 0;
+  uint16_t fHasOidReferences = 0;
+  uint16_t fHasOsidReferences = 0;
 };
 
-class Object {
+class Object
+{
 
-  public:
-    Object(librevenge::RVNGInputStream *input, struct object_header _header);
-    bool get_read_only();
-    void set_read_only(bool new_);
-    ExtendedGUID get_guid();
-    std::string to_string();
-    void to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects);
+public:
+  Object(librevenge::RVNGInputStream *input, struct object_header _header);
+  bool get_read_only();
+  void set_read_only(bool new_);
+  ExtendedGUID get_guid();
+  std::string to_string();
+  void to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects);
 
-  protected:
-    void parse_list(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
+protected:
+  void parse_list(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
 
-  private:
-    FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
-    PropertySet set = PropertySet();
+private:
+  FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
+  PropertySet set = PropertySet();
 
-    bool read_only = false;
-    ExtendedGUID guid = ExtendedGUID();
-    JCID jcid = JCID(0);
-    uint32_t ref_count = 0;
-    uint16_t fHasOidReferences = 0;
-    uint16_t fHasOsidReferences = 0;
-    std::vector<ExtendedGUID> object_refs = std::vector<ExtendedGUID>();
-    std::vector<ExtendedGUID> context_refs = std::vector<ExtendedGUID>();
-    std::vector<ExtendedGUID> object_spaces_refs = std::vector<ExtendedGUID>();
+  bool read_only = false;
+  ExtendedGUID guid = ExtendedGUID();
+  JCID jcid = JCID(0);
+  uint32_t ref_count = 0;
+  uint16_t fHasOidReferences = 0;
+  uint16_t fHasOsidReferences = 0;
+  std::vector<ExtendedGUID> object_refs = std::vector<ExtendedGUID>();
+  std::vector<ExtendedGUID> context_refs = std::vector<ExtendedGUID>();
+  std::vector<ExtendedGUID> object_spaces_refs = std::vector<ExtendedGUID>();
 
 };
 

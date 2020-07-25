@@ -20,15 +20,17 @@
 
 extern std::unordered_map<uint32_t, libone::GUID> GlobalIdentificationTable;
 
-namespace libone {
+namespace libone
+{
 
-class ObjectGroup {
-  public:
-    std::unordered_map<std::string, libone::Object> list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
-    std::string get_guid();
+class ObjectGroup
+{
+public:
+  std::unordered_map<std::string, libone::Object> list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
+  std::string get_guid();
 
-  private:
-    ExtendedGUID oid = ExtendedGUID();
+private:
+  ExtendedGUID oid = ExtendedGUID();
 
 };
 

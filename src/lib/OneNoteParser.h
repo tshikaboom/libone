@@ -25,18 +25,20 @@
 #include <libone/ONEDocument.h>
 #include "libone_utils.h"
 
-namespace libone {
-  class OneNoteParser {
-    public:
-      OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document);
+namespace libone
+{
+class OneNoteParser
+{
+public:
+  OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document);
 
-    private:
-      std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces = std::unordered_map<std::string, libone::ObjectSpace>();
+private:
+  std::unordered_map<std::string, libone::ObjectSpace> ObjectSpaces = std::unordered_map<std::string, libone::ObjectSpace>();
 
-      void parse_root_file_node_list(librevenge::RVNGInputStream *input,
-                                     Header& header, ExtendedGUID& root_object);
-      void parse_transactions(librevenge::RVNGInputStream *input, Header& header);
-  };
+  void parse_root_file_node_list(librevenge::RVNGInputStream *input,
+                                 Header &header, ExtendedGUID &root_object);
+  void parse_transactions(librevenge::RVNGInputStream *input, Header &header);
+};
 
 
 

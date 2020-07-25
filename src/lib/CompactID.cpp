@@ -15,27 +15,31 @@
 #include "libone_utils.h"
 #include "libone_types.h"
 
-namespace libone {
+namespace libone
+{
 
-	void CompactID::parse(librevenge::RVNGInputStream *input) {
-	  uint32_t temp = readU32 (input);
-		guidIndex = (temp >> 8) & 0xFFFFFF;
-		n = temp & 0xFF;
-	}
+void CompactID::parse(librevenge::RVNGInputStream *input)
+{
+  uint32_t temp = readU32(input);
+  guidIndex = (temp >> 8) & 0xFFFFFF;
+  n = temp & 0xFF;
+}
 
-	std::string CompactID::to_string() {
-	  std::stringstream stream;
-    stream << "CompactID " << guidIndex << " n " << (unsigned) n << '\n';
-	  return stream.str();
-	}
+std::string CompactID::to_string()
+{
+  std::stringstream stream;
+  stream << "CompactID " << guidIndex << " n " << (unsigned) n << '\n';
+  return stream.str();
+}
 
-	ExtendedGUID CompactID::to_EGUID() {
-	  ExtendedGUID ret;
-	  ret.set_GUID(GlobalIdentificationTable[guidIndex]);
-	  ret.set_n(n);
+ExtendedGUID CompactID::to_EGUID()
+{
+  ExtendedGUID ret;
+  ret.set_GUID(GlobalIdentificationTable[guidIndex]);
+  ret.set_n(n);
 
-	  return ret;
-	}
+  return ret;
+}
 }
 
 

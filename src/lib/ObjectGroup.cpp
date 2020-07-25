@@ -10,18 +10,20 @@
 #include "libone_types.h"
 #include "ObjectGroup.h"
 
-namespace libone {
+namespace libone
+{
 
-  std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref) {
-    FileNodeList list (ref.get_location(), ref.get_size());
-    std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();
-    GUID temp = GUID();
-    DBMSG << "GUID " << temp.to_string();
-    oid.parse(input);
-    list.parse(input);
-    ONE_DEBUG_MSG(("end of object group"));
-    return object_map;
-  }
+std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref)
+{
+  FileNodeList list(ref.get_location(), ref.get_size());
+  std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();
+  GUID temp = GUID();
+  DBMSG << "GUID " << temp.to_string();
+  oid.parse(input);
+  list.parse(input);
+  ONE_DEBUG_MSG(("end of object group"));
+  return object_map;
+}
 
 }
 

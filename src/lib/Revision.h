@@ -17,27 +17,29 @@
 #include "Object.h"
 #include "ObjectGroup.h"
 
-namespace libone {
+namespace libone
+{
 
-class Revision {
-  public:
-    void list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
-    std::string get_guid();
-    std::string to_string();
-    ObjectGroup group = ObjectGroup();
-    void to_document(librevenge::RVNGDrawingInterface *document);
-  private:
-    ExtendedGUID guid = ExtendedGUID();
-    ExtendedGUID dependent = ExtendedGUID();
-    ExtendedGUID root_object = ExtendedGUID();
-    std::unordered_map<std::string, uint32_t> root_objects = std::unordered_map<std::string, uint32_t>();
-    std::unordered_map<std::string, Object> objects = std::unordered_map<std::string, Object>();
-    bool read_only = false;
-    unsigned int ref_count = 0;
-    uint32_t role = 0;
-    uint16_t odcsDefault = 0;
-    ExtendedGUID context = ExtendedGUID();
-    void parse_dependencies(librevenge::RVNGInputStream *input, FileNode node);
+class Revision
+{
+public:
+  void list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
+  std::string get_guid();
+  std::string to_string();
+  ObjectGroup group = ObjectGroup();
+  void to_document(librevenge::RVNGDrawingInterface *document);
+private:
+  ExtendedGUID guid = ExtendedGUID();
+  ExtendedGUID dependent = ExtendedGUID();
+  ExtendedGUID root_object = ExtendedGUID();
+  std::unordered_map<std::string, uint32_t> root_objects = std::unordered_map<std::string, uint32_t>();
+  std::unordered_map<std::string, Object> objects = std::unordered_map<std::string, Object>();
+  bool read_only = false;
+  unsigned int ref_count = 0;
+  uint32_t role = 0;
+  uint16_t odcsDefault = 0;
+  ExtendedGUID context = ExtendedGUID();
+  void parse_dependencies(librevenge::RVNGInputStream *input, FileNode node);
 
 };
 

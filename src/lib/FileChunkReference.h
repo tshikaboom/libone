@@ -12,35 +12,38 @@
 
 #include <librevenge-stream/librevenge-stream.h>
 
-namespace libone {
+namespace libone
+{
 
-  enum FileChunkReferenceSize {
-		Size32x32,
-		Size64x64,
-		Size64x32,
-		fcr_size_invalid
-	};
+enum FileChunkReferenceSize
+{
+  Size32x32,
+  Size64x64,
+  Size64x32,
+  fcr_size_invalid
+};
 
-class FileChunkReference {
-  public:
-    FileChunkReference(enum FileChunkReferenceSize fcr_size);
+class FileChunkReference
+{
+public:
+  FileChunkReference(enum FileChunkReferenceSize fcr_size);
 
 
-    void parse(librevenge::RVNGInputStream *input);
-    std::string to_string();
-    long get_location();
-    long get_size();
-    bool is_fcrNil();
-    bool is_fcrZero();
-    void set_zero();
-    long get_size_in_file();
+  void parse(librevenge::RVNGInputStream *input);
+  std::string to_string();
+  long get_location();
+  long get_size();
+  bool is_fcrNil();
+  bool is_fcrZero();
+  void set_zero();
+  long get_size_in_file();
 
-  private:
-    enum FileChunkReferenceSize m_type;
-    long m_offset;
-    long m_size_in_file;
-    uint64_t m_stp;
-    uint64_t m_cb;
+private:
+  enum FileChunkReferenceSize m_type;
+  long m_offset;
+  long m_size_in_file;
+  uint64_t m_stp;
+  uint64_t m_cb;
 };
 
 }

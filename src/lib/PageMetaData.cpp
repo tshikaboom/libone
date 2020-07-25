@@ -9,12 +9,14 @@
 
 #include "PageMetaData.h"
 
-namespace libone {
+namespace libone
+{
 
-  PageMetaData::PageMetaData(librevenge::RVNGInputStream *input, struct object_header _header) : Object(input, _header) {
+PageMetaData::PageMetaData(librevenge::RVNGInputStream *input, struct object_header _header) : Object(input, _header)
+{
 //    Object(_header);
-    (void) input;
+  (void) input;
 
-  }
+}
 
 }

@@ -15,11 +15,13 @@
 
 #include "Object.h"
 
-namespace libone {
-  class PageMetaData: public Object {
-    public:
-      PageMetaData(librevenge::RVNGInputStream *input, struct object_header _header);
-  };
+namespace libone
+{
+class PageMetaData: public Object
+{
+public:
+  PageMetaData(librevenge::RVNGInputStream *input, struct object_header _header);
+};
 
 
 

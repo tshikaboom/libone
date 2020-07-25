@@ -11,59 +11,66 @@
 
 #include "ObjectSpace.h"
 
-namespace libone {
+namespace libone
+{
 
-  ObjectSpace::ObjectSpace() {
+ObjectSpace::ObjectSpace()
+{
+}
+
+void ObjectSpace::parse(librevenge::RVNGInputStream *input, FileNode &node)
+{
+  m_fnd_list_ref = node.get_fnd();
+
+  FileNodeList list = FileNodeList(m_fnd_list_ref.get_location(), m_fnd_list_ref.get_size());
+
+  // We should then be at the 'gosid' field
+  input->seek(node.get_location() + node.header_size + m_fnd_list_ref.get_size_in_file(),
+              librevenge::RVNG_SEEK_SET);
+  guid.parse(input);
+
+  list.parse(input);
+
+  DBMSG << guid.to_string() << std::endl;
+
+}
+
+void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileNodeChunkReference ref)
+{
+  Revision rev;
+  FileNode node;
+  FileNode node2;
+  FileNodeList list = FileNodeList(ref.get_location(), ref.get_size());
+  ExtendedGUID temp;
+  temp.zero();
+
+  (void) expected_guid;
+
+  list.parse(input);
+
+  ONE_DEBUG_MSG(("trying to parse last revision\n"));
+  rev.list_parse(input, node2.get_fnd());
+  revisions.push_back(rev);
+  ONE_DEBUG_MSG(("\n"));
+}
+
+void ObjectSpace::to_document(librevenge::RVNGDrawingInterface *document)
+{
+  (void) document;
+  ONE_DEBUG_MSG(("\n"));
+  for (auto i : revisions)
+  {
+    i.to_document(document);
   }
+  ONE_DEBUG_MSG(("done?\n"));
+}
 
-  void ObjectSpace::parse(librevenge::RVNGInputStream *input, FileNode& node) {
-    m_fnd_list_ref = node.get_fnd();
-
-    FileNodeList list = FileNodeList(m_fnd_list_ref.get_location(), m_fnd_list_ref.get_size());
-
-    // We should then be at the 'gosid' field
-    input->seek(node.get_location() + node.header_size + m_fnd_list_ref.get_size_in_file(),
-                librevenge::RVNG_SEEK_SET);
-    guid.parse(input);
-
-    list.parse(input);
-
-    DBMSG << guid.to_string() << std::endl;
-
-  }
-
-  void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileNodeChunkReference ref) {
-    Revision rev;
-    FileNode node;
-    FileNode node2;
-    FileNodeList list = FileNodeList (ref.get_location(), ref.get_size());
-    ExtendedGUID temp;
-    temp.zero();
-
-    (void) expected_guid;
-
-    list.parse(input);
-
-    ONE_DEBUG_MSG(("trying to parse last revision\n"));
-    rev.list_parse(input, node2.get_fnd());
-    revisions.push_back(rev);
-    ONE_DEBUG_MSG(("\n"));
-  }
-
-  void ObjectSpace::to_document(librevenge::RVNGDrawingInterface *document) {
-    (void) document;
-    ONE_DEBUG_MSG(("\n"));
-    for (auto i : revisions) {
-      i.to_document(document);
-    }
-    ONE_DEBUG_MSG(("done?\n"));
-  }
-
-  std::string ObjectSpace::to_string() {
-    std::stringstream stream;
-    stream << "ObjectSpace " << guid.to_string() << " context " << context.to_string () << " containing " << revisions.size() << " revisions\n";
-    return stream.str();
-  }
+std::string ObjectSpace::to_string()
+{
+  std::stringstream stream;
+  stream << "ObjectSpace " << guid.to_string() << " context " << context.to_string() << " containing " << revisions.size() << " revisions\n";
+  return stream.str();
+}
 }
 
 

@@ -15,16 +15,18 @@
 #include <librevenge/librevenge.h>
 #include <vector>
 
-namespace libone {
+namespace libone
+{
 
-class StringInStorageBuffer {
-  public:
-    void parse(librevenge::RVNGInputStream *input);
-    uint32_t length = 0;
-    std::string to_string();
+class StringInStorageBuffer
+{
+public:
+  void parse(librevenge::RVNGInputStream *input);
+  uint32_t length = 0;
+  std::string to_string();
 
-  private:
-    librevenge::RVNGString ustring = librevenge::RVNGString();
+private:
+  librevenge::RVNGString ustring = librevenge::RVNGString();
 };
 
 }
