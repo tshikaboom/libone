@@ -59,7 +59,7 @@ esac
 
 
 ## from https://github.com/mellowcandle/astyle_precommit_hook
-files=$(git-diff-index --diff-filter=ACMR --name-only -r --cached $against -- | grep -i '\.c$\|\.cpp$\|\.hpp$\|\.h$')
+files=$(git diff-index --diff-filter=ACMR --name-only -r --cached $against -- | grep -i '\.c$\|\.cpp$\|\.hpp$\|\.h$')
 for file in $files; do
     x=`echo $file`
     if test "x$x" != "x"; then
