@@ -46,7 +46,7 @@ EOF
 fi
 REPO_TOPLEVEL=$(git rev-parse --show-toplevel)
 ASTYLE=astyle
-ASTYLEOPTIONS="../../astyle.options"
+ASTYLEOPTIONS="$REPO_TOPLEVEL/astyle.options"
 
 case `$ASTYLE --version 2> /dev/null` in
 	Artistic*)
