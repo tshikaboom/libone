@@ -10,6 +10,7 @@
 #include <string>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include <cstdint>
 #include <librevenge-stream/librevenge-stream.h>
 #include "PropertySet.h"

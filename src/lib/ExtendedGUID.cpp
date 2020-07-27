@@ -12,6 +12,7 @@
 #include <cstring>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include <libone/libone.h>
 
 #include "ExtendedGUID.h"

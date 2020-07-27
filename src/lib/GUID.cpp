@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include <libone/libone.h>
 
 #include "libone_utils.h"

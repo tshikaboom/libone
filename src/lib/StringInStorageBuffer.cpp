@@ -11,8 +11,8 @@
 #include <librevenge-stream/librevenge-stream.h>
 #include <unordered_map>
 #include <iostream>
-#include <iostream>
 #include <iomanip>
+#include <sstream>
 #include "StringInStorageBuffer.h"
 #include "libone_utils.h"
 

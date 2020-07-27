@@ -9,6 +9,7 @@
 
 #include <string>
 #include <iomanip>
+#include <sstream>
 #include <cstdint>
 #include <librevenge-stream/librevenge-stream.h>
 #include "JCID.h"
