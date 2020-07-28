@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 #include <librevenge/librevenge.h>
 #include <librevenge-generators/librevenge-generators.h>

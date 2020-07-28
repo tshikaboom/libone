@@ -7,6 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <cassert>
 #include "libone_utils.h"
 #include "libone_types.h"
 #include "OneNoteParser.h"
