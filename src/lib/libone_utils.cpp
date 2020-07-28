@@ -177,57 +177,57 @@ unsigned long getLength(librevenge::RVNGInputStream *const input)
   return end - begin;
 }
 
-uint8_t readU8(const boost::shared_ptr<librevenge::RVNGInputStream> input, bool)
+uint8_t readU8(const std::shared_ptr<librevenge::RVNGInputStream> input, bool)
 {
   return readU8(input.get());
 }
 
-uint16_t readU16(const boost::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
+uint16_t readU16(const std::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
 {
   return readU16(input.get(), bigEndian);
 }
 
-uint32_t readU32(const boost::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
+uint32_t readU32(const std::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
 {
   return readU32(input.get(), bigEndian);
 }
 
-uint64_t readU64(const boost::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
+uint64_t readU64(const std::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
 {
   return readU64(input.get(), bigEndian);
 }
 
-const unsigned char *readNBytes(const boost::shared_ptr<librevenge::RVNGInputStream> input, const unsigned long numBytes)
+const unsigned char *readNBytes(const std::shared_ptr<librevenge::RVNGInputStream> input, const unsigned long numBytes)
 {
   return readNBytes(input.get(), numBytes);
 }
 
-std::string readCstring(const boost::shared_ptr<librevenge::RVNGInputStream> input)
+std::string readCstring(const std::shared_ptr<librevenge::RVNGInputStream> input)
 {
   return readCstring(input.get());
 }
 
-std::string readPascalstring(const boost::shared_ptr<librevenge::RVNGInputStream> input)
+std::string readPascalstring(const std::shared_ptr<librevenge::RVNGInputStream> input)
 {
   return readPascalstring(input.get());
 }
 
-void skip(const boost::shared_ptr<librevenge::RVNGInputStream> input, const unsigned long numBytes)
+void skip(const std::shared_ptr<librevenge::RVNGInputStream> input, const unsigned long numBytes)
 {
   return skip(input.get(), numBytes);
 }
 
-void seek(const boost::shared_ptr<librevenge::RVNGInputStream> input, const unsigned long pos)
+void seek(const std::shared_ptr<librevenge::RVNGInputStream> input, const unsigned long pos)
 {
   seek(input.get(), pos);
 }
 
-void seekRelative(const boost::shared_ptr<librevenge::RVNGInputStream> input, const long pos)
+void seekRelative(const std::shared_ptr<librevenge::RVNGInputStream> input, const long pos)
 {
   seekRelative(input.get(), pos);
 }
 
-unsigned long getLength(const boost::shared_ptr<librevenge::RVNGInputStream> input)
+unsigned long getLength(const std::shared_ptr<librevenge::RVNGInputStream> input)
 {
   return getLength(input.get());
 }
