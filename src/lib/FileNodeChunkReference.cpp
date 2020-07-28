@@ -37,6 +37,7 @@ bool FileNodeChunkReference::is_fcrNil()
   case stp_compressed_2:
     return (cbval && (m_stp & 0xFFFF));
 
+  case stp_invalid:
   default:
     return false;
   }

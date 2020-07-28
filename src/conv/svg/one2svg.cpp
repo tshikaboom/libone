@@ -7,10 +7,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <cstring>
 #include <iostream>
 #include <sstream>
-#include <stdio.h>
-#include <string.h>
 
 #include <librevenge/librevenge.h>
 #include <librevenge-generators/librevenge-generators.h>
