@@ -15,9 +15,9 @@
 #include <cstdio>
 #endif
 
+#include <memory>
 #include <string>
 #include <unordered_map>
-#include <boost/shared_ptr.hpp>
 
 #include <librevenge-stream/librevenge-stream.h>
 #include <librevenge/librevenge.h>
@@ -81,7 +81,7 @@ typedef __int64 int64_t;
 namespace libone
 {
 
-typedef boost::shared_ptr<librevenge::RVNGInputStream> RVNGInputStreamPtr_t;
+typedef std::shared_ptr<librevenge::RVNGInputStream> RVNGInputStreamPtr_t;
 
 struct ONEDummyDeleter
 {
@@ -105,22 +105,22 @@ void seekRelative(librevenge::RVNGInputStream *input, long pos);
 
 unsigned long getLength(librevenge::RVNGInputStream *input);
 
-uint8_t readU8(boost::shared_ptr<librevenge::RVNGInputStream> input, bool = false);
-uint16_t readU16(boost::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
-uint32_t readU32(boost::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
-uint64_t readU64(boost::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
+uint8_t readU8(std::shared_ptr<librevenge::RVNGInputStream> input, bool = false);
+uint16_t readU16(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
+uint32_t readU32(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
+uint64_t readU64(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
 
-const unsigned char *readNBytes(boost::shared_ptr<librevenge::RVNGInputStream> input, unsigned long numBytes);
+const unsigned char *readNBytes(std::shared_ptr<librevenge::RVNGInputStream> input, unsigned long numBytes);
 
-std::string readCString(boost::shared_ptr<librevenge::RVNGInputStream> input);
-std::string readPascalString(boost::shared_ptr<librevenge::RVNGInputStream> input);
+std::string readCString(std::shared_ptr<librevenge::RVNGInputStream> input);
+std::string readPascalString(std::shared_ptr<librevenge::RVNGInputStream> input);
 
-void skip(boost::shared_ptr<librevenge::RVNGInputStream> input, unsigned long numBytes);
+void skip(std::shared_ptr<librevenge::RVNGInputStream> input, unsigned long numBytes);
 
-void seek(boost::shared_ptr<librevenge::RVNGInputStream> input, unsigned long pos);
-void seekRelative(boost::shared_ptr<librevenge::RVNGInputStream> input, long pos);
+void seek(std::shared_ptr<librevenge::RVNGInputStream> input, unsigned long pos);
+void seekRelative(std::shared_ptr<librevenge::RVNGInputStream> input, long pos);
 
-unsigned long getLength(boost::shared_ptr<librevenge::RVNGInputStream> input);
+unsigned long getLength(std::shared_ptr<librevenge::RVNGInputStream> input);
 
 class EndOfStreamException
 {
