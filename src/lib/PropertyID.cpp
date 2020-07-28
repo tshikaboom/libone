@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include <librevenge-stream/librevenge-stream.h>
 
 #include "PropertyID.h"

@@ -11,6 +11,7 @@
 #include <cstring>
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include <libone/libone.h>
 #include "FileChunkReference.h"
 #include "libone_utils.h"
