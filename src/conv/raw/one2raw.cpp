@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <memory>
+
 #include <librevenge/librevenge.h>
 #include <librevenge-generators/librevenge-generators.h>
 #include <librevenge-stream/librevenge-stream.h>
