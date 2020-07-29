@@ -18,10 +18,10 @@ Please do! Code clean-ups would be much appreciated, as C++ is not the thing I'm
 
 Building and testing
 =
-This is an autotools-based project (thinking of porting this to Meson). As such, invoking
+This is an meson-based project. As such, invoking
 ```
-./configure
-make
+meson build
+ninja -C build
 ```
 would suffice to get this build. After that, doing `./src/conv/raw/one2raw <file.one>` would get you some output.
 
