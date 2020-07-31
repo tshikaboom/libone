@@ -4,7 +4,7 @@
 # ==================
 project(
     'libone',
-    ['cpp', 'c'],
+    ['cpp'],
     version : '0.1.0',
     license : 'MPL 2.0+',
     default_options : [
@@ -31,7 +31,6 @@ libone_micro_version = ver_arr[2].to_int()
 # ==========================
 # platform specific compiler
 # ==========================
-cc = meson.get_compiler('c')
 cpp = meson.get_compiler('cpp')
 
 # ===========
