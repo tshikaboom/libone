@@ -9,8 +9,9 @@ project(
     license : 'MPL 2.0+',
     default_options : [
         'cpp_std=c++11',
-        'debug=true',
-		'warning_level=3',
+        'debug=false',
+        'werror=true',
+        'warning_level=3',
         ],
     )
 
@@ -70,8 +71,8 @@ doxygen = find_program('doxygen', required : true)
 if doxygen.found()
   cdata.set('HAVE_DOXYGEN', 1)
 else
-	message('*** Could not find doxygen in your PATH.\n')
-	message('*** The documentation will not be built.\n')
+    message('*** Could not find doxygen in your PATH.\n')
+    message('*** The documentation will not be built.\n')
 endif
 
 #
@@ -175,7 +176,7 @@ if get_option('wparanoic')
         '-Wmissing-include-dirs',
         '-Wmissing-noreturn',
         '-Wpacked',
-		'-Wparentheses',
+        '-Wparentheses',
         '-Wpointer-arith',
         '-Wredundant-decls',
         '-Wreturn-type',
@@ -300,6 +301,8 @@ lines += 'docs:        ' + (get_option('docs') ? 'yes' : 'no')
 lines += 'tests:       ' + (get_option('tests') ? 'yes' : 'no')
 lines += 'tools:       ' + (get_option('tools') ? 'yes' : 'no')
 lines += 'werror:      ' + (get_option('werror') ? 'yes' : 'no')
+lines += 'weffc:       ' + (get_option('weffc') ? 'yes' : 'no')
+lines += 'wparanoic:   ' + (get_option('wparanoic') ? 'yes' : 'no')
 
 
 indent = '    '
