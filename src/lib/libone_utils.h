@@ -38,9 +38,6 @@ typedef __int64 int64_t;
 
 #include "config.h"
 
-#else
-
-
 #endif
 
 #endif
