@@ -1,10 +1,12 @@
 ## -*- Mode: make; tab-width: 4; indent-tabs-mode: tabs -*-
 
 conf_data = configuration_data()
-conf_data.set('DOXYGEN_INPUT', meson.source_root() + '/src/lib')
+conf_data.set('DOXYGEN_INPUT', meson.source_root() + '/src/lib' + ' ' + meson.source_root() + '/inc/')
 conf_data.set('DOXYGEN_OUTPUT', meson.current_build_dir())
-conf_data.set('HTML_HEADER', meson.source_root() + '/docs/doxygen/header.html.in')
-conf_data.set('HTML_FOOTER', meson.source_root() + '/docs/doxygen/footer.html.in')
+
+#TODO current header/footer do not seem to work
+#conf_data.set('HTML_HEADER', meson.source_root() + '/docs/doxygen/header.html.in')
+#conf_data.set('HTML_FOOTER', meson.source_root() + '/docs/doxygen/footer.html.in')
 
 doxyfile = configure_file(
 input: 'doxygen.cfg',
