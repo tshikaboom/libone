@@ -49,12 +49,6 @@ cdata.set_quoted('PACKAGE_URL', 'https://github.com/tshikaboom/libone/')
 cdata.set_quoted('PACKAGE_BUGREPORT', '')
 cdata.set_quoted('VERSION', libone_version)
 
-
-# derived from configure script, but seem to only be related to C
-#TODO Likely can be replaced with C++ std libraries
-have_stdint = false
-have_inttypes = false
-
 doxygen = find_program('doxygen', required : true)
 if doxygen.found()
   cdata.set('HAVE_DOXYGEN', 1)
