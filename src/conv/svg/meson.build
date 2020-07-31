@@ -2,15 +2,15 @@
 
 
 one2svg_sources = [
-	'one2svg.cpp'
-	]
+    'one2svg.cpp'
+    ]
 
 one2svg_dependencies = [
-	librevenge_dep,
-	librevenge_generators_dep,
-	librevenge_stream_dep,
-	libone_dep,
-	]
+    librevenge_dep,
+    librevenge_generators_dep,
+    librevenge_stream_dep,
+    libone_dep,
+    ]
 
 
 one2svg_build_args = []

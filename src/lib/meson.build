@@ -52,13 +52,13 @@ libone_source_files = [
     'StringInStorageBuffer.h',
     'libone_utils.cpp',
     'libone_types.h',
-	'libone_utils.h'
+    'libone_utils.h'
 ]
 
 libone_source_dependencies = [
-	librevenge_dep,
-	librevenge_stream_dep,
-	librevenge_generators_dep
+    librevenge_dep,
+    librevenge_stream_dep,
+    librevenge_generators_dep
 ]
 
 libone_include_directory = '../../inc/'

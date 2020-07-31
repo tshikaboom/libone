@@ -2,15 +2,15 @@
 
 
 one2raw_sources = [
-	'one2raw.cpp'
-	]
+    'one2raw.cpp'
+    ]
 
 one2raw_dependencies = [
-	libone_dep,
-	librevenge_dep,
-	librevenge_generators_dep,
-	librevenge_stream_dep
-	]
+    libone_dep,
+    librevenge_dep,
+    librevenge_generators_dep,
+    librevenge_stream_dep
+    ]
 
 
 one2raw_build_args = []
