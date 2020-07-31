@@ -25,6 +25,14 @@ ninja -C build
 ```
 would suffice to get this build. After that, doing `./src/conv/raw/one2raw <file.one>` would get you some output.
 
+To run the tests, make sure that your build directory has been configured with tests to be build (currently by default on)
+Then, change into your build directory and run:
+```
+cd build
+meson test all_tests
+```
+
+
 Licence
 =
 The library is available under MPL 2.0+, as other librevenge-based projects are.

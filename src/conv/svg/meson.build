@@ -25,5 +25,4 @@ one2svg_target = executable(
   link_language : 'cpp'
 )
 
-test('basic', one2svg_target)
 ## vim:set shiftwidth=4 tabstop=4 noexpandtab:
