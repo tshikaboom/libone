@@ -55,17 +55,6 @@ cdata.set_quoted('VERSION', libone_version)
 have_stdint = false
 have_inttypes = false
 
-if cpp.has_header('inttypes.h')
-    have_inttypes = true
-endif
-cdata.set10('HAVE_INTTYPES_H', have_inttypes)
-
-have_stdint = false
-if cpp.has_header('stdint.h')
-    have_stdint = true
-endif
-cdata.set10('HAVE_STDINT_H', have_stdint)
-
 doxygen = find_program('doxygen', required : true)
 if doxygen.found()
   cdata.set('HAVE_DOXYGEN', 1)

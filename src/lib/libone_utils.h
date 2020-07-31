@@ -38,19 +38,8 @@ typedef __int64 int64_t;
 
 #include "config.h"
 
-#ifdef HAVE_STDINT_H
-#include <stdint.h>
-#endif
-
-#ifdef HAVE_INTTYPES_H
-#include <inttypes.h>
-#endif
-
 #else
 
-// assume that the headers are there inside LibreOffice build when no HAVE_CONFIG_H is defined
-#include <stdint.h>
-#include <inttypes.h>
 
 #endif
 
