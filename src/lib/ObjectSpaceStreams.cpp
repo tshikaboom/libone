@@ -46,7 +46,7 @@ uint16_t ObjectSpaceStream::get_A()
   return a;
 }
 
-uint16_t ObjectSpaceStream::get_B()
+uint32_t ObjectSpaceStream::get_B()
 {
   return b;
 }

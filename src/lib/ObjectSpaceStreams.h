@@ -29,14 +29,14 @@ public:
   std::string header_string();
   virtual ~ObjectSpaceStream() { };
   uint16_t get_A();
-  uint16_t get_B();
+  uint32_t get_B();
   uint32_t get_Count();
 
   virtual std::vector<ExtendedGUID> parse(librevenge::RVNGInputStream *input) = 0;
 protected:
   uint32_t Count = 0;
   uint16_t a = 0;
-  uint16_t b = 0;
+  uint32_t b = 0;
 };
 
 class ObjectSpaceStreamOfOIDs: public ObjectSpaceStream
