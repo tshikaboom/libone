@@ -41,7 +41,8 @@ uint32_t PropertyID::get_type()
 
 uint16_t PropertyID::get_bool_value()
 {
-  return (val & 0x80000000) >> 31;
+  /* TODO: this could be converted to return a real boolean */
+  return (uint16_t) ((val & 0x80000000) >> 31);
 }
 
 
