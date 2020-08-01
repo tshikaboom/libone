@@ -24,7 +24,7 @@ void StringInStorageBuffer::parse(librevenge::RVNGInputStream *input)
   std::stringstream stream;
   length = readU32(input);
   std::vector<char> string;
-  char *buf = (char *) readNBytes(input, length*2);
+  const unsigned char *buf = readNBytes(input, length*2);
   string.assign(buf, buf+length*2);
   ustring = librevenge::RVNGString((char *) &string[0]);
 
