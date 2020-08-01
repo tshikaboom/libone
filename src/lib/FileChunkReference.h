@@ -32,7 +32,7 @@ public:
   void parse(librevenge::RVNGInputStream *input);
   std::string to_string();
   long get_location();
-  long get_size();
+  uint64_t get_size();
   bool is_fcrNil();
   bool is_fcrZero();
   void set_zero();

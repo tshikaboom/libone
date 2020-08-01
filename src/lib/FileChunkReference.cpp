@@ -56,7 +56,7 @@ long FileChunkReference::get_location()
 {
   return m_stp;
 }
-long FileChunkReference::get_size()
+uint64_t FileChunkReference::get_size()
 {
   return m_cb;
 }
