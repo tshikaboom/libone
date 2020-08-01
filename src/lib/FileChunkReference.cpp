@@ -45,6 +45,7 @@ void FileChunkReference::parse(librevenge::RVNGInputStream *input)
     m_stp = readU64(input, false);
     m_cb = readU32(input, false);
     break;
+  case fcr_size_invalid:
   default:
     ONE_DEBUG_MSG(("FileChunkReference: not good!\n"));
     break;
@@ -96,6 +97,7 @@ bool FileChunkReference::is_fcrNil()
   case Size64x64:
   case Size64x32:
     return (cbval && (m_stp & 0xFFFFFFFFFFFFFFFF));
+  case fcr_size_invalid:
   default:
     return false;
   }
