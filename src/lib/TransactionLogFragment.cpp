@@ -27,9 +27,9 @@ TransactionLogFragment::TransactionLogFragment() :
 {}
 
 
-int TransactionLogFragment::parse(librevenge::RVNGInputStream *input,
-                                  uint64_t location, uint32_t size,
-                                  uint32_t transactions_to_parse)
+uint64_t TransactionLogFragment::parse(librevenge::RVNGInputStream *input,
+                                  uint64_t location, uint64_t size,
+                                  uint64_t transactions_to_parse)
 {
   m_offset = location;
   m_size = size;
@@ -49,6 +49,7 @@ int TransactionLogFragment::parse(librevenge::RVNGInputStream *input,
 
   DBMSG << "Parsed chunk referece pointing to " << m_next_fragment.get_location() << std::endl;
 
+  // TODO: check if the int does not overflow, maybe change to another type
   return m_transactions.size();
 }
 

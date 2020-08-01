@@ -19,7 +19,7 @@ namespace libone
 class TransactionLog
 {
 public:
-  TransactionLog(uint64_t location, uint32_t size, uint32_t max_transactions);
+  TransactionLog(uint64_t location, uint64_t size, uint32_t max_transactions);
   void parse(librevenge::RVNGInputStream *input);
   std::string to_string();
   uint32_t get_srcID();
@@ -27,8 +27,8 @@ public:
 
 private:
   uint64_t m_offset;
-  uint32_t m_size;
-  uint32_t m_total_transactions;
+  uint64_t m_size;
+  uint64_t m_total_transactions;
   std::vector<TransactionLogFragment> m_fragments;
   std::vector<TransactionEntry> m_transactions;
 

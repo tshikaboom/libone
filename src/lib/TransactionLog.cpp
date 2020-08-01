@@ -19,7 +19,7 @@
 namespace libone
 {
 
-TransactionLog::TransactionLog(uint64_t location, uint32_t size, uint32_t max_transactions) :
+TransactionLog::TransactionLog(uint64_t location, uint64_t size, uint32_t max_transactions) :
   m_offset(location), m_size(size), m_total_transactions(max_transactions),
   m_fragments(std::vector<TransactionLogFragment>()),
   m_transactions(std::vector<TransactionEntry>())
@@ -32,11 +32,11 @@ void TransactionLog::parse(librevenge::RVNGInputStream *input)
 {
   TransactionLogFragment fragment = TransactionLogFragment();
   uint64_t location = m_offset;
-  uint32_t transactions_parsed = 0;
+  uint64_t transactions_parsed = 0;
 
   DBMSG << "begin, input@" << input->tell() << std::endl;
 
-  for (uint32_t i=0; i<m_total_transactions;)
+  for (uint64_t i=0; i<m_total_transactions;)
   {
     DBMSG << "seeking to fragment @" << location << std::endl;
     input->seek(location, librevenge::RVNG_SEEK_SET);

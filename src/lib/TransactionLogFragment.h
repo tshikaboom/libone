@@ -20,9 +20,9 @@ class TransactionLogFragment
 {
 public:
   TransactionLogFragment();
-  int parse(librevenge::RVNGInputStream *input,
-            uint64_t location, uint32_t size,
-            uint32_t transactions_to_parse);
+  uint64_t parse(librevenge::RVNGInputStream *input,
+            uint64_t location, uint64_t size,
+            uint64_t transactions_to_parse);
   std::string to_string();
   std::vector<TransactionEntry> &get_transactions()
   {
@@ -35,8 +35,8 @@ public:
 
 private:
   uint64_t m_offset;
-  uint32_t m_size;
-  uint32_t m_transactions_to_parse;
+  uint64_t m_size;
+  uint64_t m_transactions_to_parse;
 
   std::vector<TransactionEntry> m_transactions;
   FileChunkReference m_next_fragment;
