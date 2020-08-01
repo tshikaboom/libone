@@ -97,14 +97,14 @@ public:
   {
     return m_fnd;
   }
-  uint32_t get_location()
+  uint64_t get_location()
   {
     return m_offset;
   }
 
   static const uint32_t header_size = sizeof(uint32_t);
 private:
-  uint32_t m_offset = 0;
+  uint64_t m_offset = 0;
   uint32_t m_size_in_file = 0;
   uint32_t m_header_size = 0;
   enum fnd_id m_fnd_id = fnd_invalid_id;
