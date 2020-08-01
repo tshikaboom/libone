@@ -83,6 +83,69 @@ std::string fnd_id_to_string(enum fnd_id id_fnd)
   case fnd_id::ObjectGroupEndFND:
     stream << "ObjectGroupEndFND";
     break;
+  case fnd_id::GlobalIdTableStartFNDX:
+    stream << "GlobalIdTableStartFNDX";
+    break;
+  case fnd_id::GlobalIdTableEntry2FNDX:
+    stream << "GlobalIdTableEntry2FNDX";
+    break;
+  case fnd_id::GlobalIdTableEntry3FNDX:
+    stream << "GlobalIdTableEntry3FNDX";
+    break;
+  case fnd_id::ObjectDeclarationWithRefCountFNDX:
+    stream << "ObjectDeclarationWithRefCountFNDX";
+    break;
+  case fnd_id::ObjectDeclarationWithRefCount2FNDX:
+    stream << "ObjectDeclarationWithRefCount2FNDX";
+    break;
+  case fnd_id::ObjectRevisionWithRefCountFNDX:
+    stream << "ObjectRevisionWithRefCountFNDX";
+    break;
+  case fnd_id::ObjectRevisionWithRefCount2FNDX:
+    stream << "ObjectRevisionWithRefCount2FNDX";
+    break;
+  case fnd_id::RootObjectReference2FNDX:
+    stream << "RootObjectReference2FNDX";
+    break;
+  case fnd_id::RootObjectReference3FND:
+    stream << "RootObjectReference3FND";
+    break;
+  case fnd_id::RevisionRoleDeclarationFND:
+    stream << "RevisionRoleDeclarationFND";
+    break;
+  case fnd_id::RevisionRoleAndContextDeclarationFND:
+    stream << "RevisionRoleAndContextDeclarationFND";
+    break;
+  case fnd_id::ObjectDeclarationFileData3RefCountFND:
+    stream << "ObjectDeclarationFileData3RefCountFND";
+    break;
+  case fnd_id::ObjectDeclarationFileData3LargeRefCountFND:
+    stream << "ObjectDeclarationFileData3LargeRefCountFND";
+    break;
+  case fnd_id::ObjectDataEncryptionKeyV2FNDX:
+    stream << "ObjectDataEncryptionKeyV2FNDX";
+    break;
+  case fnd_id::ObjectInfoDependencyOverridesFND:
+    stream << "ObjectInfoDependencyOverridesFND";
+    break;
+  case fnd_id::FileDataStoreObjectReferenceFND:
+    stream << "FileDataStoreObjectReferenceFND";
+    break;
+  case fnd_id::ObjectDeclaration2LargeRefCountFND:
+    stream << "ObjectDeclaration2LargeRefCountFND";
+    break;
+  case fnd_id::HashedChunkDescriptor2FND:
+    stream << "HashedChunkDescriptor2FND";
+    break;
+  case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
+    stream << "ReadOnlyObjectDeclaration2RefCountFND";
+    break;
+  case fnd_id::ReadOnlyObjectDeclaration2LargeRefCountFND:
+    stream << "ReadOnlyObjectDeclaration2LargeRefCountFND";
+    break;
+  case fnd_id::RevisionManifestEndFND:
+    stream << "RevisionManifestEndFND";
+    break;
   case fnd_id::fnd_invalid_id:
   default:
     stream << "dunno but value is " << id_fnd;
@@ -123,6 +186,22 @@ void FileNode::parse(librevenge::RVNGInputStream *input)
   case fnd_id::ObjectDeclarationFileData3RefCountFND:
   case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
   case fnd_id::FileDataStoreObjectReferenceFND:
+  case fnd_id::GlobalIdTableStartFNDX:
+  case fnd_id::GlobalIdTableEntry2FNDX:
+  case fnd_id::GlobalIdTableEntry3FNDX:
+  case fnd_id::ObjectDeclarationWithRefCountFNDX:
+  case fnd_id::ObjectDeclarationWithRefCount2FNDX:
+  case fnd_id::ObjectRevisionWithRefCountFNDX:
+  case fnd_id::ObjectRevisionWithRefCount2FNDX:
+  case fnd_id::RootObjectReference2FNDX:
+  case fnd_id::RevisionRoleDeclarationFND:
+  case fnd_id::RevisionRoleAndContextDeclarationFND:
+  case fnd_id::ObjectDeclarationFileData3LargeRefCountFND:
+  case fnd_id::ObjectDataEncryptionKeyV2FNDX:
+  case fnd_id::ObjectDeclaration2LargeRefCountFND:
+  case fnd_id::HashedChunkDescriptor2FND:
+  case fnd_id::ReadOnlyObjectDeclaration2LargeRefCountFND:
+  case fnd_id::ChunkTerminatorFND:
     break;
   case fnd_id::fnd_invalid_id:
   default:
@@ -152,6 +231,7 @@ std::string FileNode::to_string()
   case fnd_ref_filenodelist:
     stream << "fnd_ref_filenodelist@0x" << m_fnd.get_location();
     break;
+  case fnd_invalid_basetype:
   default:
     stream << "UNKNOWN BASETYPE";
     assert(false);
@@ -196,6 +276,7 @@ void FileNode::parse_header(librevenge::RVNGInputStream *input)
   case fnd_no_data:
     reference.set_zero();
     break;
+  case fnd_invalid_basetype:
   default:
     assert(false);
     break;
