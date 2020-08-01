@@ -74,13 +74,13 @@ void GUID::from_string(std::string str)
 {
   ONE_DEBUG_MSG(("\n"));
 
-  Data1 = strtol(str.substr(0, 8).c_str(), NULL, 16);
-  Data2 = strtol(str.substr(9, 4).c_str(), NULL, 16);
-  Data3 = strtol(str.substr(14, 4).c_str(), NULL, 16);
-  Data4[0] = strtol(str.substr(19, 4).c_str(), NULL, 16);
-  Data4[1] = strtol(str.substr(24, 4).c_str(), NULL, 16);
-  Data4[2] = strtol(str.substr(28, 4).c_str(), NULL, 16);
-  Data4[3] = strtol(str.substr(32, 4).c_str(), NULL, 16);
+  Data1 = (uint32_t) strtol(str.substr(0, 8).c_str(), NULL, 16);
+  Data2 = (uint16_t) strtol(str.substr(9, 4).c_str(), NULL, 16);
+  Data3 = (uint16_t) strtol(str.substr(14, 4).c_str(), NULL, 16);
+  Data4[0] = (uint16_t) strtol(str.substr(19, 4).c_str(), NULL, 16);
+  Data4[1] = (uint16_t) strtol(str.substr(24, 4).c_str(), NULL, 16);
+  Data4[2] = (uint16_t) strtol(str.substr(28, 4).c_str(), NULL, 16);
+  Data4[3] = (uint16_t) strtol(str.substr(32, 4).c_str(), NULL, 16);
 
   ONE_DEBUG_MSG((" from string, dat good?\n"));
 
