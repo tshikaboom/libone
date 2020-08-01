@@ -66,6 +66,7 @@ libone_include_directory = '../../inc/'
 libone_target = library(
   'one',
   libone_source_files,
+  version : meson.project_version(),
   install : true,
   dependencies : libone_source_dependencies,
   c_args : build_args,
