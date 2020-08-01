@@ -88,7 +88,47 @@ void OneNoteParser::parse_root_file_node_list(librevenge::RVNGInputStream *input
       object_space.parse(input, node);
       break;
     case FileDataStoreListReferenceFND:
+    // TODO: The majority of these file nodes do not appear in
+    // the root file node list. Maybe do some more paranoiac checks
+    // to that effect instead of just breaking out of the switch.
+    case ObjectSpaceManifestListStartFND:
+    case RevisionManifestListReferenceFND:
+    case RevisionManifestListStartFND:
+    case RevisionManifestStart4FND:
+    case RevisionManifestEndFND:
+    case RevisionManifestStart6FND:
+    case RevisionManifestStart7FND:
+    case GlobalIdTableStartFNDX:
+    case GlobalIdTableStart2FND:
+    case GlobalIdTableEntryFNDX:
+    case GlobalIdTableEntry2FNDX:
+    case GlobalIdTableEntry3FNDX:
+    case GlobalIdTableEndFNDX:
+    case ObjectDeclarationWithRefCountFNDX:
+    case ObjectDeclarationWithRefCount2FNDX:
+    case ObjectRevisionWithRefCountFNDX:
+    case ObjectRevisionWithRefCount2FNDX:
+    case RootObjectReference2FNDX:
+    case RootObjectReference3FND:
+    case RevisionRoleDeclarationFND:
+    case RevisionRoleAndContextDeclarationFND:
+    case ObjectDeclarationFileData3RefCountFND:
+    case ObjectDeclarationFileData3LargeRefCountFND:
+    case ObjectDataEncryptionKeyV2FNDX:
+    case ObjectInfoDependencyOverridesFND:
+    case DataSignatureGroupDefinitionFND:
+    case FileDataStoreObjectReferenceFND:
+    case ObjectDeclaration2RefCountFND:
+    case ObjectDeclaration2LargeRefCountFND:
+    case ObjectGroupListReferenceFND:
+    case ObjectGroupStartFND:
+    case ObjectGroupEndFND:
+    case HashedChunkDescriptor2FND:
+    case ReadOnlyObjectDeclaration2RefCountFND:
+    case ReadOnlyObjectDeclaration2LargeRefCountFND:
+    case ChunkTerminatorFND:
       break;
+    case fnd_invalid_id:
     default:
       assert(false);
       break;
