@@ -2,4 +2,4 @@ option('tests', type : 'boolean', value : true, description : 'Build and run uni
 option('docs', type : 'boolean', value : true, description : 'Build documentation', yield: true)
 option('tools', type : 'boolean', value : true, description : 'Build conversion tools')
 option('weffc', type : 'boolean', value : true, description : '-Weffc++ warnings, usefull when using an old version of gcc', yield: true)
-option('wparanoic', type : 'boolean', value : true, description : 'Enable a lot of warnings...', yield: true)
+option('wparanoic', type : 'boolean', value : false, description : 'Enable a lot of warnings...', yield: true)
