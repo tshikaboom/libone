@@ -271,30 +271,19 @@ endif
 # Display final informations about configuration
 # ==============================================
 
-#TODO use summary()
-lines = [
-    'prefix:    ' + get_option('prefix'),
-    'libdir:    ' + get_option('libdir'),
-    '',
-]
+summary({
+  'prefix': get_option('prefix'),
+  'libdir': get_option('libdir'),
+  'debug': get_option('debug'),
+  'docs': get_option('docs'),
+  'tests': get_option('tests'),
+  'tools': get_option('tools')},
+  section: 'Project options'
+)
 
-lines += 'debug:       ' + (get_option('debug') ? 'yes' : 'no')
-lines += 'docs:        ' + (get_option('docs') ? 'yes' : 'no')
-lines += 'tests:       ' + (get_option('tests') ? 'yes' : 'no')
-lines += 'tools:       ' + (get_option('tools') ? 'yes' : 'no')
-lines += 'werror:      ' + (get_option('werror') ? 'yes' : 'no')
-lines += 'weffc:       ' + (get_option('weffc') ? 'yes' : 'no')
-lines += 'wparanoic:   ' + (get_option('wparanoic') ? 'yes' : 'no')
-
-
-indent = '    '
-
-params = indent + ('\n' + indent + ('\n' + indent).join(lines))
-
-build_config_info = ('\n\n')
-build_config_info += ('==============================================================================\n')
-build_config_info += ('Build configuration:\n')
-build_config_info += ('@0@\n\n'.format(params))
-build_config_info += ('==============================================================================\n')
-
-message(build_config_info)
+summary({
+  'werror': get_option('werror'),
+  'weffc': get_option('weffc'),
+  'wparanoic': get_option('wparanoic')},
+  section: 'Compiler options'
+)
