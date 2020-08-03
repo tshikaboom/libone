@@ -37,9 +37,16 @@ FileNodeListFragment::FileNodeListFragment(uint64_t location, uint64_t size) :
 
 void FileNodeListFragment::parse(librevenge::RVNGInputStream *input)
 {
+  uint64_t magic;
   DBMSG << "input@" << input->tell() << ", beginning" << std::endl;
 
-  assert(readU64(input, false) == header_magic_id);
+  magic = readU64(input, false);
+  if (magic != header_magic_id) {
+    DBMSG << "Parsed magic " << magic << " does not match expected header magic" << header_magic_id << std::endl;
+    assert(false);
+  }
+
+
   m_fnd_list_id = readU32(input, false);
   m_fragment_sequence = readU32(input, false);
 
@@ -66,7 +73,11 @@ void FileNodeListFragment::parse(librevenge::RVNGInputStream *input)
 
   DBMSG << "Parsed next fragment, got " << m_next_fragment.to_string() << std::endl;
 
-  assert(readU64(input, false) == footer_magic_id);
+  magic = readU64(input, false);
+  if (magic != footer_magic_id) {
+    DBMSG << "Parsed magic " << magic << " does not match expected footer magic" << footer_magic_id << std::endl;
+    assert(false);
+  }
 
   return;
 }
