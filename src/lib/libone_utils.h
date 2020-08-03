@@ -108,6 +108,9 @@ void seekRelative(std::shared_ptr<librevenge::RVNGInputStream> input, long pos);
 
 unsigned long getLength(std::shared_ptr<librevenge::RVNGInputStream> input);
 
+template <typename T>
+std::string int_to_hex(const T i);
+
 class EndOfStreamException
 {
 public:

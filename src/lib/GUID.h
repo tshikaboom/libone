@@ -12,6 +12,7 @@
 
 #include <string>
 #include <cstdint>
+#include <array>
 #include <librevenge-stream/librevenge-stream.h>
 
 namespace libone
@@ -20,15 +21,39 @@ namespace libone
 class GUID
 {
 public:
+  GUID();
+  GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
+       const std::array<uint16_t,4> data4);
+  GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
+       const uint16_t data4_1, const uint16_t data4_2,
+       const uint16_t data4_3, const uint16_t data4_4);
+
   void parse(librevenge::RVNGInputStream *input);
-  std::string to_string();
-  bool is_equal(GUID other);
+
+  std::string to_string() const;
+  void from_string(std::string str);
+
+  bool is_equal(const GUID other) const;
+
+
+  void zero();
+
+  friend librevenge::RVNGInputStream *operator>>(librevenge::RVNGInputStream *input, GUID &obj);
+
+  friend bool operator==(const GUID &lhs, const GUID &rhs) noexcept;
+  friend bool operator!=(const GUID &lhs, const GUID &rhs) noexcept;
+
+
+  uint32_t data1() const;
+  uint16_t data2() const;
+  uint16_t data3() const;
+  std::array<uint16_t,4> data4() const;
+
+private:
   uint32_t Data1 = 0;
   uint16_t Data2 = 0;
   uint16_t Data3 = 0;
-  uint16_t Data4[4] = { 0 };
-  void zero();
-  void from_string(std::string str);
+  std::array<uint16_t, 4> Data4 { 0, 0, 0, 0 };
 };
 
 }
