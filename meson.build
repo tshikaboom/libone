@@ -233,7 +233,9 @@ set_variable(meson.project_name() + '_dep', libone_dep)
 
 # Make this library usable from the system's
 # package manager.
-install_headers(libone_headers, subdir : meson.project_name())
+install_headers(libone_headers,
+  subdir : meson.project_name() + '-' + libone_major_version.to_string() + '.' + libone_minor_version.to_string()
+  )
 
 pkg_mod = import('pkgconfig')
 pkg_mod.generate(
