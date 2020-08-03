@@ -13,3 +13,20 @@ Alternatively, set hooks for your git repository
     git config --local core.hooksPath .githooks
 
 to run astyle on every commit.
+
+
+= Activate all compiler warnings =
+
+In order to compile the library with all warnings active, create a meson build directory
+with an additional argument in the following way:
+
+```
+meson build -Dwparanoic=true
+ninja -C build
+```
+
+To compile the library as debug version configure your build directory in the following way:
+
+```
+meson build -Ddebug=true
+```
