@@ -140,33 +140,33 @@ void GUID::from_string(std::string const str)
   size_t i{0};
   str.at(i) == '{' ? i++ : 0;
 
-  Data1 = strtol(str.substr(i,8).c_str(), NULL, 16);
+  Data1 = (uint32_t) strtol(str.substr(i,8).c_str(), NULL, 16);
   i += 8;
 
   str.at(i) == '-' ? i++ : 0;
 
-  Data2 = strtol(str.substr(i,4).c_str(), NULL, 16);
+  Data2 = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
   i += 4;
 
   str.at(i) == '-' ? i++ : 0;
 
-  Data3 = strtol(str.substr(i,4).c_str(), NULL, 16);
+  Data3 = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
   i += 4;
 
   str.at(i) == '-' ? i++ : 0;
 
-  Data4[0] = strtol(str.substr(i,4).c_str(), NULL, 16);
+  Data4[0] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
   i += 4;
 
   str.at(i) == '-' ? i++ : 0;
 
-  Data4[1] = strtol(str.substr(i,4).c_str(), NULL, 16);
+  Data4[1] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
   i += 4;
 
-  Data4[2] = strtol(str.substr(i,4).c_str(), NULL, 16);
+  Data4[2] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
   i += 4;
 
-  Data4[3] = strtol(str.substr(i,4).c_str(), NULL, 16);
+  Data4[3] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
   i += 4;
 
   ONE_DEBUG_MSG((" from string, dat good?\n"));
