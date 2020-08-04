@@ -122,7 +122,7 @@ bool GUID::is_equal(const GUID other) const
 }
 
 // This is used for FileDataStores. The GUID is given as a string in the file
-void GUID::from_string(std::string const str)
+void GUID::from_string(const std::string str)
 {
   ONE_DEBUG_MSG(("\n"));
 

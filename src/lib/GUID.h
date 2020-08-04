@@ -31,7 +31,7 @@ public:
   void parse(librevenge::RVNGInputStream *input);
 
   std::string to_string() const;
-  void from_string(std::string str);
+  void from_string(const std::string str);
 
   bool is_equal(const GUID other) const;
 
