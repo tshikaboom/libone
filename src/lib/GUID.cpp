@@ -31,7 +31,7 @@ enum { MaxStringGUIDLength = 38};
 enum { MinStringGUIDLength = 32};
 
 GUID::GUID() :
-  Data1(0), Data2(0), Data3(0), Data4({0,0,0,0})
+  Data1(0), Data2(0), Data3(0), Data4{{0,0,0,0}}
 {
 }
 
@@ -43,7 +43,7 @@ GUID::GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
 GUID::GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
            const uint16_t data4_1, const uint16_t data4_2,
            const uint16_t data4_3, const uint16_t data4_4) :
-  Data1(data1), Data2(data2), Data3(data3), Data4({data4_1, data4_2, data4_3, data4_4})
+  Data1(data1), Data2(data2), Data3(data3), Data4{{data4_1, data4_2, data4_3, data4_4}}
 {
 }
 

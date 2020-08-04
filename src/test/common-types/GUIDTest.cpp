@@ -129,7 +129,7 @@ void GUIDTest::test_is_equal()
 
 
   libone::GUID guid3(1,2,3,4,5,6,7);
-  libone::GUID guid4(1,2,3, {4,5,6,7});
+  libone::GUID guid4(1,2,3, {{4,5,6,7}});
 
   CPPUNIT_NS::Asserter::failIf(guid1 != guid2, "compare zerod guids 2", CPPUNIT_SOURCELINE());
 

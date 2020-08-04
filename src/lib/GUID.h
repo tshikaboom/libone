@@ -53,7 +53,7 @@ private:
   uint32_t Data1 = 0;
   uint16_t Data2 = 0;
   uint16_t Data3 = 0;
-  std::array<uint16_t, 4> Data4 { 0, 0, 0, 0 };
+  std::array<uint16_t, 4> Data4 {{ 0, 0, 0, 0 }};
 };
 
 }
