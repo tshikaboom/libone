@@ -61,13 +61,13 @@ public:
    * @return first data sequence GUID */
   uint32_t data1() const;
   /** Getter.
-   * @ return second data sequence of GUID */
+   * @return second data sequence of GUID */
   uint16_t data2() const;
   /** Getter.
-   * @ return third data sequence of GUID */
+   * @return third data sequence of GUID */
   uint16_t data3() const;
   /** Getter.
-   * @ return forth data sequence of GUID */
+   * @return forth data sequence of GUID */
   std::array<uint16_t,4> data4() const;
 
 private:
