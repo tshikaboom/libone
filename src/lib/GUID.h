@@ -18,24 +18,37 @@
 namespace libone
 {
 
+/** @brief globally unique identifier class specified by [RFC4122] or [C706] */
 class GUID
 {
 public:
+  /** Default construtor. Initializes to {00000000-0000-0000-0000-000000000000}. */
   GUID();
+
+  /** Constructor to initialize specific GUID */
   GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
        const std::array<uint16_t,4> data4);
+
+  /** Constructor to initialize specific GUID */
   GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
        const uint16_t data4_1, const uint16_t data4_2,
        const uint16_t data4_3, const uint16_t data4_4);
 
+  /** Parse GUID's content from RVNGInputStream byte stream. */
   void parse(librevenge::RVNGInputStream *input);
 
+  /** Converts GUID object to a string in this format: "{00000000-0000-0000-0000-000000000000}" */
   std::string to_string() const;
+
+  /** Parse GUID object from string.
+   * @param str - should have the format "{00000000-0000-0000-0000-000000000000}" */
   void from_string(const std::string str);
 
+  /** Checks if GUIDs are identical */
   bool is_equal(const GUID other) const;
 
 
+  /** resets GUID to {00000000-0000-0000-0000-000000000000} */
   void zero();
 
   friend librevenge::RVNGInputStream *operator>>(librevenge::RVNGInputStream *input, GUID &obj);
@@ -44,9 +57,17 @@ public:
   friend bool operator!=(const GUID &lhs, const GUID &rhs) noexcept;
 
 
+  /** Getter.
+   * @return first data sequence GUID */
   uint32_t data1() const;
+  /** Getter.
+   * @ return second data sequence of GUID */
   uint16_t data2() const;
+  /** Getter.
+   * @ return third data sequence of GUID */
   uint16_t data3() const;
+  /** Getter.
+   * @ return forth data sequence of GUID */
   std::array<uint16_t,4> data4() const;
 
 private:
