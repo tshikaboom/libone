@@ -34,13 +34,25 @@ void GUIDTest::test_constructor()
 {
   libone::GUID guid {};
 
-  CppUnit::Asserter::failIf(guid.data1() !=0u, "", CPPUNIT_SOURCELINE());
-  CppUnit::Asserter::failIf(guid.data2() !=0u, "", CPPUNIT_SOURCELINE());
-  CppUnit::Asserter::failIf(guid.data3() !=0u, "", CPPUNIT_SOURCELINE());
-  CppUnit::Asserter::failIf(guid.data4().at(0) !=0u, "", CPPUNIT_SOURCELINE());
-  CppUnit::Asserter::failIf(guid.data4().at(1) !=0u, "", CPPUNIT_SOURCELINE());
-  CppUnit::Asserter::failIf(guid.data4().at(2) !=0u, "", CPPUNIT_SOURCELINE());
-  CppUnit::Asserter::failIf(guid.data4().at(3) !=0u, "", CPPUNIT_SOURCELINE());
+  CPPUNIT_NS::assertEquals<uint32_t>(guid.data1(), 0, CPPUNIT_SOURCELINE(), "constructor 1, 0");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid.data2(), 0, CPPUNIT_SOURCELINE(), "constructor 1, 1");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid.data3(), 0, CPPUNIT_SOURCELINE(), "constructor 1, 2");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid.data4().at(0), 0, CPPUNIT_SOURCELINE(), "constructor 1, 3");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid.data4().at(1), 0, CPPUNIT_SOURCELINE(), "constructor 1, 4");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid.data4().at(2), 0, CPPUNIT_SOURCELINE(), "constructor 1, 5");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid.data4().at(3), 0, CPPUNIT_SOURCELINE(), "constructor 1, 6");
+
+
+  libone::GUID guid2(1,2,3,4,5,6,7);
+
+  CPPUNIT_NS::assertEquals<uint32_t>(guid2.data1(), 1, CPPUNIT_SOURCELINE(), "constructor 2, 0");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid2.data2(), 2, CPPUNIT_SOURCELINE(), "constructor 2, 1");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid2.data3(), 3, CPPUNIT_SOURCELINE(), "constructor 2, 2");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid2.data4().at(0), 4, CPPUNIT_SOURCELINE(), "constructor 2, 3");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid2.data4().at(1), 5, CPPUNIT_SOURCELINE(), "constructor 2, 4");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid2.data4().at(2), 6, CPPUNIT_SOURCELINE(), "constructor 2, 5");
+  CPPUNIT_NS::assertEquals<uint16_t>(guid2.data4().at(3), 7, CPPUNIT_SOURCELINE(), "constructor 2, 6");
+
 
 }
 
@@ -114,6 +126,12 @@ void GUIDTest::test_is_equal()
 
 
   CPPUNIT_NS::Asserter::failIf(guid1 != guid2, "compare zerod guids", CPPUNIT_SOURCELINE());
+
+
+  libone::GUID guid3(1,2,3,4,5,6,7);
+  libone::GUID guid4(1,2,3, {4,5,6,7});
+
+  CPPUNIT_NS::Asserter::failIf(guid1 != guid2, "compare zerod guids 2", CPPUNIT_SOURCELINE());
 
 
 }
