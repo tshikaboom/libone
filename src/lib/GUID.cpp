@@ -26,9 +26,9 @@ namespace libone
 {
 
 // {FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF}
-enum { MaxStringGUIDLength = 38};
+static const int8_t MaxStringGUIDLength = 38;
 // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-enum { MinStringGUIDLength = 32};
+static const int8_t MinStringGUIDLength = 32;
 
 GUID::GUID() :
   Data1(0), Data2(0), Data3(0), Data4{{0,0,0,0}}
@@ -45,6 +45,11 @@ GUID::GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
            const uint16_t data4_3, const uint16_t data4_4) :
   Data1(data1), Data2(data2), Data3(data3), Data4{{data4_1, data4_2, data4_3, data4_4}}
 {
+}
+
+GUID::GUID(std::string const str) : GUID()
+{
+  this->from_string(str);
 }
 
 uint32_t GUID::data1() const
@@ -124,7 +129,6 @@ bool GUID::is_equal(const GUID other) const
 // This is used for FileDataStores. The GUID is given as a string in the file
 void GUID::from_string(const std::string str)
 {
-  ONE_DEBUG_MSG(("\n"));
 
   if (str.size() < MinStringGUIDLength)
   {
@@ -137,7 +141,7 @@ void GUID::from_string(const std::string str)
   }
 
 
-  size_t i{0};
+  size_t i {};
   str.at(i) == '{' ? i++ : 0;
 
   Data1 = (uint32_t) strtol(str.substr(i,8).c_str(), NULL, 16);
@@ -169,7 +173,6 @@ void GUID::from_string(const std::string str)
   Data4[3] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
   i += 4;
 
-  ONE_DEBUG_MSG((" from string, dat good?\n"));
 
 }
 

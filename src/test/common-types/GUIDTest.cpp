@@ -76,8 +76,7 @@ void GUIDTest::test_to_string()
   for (size_t i {0}; i < cases.size(); i++)
   {
     auto entry = cases.at(i);
-    libone::GUID guid;
-    guid.from_string(std::get<0>(entry));
+    libone::GUID guid(std::get<0>(entry));
 
     CPPUNIT_NS::assertEquals(std::get<1>(entry), guid.data1(), CPPUNIT_SOURCELINE(), "test case #" + std::to_string(i) + " data1");
     CPPUNIT_NS::assertEquals(std::get<2>(entry), guid.data2(), CPPUNIT_SOURCELINE(), "test case #" + std::to_string(i) + " data2");

@@ -34,6 +34,10 @@ public:
        const uint16_t data4_1, const uint16_t data4_2,
        const uint16_t data4_3, const uint16_t data4_4);
 
+  /** Construtor to initialize with GUID in std::string format.
+   * @sa from_string()*/
+  GUID(const std::string str);
+
   /** Parse GUID's content from RVNGInputStream byte stream. */
   void parse(librevenge::RVNGInputStream *input);
 
