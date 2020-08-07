@@ -16,6 +16,8 @@ public:
   void test_from_string();
   void test_is_equal();
 
+  void test_parse();
+
 };
 
 #endif // GUIDTEST_H

@@ -9,6 +9,9 @@
 #include "../../lib/GUID.h"
 
 
+#include <librevenge-stream/librevenge-stream.h>
+#include <librevenge/librevenge.h>
+
 CppUnit::Test *GUIDTest::suite()
 {
   CppUnit::TestSuite *testSuite = new CppUnit::TestSuite("GUIDTest");
@@ -17,6 +20,7 @@ CppUnit::Test *GUIDTest::suite()
   testSuite->addTest(new CppUnit::TestCaller<GUIDTest>("GUID to_string", &GUIDTest::test_to_string));
   testSuite->addTest(new CppUnit::TestCaller<GUIDTest>("GUID from_string", &GUIDTest::test_from_string));
   testSuite->addTest(new CppUnit::TestCaller<GUIDTest>("GUID is_equal", &GUIDTest::test_is_equal));
+  testSuite->addTest(new CppUnit::TestCaller<GUIDTest>("GUID parse", &GUIDTest::test_parse));
 
   return testSuite;
 }
@@ -94,7 +98,7 @@ void GUIDTest::test_to_string()
 
   cases.emplace_back("{00000000-0000-0000-0000-000000000000}", 0, 0, 0, 0, 0, 0, 0);
   cases.emplace_back("{ffffffff-ffff-ffff-ffff-ffffffffffff}", 0xFFFFFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF);
-  cases.emplace_back("{7b5c52e4-d88c-4da7-aeb1-5378d02996d3}", 0X7b5c52e4, 0Xd88c, 0X4da7, 0Xaeb1, 0X5378, 0Xd029, 0X96d3);
+  cases.emplace_back("{7b5c52e4-d88c-4da7-aeb1-5378d02996d3}", 0x7b5c52e4, 0xd88c, 0x4da7, 0xaeb1, 0x5378, 0xd029, 0x96d3);
 
 
   for (size_t i {0}; i < cases.size(); i++)
@@ -132,5 +136,35 @@ void GUIDTest::test_is_equal()
 
   CPPUNIT_NS::Asserter::failIf(guid1 != guid2, "compare zerod guids 2", CPPUNIT_SOURCELINE());
 
+
+}
+
+
+
+void GUIDTest::test_parse()
+{
+  std::vector< std::tuple< std::string, std::array<unsigned char,16> > > cases {};
+
+
+
+
+  cases.emplace_back("{00000000-0000-0000-0000-000000000000}", std::array<unsigned char, 16> {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00});
+  cases.emplace_back("{ffffffff-ffff-ffff-ffff-ffffffffffff}", std::array<unsigned char, 16> {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF});
+  cases.emplace_back("{7b5c52e4-d88c-4da7-aeb1-5378d02996d3}", std::array<unsigned char, 16> {0xe4, 0x52, 0x5c, 0x7b, 0x8c, 0xd8, 0xa7, 0x4d, 0xae, 0xb1, 0x53, 0x78, 0xd0, 0x29, 0x96, 0xd3});
+
+
+  for (size_t i {0}; i < cases.size(); i++)
+  {
+    auto entry = cases.at(i);
+
+    librevenge::RVNGBinaryData bindata = librevenge::RVNGBinaryData(std::get<1>(entry).data(), std::get<1>(entry).size());
+    librevenge::RVNGInputStream *input = bindata.getDataStream();
+
+    libone::GUID guid;
+    input >> guid;
+
+    CPPUNIT_NS::assertEquals(std::get<0>(entry), guid.to_string(), CPPUNIT_SOURCELINE(), "compare parsed guid #" + std::to_string(i));
+
+  }
 
 }
