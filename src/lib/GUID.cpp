@@ -49,7 +49,48 @@ GUID::GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
 
 GUID::GUID(std::string const str) : GUID()
 {
-  this->from_string(str);
+  if (str.size() < MinStringGUIDLength)
+  {
+    return;
+  }
+
+  if (str.front() == '{' && str.size() > MaxStringGUIDLength)
+  {
+    return;
+  }
+
+
+  size_t i {};
+  str.at(i) == '{' ? i++ : 0;
+
+  Data1 = (uint32_t) strtol(str.substr(i,8).c_str(), NULL, 16);
+  i += 8;
+
+  str.at(i) == '-' ? i++ : 0;
+
+  Data2 = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
+  i += 4;
+
+  str.at(i) == '-' ? i++ : 0;
+
+  Data3 = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
+  i += 4;
+
+  str.at(i) == '-' ? i++ : 0;
+
+  Data4[0] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
+  i += 4;
+
+  str.at(i) == '-' ? i++ : 0;
+
+  Data4[1] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
+  i += 4;
+
+  Data4[2] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
+  i += 4;
+
+  Data4[3] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
+  i += 4;
 }
 
 uint32_t GUID::data1() const
@@ -125,57 +166,6 @@ bool GUID::is_equal(const GUID other) const
   }
   return false;
 }
-
-// This is used for FileDataStores. The GUID is given as a string in the file
-void GUID::from_string(const std::string str)
-{
-
-  if (str.size() < MinStringGUIDLength)
-  {
-    return;
-  }
-
-  if (str.front() == '{' && str.size() > MaxStringGUIDLength)
-  {
-    return;
-  }
-
-
-  size_t i {};
-  str.at(i) == '{' ? i++ : 0;
-
-  Data1 = (uint32_t) strtol(str.substr(i,8).c_str(), NULL, 16);
-  i += 8;
-
-  str.at(i) == '-' ? i++ : 0;
-
-  Data2 = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
-  i += 4;
-
-  str.at(i) == '-' ? i++ : 0;
-
-  Data3 = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
-  i += 4;
-
-  str.at(i) == '-' ? i++ : 0;
-
-  Data4[0] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
-  i += 4;
-
-  str.at(i) == '-' ? i++ : 0;
-
-  Data4[1] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
-  i += 4;
-
-  Data4[2] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
-  i += 4;
-
-  Data4[3] = (uint16_t) strtol(str.substr(i,4).c_str(), NULL, 16);
-  i += 4;
-
-
-}
-
 
 librevenge::RVNGInputStream *operator>>(librevenge::RVNGInputStream *input, GUID &obj)
 {

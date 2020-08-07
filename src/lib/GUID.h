@@ -35,7 +35,7 @@ public:
        const uint16_t data4_3, const uint16_t data4_4);
 
   /** Construtor to initialize with GUID in std::string format.
-   * @sa from_string()*/
+   * @param str - should have the format "{00000000-0000-0000-0000-000000000000}" */
   GUID(const std::string str);
 
   /** Parse GUID's content from RVNGInputStream byte stream. */
@@ -44,13 +44,8 @@ public:
   /** Converts GUID object to a string in this format: "{00000000-0000-0000-0000-000000000000}" */
   std::string to_string() const;
 
-  /** Parse GUID object from string.
-   * @param str - should have the format "{00000000-0000-0000-0000-000000000000}" */
-  void from_string(const std::string str);
-
   /** Checks if GUIDs are identical */
   bool is_equal(const GUID other) const;
-
 
   /** resets GUID to {00000000-0000-0000-0000-000000000000} */
   void zero();

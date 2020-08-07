@@ -56,7 +56,7 @@ void GUIDTest::test_constructor()
 
 }
 
-void GUIDTest::test_to_string()
+void GUIDTest::test_from_string()
 {
   std::vector<std::tuple<std::string, uint32_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t> > cases {};
 
@@ -88,7 +88,7 @@ void GUIDTest::test_to_string()
   }
 }
 
-void GUIDTest::test_from_string()
+void GUIDTest::test_to_string()
 {
   std::vector<std::tuple<std::string, uint32_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t, uint16_t> > cases {};
 
