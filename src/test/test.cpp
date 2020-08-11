@@ -17,6 +17,8 @@
 
 #include <cppunit/extensions/TestFactoryRegistry.h>
 
+#include "common-types/GUIDTest.h"
+
 int main()
 {
   // Create the event manager and test controller
@@ -33,6 +35,7 @@ int main()
   // Add the top suite to the test runner
   CPPUNIT_NS::TestRunner runner;
   runner.addTest(CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
+  runner.addTest(GUIDTest::suite());
   runner.run(controller);
 
   // output

@@ -12,23 +12,68 @@
 
 #include <string>
 #include <cstdint>
+#include <array>
 #include <librevenge-stream/librevenge-stream.h>
 
 namespace libone
 {
 
+/** @brief globally unique identifier class specified by [RFC4122] or [C706] */
 class GUID
 {
 public:
+  /** Default construtor. Initializes to {00000000-0000-0000-0000-000000000000}. */
+  GUID();
+
+  /** Constructor to initialize specific GUID */
+  GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
+       const std::array<uint16_t,4> data4);
+
+  /** Constructor to initialize specific GUID */
+  GUID(const uint32_t data1, const uint16_t data2, const uint16_t data3,
+       const uint16_t data4_1, const uint16_t data4_2,
+       const uint16_t data4_3, const uint16_t data4_4);
+
+  /** Construtor to initialize with GUID in std::string format.
+   * @param str - should have the format "{00000000-0000-0000-0000-000000000000}" */
+  GUID(const std::string str);
+
+  /** Parse GUID's content from RVNGInputStream byte stream. */
   void parse(librevenge::RVNGInputStream *input);
-  std::string to_string();
-  bool is_equal(GUID other);
+
+  /** Converts GUID object to a string in this format: "{00000000-0000-0000-0000-000000000000}" */
+  std::string to_string() const;
+
+  /** Checks if GUIDs are identical */
+  bool is_equal(const GUID other) const;
+
+  /** resets GUID to {00000000-0000-0000-0000-000000000000} */
+  void zero();
+
+  friend librevenge::RVNGInputStream *operator>>(librevenge::RVNGInputStream *input, GUID &obj);
+
+  friend bool operator==(const GUID &lhs, const GUID &rhs) noexcept;
+  friend bool operator!=(const GUID &lhs, const GUID &rhs) noexcept;
+
+
+  /** Getter.
+   * @return first data sequence GUID */
+  uint32_t data1() const;
+  /** Getter.
+   * @return second data sequence of GUID */
+  uint16_t data2() const;
+  /** Getter.
+   * @return third data sequence of GUID */
+  uint16_t data3() const;
+  /** Getter.
+   * @return forth data sequence of GUID */
+  std::array<uint16_t,4> data4() const;
+
+private:
   uint32_t Data1 = 0;
   uint16_t Data2 = 0;
   uint16_t Data3 = 0;
-  uint16_t Data4[4] = { 0 };
-  void zero();
-  void from_string(std::string str);
+  std::array<uint16_t, 4> Data4 {{ 0, 0, 0, 0 }};
 };
 
 }

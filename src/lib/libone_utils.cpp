@@ -8,6 +8,8 @@
  */
 
 #include <cstdio>
+#include <sstream>
+#include <iomanip>
 
 #include "libone_utils.h"
 
@@ -231,6 +233,30 @@ unsigned long getLength(const std::shared_ptr<librevenge::RVNGInputStream> input
 {
   return getLength(input.get());
 }
+
+template <typename T>
+std::string int_to_hex(const T i)
+{
+  std::stringstream stream;
+
+  stream << std::hex
+         << std::setfill('0')
+         << std::setw(sizeof(T)*2)
+         << i;
+
+  return stream.str();
+}
+
+// instantiate for library built
+template std::string int_to_hex<uint8_t>(const uint8_t);
+template std::string int_to_hex<uint16_t>(const uint16_t);
+template std::string int_to_hex<uint32_t>(const uint32_t);
+template std::string int_to_hex<uint64_t>(const uint64_t);
+template std::string int_to_hex<int8_t>(const int8_t);
+template std::string int_to_hex<int16_t>(const int16_t);
+template std::string int_to_hex<int32_t>(const int32_t);
+template std::string int_to_hex<int64_t>(const int64_t);
+
 
 EndOfStreamException::EndOfStreamException()
 {
