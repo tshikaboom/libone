@@ -91,7 +91,7 @@ std::string fnd_id_to_string(enum fnd_id id_fnd)
   return stream.str();
 }
 
-void FileNode::parse(librevenge::RVNGInputStream *input)
+void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   m_offset = input->tell();
 
@@ -161,7 +161,7 @@ std::string FileNode::to_string()
   return stream.str();
 }
 
-void FileNode::parse_header(librevenge::RVNGInputStream *input)
+void FileNode::parse_header(const libone::RVNGInputStreamPtr_t &input)
 {
   uint32_t temp;
   enum stp_format format_stp;
@@ -203,7 +203,7 @@ void FileNode::parse_header(librevenge::RVNGInputStream *input)
   m_fnd = reference;
 }
 
-void FileNode::skip_node(librevenge::RVNGInputStream *input)
+void FileNode::skip_node(const libone::RVNGInputStreamPtr_t &input)
 {
   DBMSG << "Skipping file node by jumping over " << m_size_in_file << " bytes to " << m_offset + m_size_in_file << std::endl;
   input->seek(m_offset + m_size_in_file, librevenge::RVNG_SEEK_SET);

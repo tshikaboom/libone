@@ -27,7 +27,7 @@ FileChunkReference::FileChunkReference(enum FileChunkReferenceSize fcr_size) :
   m_cb(0)
 {}
 
-void FileChunkReference::parse(librevenge::RVNGInputStream *input)
+void FileChunkReference::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   m_offset = input->tell();
 

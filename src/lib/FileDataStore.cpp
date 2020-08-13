@@ -19,7 +19,7 @@
 namespace libone
 {
 
-void FileDataStore::parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref)
+void FileDataStore::parse(libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
 {
   FileNodeList list(ref.get_location(), ref.get_size());
   FileNode node;

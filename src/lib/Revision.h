@@ -17,13 +17,14 @@
 #include "Object.h"
 #include "ObjectGroup.h"
 
+
 namespace libone
 {
 
 class Revision
 {
 public:
-  void list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
+  void list_parse(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref);
   std::string get_guid();
   std::string to_string();
   ObjectGroup group = ObjectGroup();
@@ -39,7 +40,7 @@ private:
   uint32_t role = 0;
   uint16_t odcsDefault = 0;
   ExtendedGUID context = ExtendedGUID();
-  void parse_dependencies(librevenge::RVNGInputStream *input, FileNode node);
+  void parse_dependencies(const libone::RVNGInputStreamPtr_t &input, FileNode node);
 
 };
 

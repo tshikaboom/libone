@@ -18,10 +18,11 @@
 namespace libone
 {
 
+/// \todo duplicate code and missing implementation, see also Property.h
 class Property
 {
 public:
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string();
 private:
   uint16_t count = 0;

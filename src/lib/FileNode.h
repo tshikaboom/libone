@@ -13,7 +13,7 @@
 #include "FileNodeChunkReference.h"
 #include <librevenge-stream/librevenge-stream.h>
 
-
+#include "libone_utils.h"
 
 
 namespace libone
@@ -76,10 +76,10 @@ std::string fnd_id_to_string(enum fnd_id id_fnd);
 class FileNode
 {
 public:
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string();
 
-  void skip_node(librevenge::RVNGInputStream *input);
+  void skip_node(const libone::RVNGInputStreamPtr_t &input);
 
   enum fnd_id get_FileNodeID()
   {
@@ -109,7 +109,7 @@ private:
   uint32_t m_header_size = 0;
   enum fnd_id m_fnd_id = fnd_invalid_id;
   enum fnd_basetype m_base_type = fnd_invalid_basetype;
-  void parse_header(librevenge::RVNGInputStream *input);
+  void parse_header(const libone::RVNGInputStreamPtr_t &input);
   FileNodeChunkReference m_fnd = FileNodeChunkReference(stp_invalid, cb_invalid, 0);
 
   static const uint32_t mask_fnd_id        = 0x3FF;
@@ -125,6 +125,8 @@ private:
 };
 
 
-}
+} // namespace libone
 
-#endif
+#endif //INCLUDED_LIBONE_FILENODE_H
+
+/* vim:set shiftwidth=2 softtabstop=2 expandtab: */

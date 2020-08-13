@@ -158,7 +158,7 @@ void GUIDTest::test_parse()
     auto entry = cases.at(i);
 
     librevenge::RVNGBinaryData bindata = librevenge::RVNGBinaryData(std::get<1>(entry).data(), std::get<1>(entry).size());
-    librevenge::RVNGInputStream *input = bindata.getDataStream();
+    libone::RVNGInputStreamPtr_t input(bindata.getDataStream());
 
     libone::GUID guid;
     input >> guid;

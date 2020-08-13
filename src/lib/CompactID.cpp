@@ -18,7 +18,7 @@
 namespace libone
 {
 
-void CompactID::parse(librevenge::RVNGInputStream *input)
+void CompactID::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   uint32_t temp = readU32(input);
   guidIndex = (temp >> 8) & 0xFFFFFF;

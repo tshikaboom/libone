@@ -21,7 +21,7 @@ namespace libone
 class Header
 {
 public:
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   GUID guidFileType = GUID();
   GUID guidFile = GUID();
   GUID guidLegacyFileVersion = GUID();

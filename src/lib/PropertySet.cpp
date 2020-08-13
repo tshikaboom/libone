@@ -18,7 +18,7 @@
 namespace libone
 {
 
-void PropertySet::parse(librevenge::RVNGInputStream *input)
+void PropertySet::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   bool unknown = false;
   count = readU16(input);

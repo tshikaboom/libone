@@ -17,6 +17,8 @@
 #include "FileNode.h"
 #include "FileNodeListFragment.h"
 
+#include "libone_utils.h"
+
 namespace libone
 {
 
@@ -24,7 +26,7 @@ class FileNodeList
 {
 public:
   FileNodeList(uint64_t new_location, uint64_t new_size);
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   bool is_end();
   std::string to_string();
 

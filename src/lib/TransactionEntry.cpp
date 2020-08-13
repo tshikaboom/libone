@@ -21,7 +21,7 @@ TransactionEntry::TransactionEntry() :
   m_crc(0)
 {}
 
-void TransactionEntry::parse(librevenge::RVNGInputStream *input)
+void TransactionEntry::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   m_offset = input->tell();
   while (true)

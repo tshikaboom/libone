@@ -29,7 +29,7 @@ FileNodeList::FileNodeList(uint64_t new_location, uint64_t new_size) :
   m_fragment_list(std::vector<FileNodeListFragment>())
 {}
 
-void FileNodeList::parse(librevenge::RVNGInputStream *input)
+void FileNodeList::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   input->seek(m_offset, librevenge::RVNG_SEEK_SET);
 

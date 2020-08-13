@@ -27,7 +27,7 @@ TransactionLogFragment::TransactionLogFragment() :
 {}
 
 
-int TransactionLogFragment::parse(librevenge::RVNGInputStream *input,
+int TransactionLogFragment::parse(const libone::RVNGInputStreamPtr_t &input,
                                   uint64_t location, uint32_t size,
                                   uint32_t transactions_to_parse)
 {

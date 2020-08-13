@@ -18,7 +18,7 @@ ObjectSpace::ObjectSpace()
 {
 }
 
-void ObjectSpace::parse(librevenge::RVNGInputStream *input, FileNode &node)
+void ObjectSpace::parse(const libone::RVNGInputStreamPtr_t &input, FileNode &node)
 {
   m_fnd_list_ref = node.get_fnd();
 
@@ -35,7 +35,7 @@ void ObjectSpace::parse(librevenge::RVNGInputStream *input, FileNode &node)
 
 }
 
-void ObjectSpace::list_parse(librevenge::RVNGInputStream *input, ExtendedGUID expected_guid, FileNodeChunkReference ref)
+void ObjectSpace::list_parse(const libone::RVNGInputStreamPtr_t &input, ExtendedGUID expected_guid, FileNodeChunkReference ref)
 {
   Revision rev;
   FileNode node;

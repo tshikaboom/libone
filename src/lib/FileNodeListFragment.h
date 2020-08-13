@@ -17,6 +17,8 @@
 #include "FileChunkReference.h"
 #include "FileNode.h"
 
+#include "libone_utils.h"
+
 namespace libone
 {
 
@@ -24,7 +26,7 @@ class FileNodeListFragment
 {
 public:
   FileNodeListFragment(uint64_t location, uint64_t size);
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string();
   uint32_t get_list_id()
   {
@@ -60,7 +62,7 @@ private:
   FileChunkReference m_next_fragment;
 
   bool is_end_of_list(FileNode current_node, long current_offset);
-  void skip_padding(librevenge::RVNGInputStream *input);
+  void skip_padding(const libone::RVNGInputStreamPtr_t &input);
 
   const uint64_t header_magic_id = 0xA4567AB1F5F7F4C4;
   const uint64_t footer_magic_id = 0x8BC215C38233BA4B;

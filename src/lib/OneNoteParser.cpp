@@ -20,7 +20,7 @@ namespace libone
 
 libone::ExtendedGUID DataSignatureGroup = libone::ExtendedGUID();
 
-OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVNGDrawingInterface *const document)
+OneNoteParser::OneNoteParser(const libone::RVNGInputStreamPtr_t &input, librevenge::RVNGDrawingInterface *const document)
 {
   Header header = Header();
   libone::ExtendedGUID RootObject;
@@ -52,7 +52,7 @@ OneNoteParser::OneNoteParser(librevenge::RVNGInputStream *input, librevenge::RVN
 
 }
 
-void OneNoteParser::parse_transactions(librevenge::RVNGInputStream *input, Header &header)
+void OneNoteParser::parse_transactions(const libone::RVNGInputStreamPtr_t &input, Header &header)
 {
   TransactionLog log = TransactionLog(header.fcrTransactionLog.get_location(),
                                       header.fcrTransactionLog.get_size(),
@@ -60,7 +60,7 @@ void OneNoteParser::parse_transactions(librevenge::RVNGInputStream *input, Heade
   log.parse(input);
 }
 
-void OneNoteParser::parse_root_file_node_list(librevenge::RVNGInputStream *input,
+void OneNoteParser::parse_root_file_node_list(const libone::RVNGInputStreamPtr_t &input,
                                               Header &header, ExtendedGUID &root_object)
 {
   ExtendedGUID guid;

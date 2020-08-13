@@ -12,7 +12,7 @@
 namespace libone
 {
 
-PageMetaData::PageMetaData(librevenge::RVNGInputStream *input, struct object_header _header) : Object(input, _header)
+PageMetaData::PageMetaData(const libone::RVNGInputStreamPtr_t &input, struct object_header _header) : Object(input, _header)
 {
 //    Object(_header);
   (void) input;

@@ -20,7 +20,8 @@ class TransactionLogFragment
 {
 public:
   TransactionLogFragment();
-  int parse(librevenge::RVNGInputStream *input,
+  /// \todo use FileChunkReference in parse
+  int parse(const libone::RVNGInputStreamPtr_t &input,
             uint64_t location, uint32_t size,
             uint32_t transactions_to_parse);
   std::string to_string();

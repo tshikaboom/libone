@@ -12,6 +12,7 @@
 
 #include <librevenge-stream/librevenge-stream.h>
 
+#include "libone_utils.h"
 namespace libone
 {
 
@@ -29,7 +30,7 @@ public:
   FileChunkReference(enum FileChunkReferenceSize fcr_size);
 
 
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string();
   long get_location();
   long get_size();

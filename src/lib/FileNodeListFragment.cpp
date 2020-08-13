@@ -35,13 +35,14 @@ FileNodeListFragment::FileNodeListFragment(uint64_t location, uint64_t size) :
   DBMSG << "location " << m_offset << " size " << m_size << " field_size_footer " << field_size_footer << " field_size_next_fragment " << field_size_next_fragment << std::endl;
 }
 
-void FileNodeListFragment::parse(librevenge::RVNGInputStream *input)
+void FileNodeListFragment::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   uint64_t magic;
   DBMSG << "input@" << input->tell() << ", beginning" << std::endl;
 
   magic = readU64(input, false);
-  if (magic != header_magic_id) {
+  if (magic != header_magic_id)
+  {
     DBMSG << "Parsed magic " << magic << " does not match expected header magic" << header_magic_id << std::endl;
     assert(false);
   }
@@ -74,7 +75,8 @@ void FileNodeListFragment::parse(librevenge::RVNGInputStream *input)
   DBMSG << "Parsed next fragment, got " << m_next_fragment.to_string() << std::endl;
 
   magic = readU64(input, false);
-  if (magic != footer_magic_id) {
+  if (magic != footer_magic_id)
+  {
     DBMSG << "Parsed magic " << magic << " does not match expected footer magic" << footer_magic_id << std::endl;
     assert(false);
   }
@@ -82,7 +84,7 @@ void FileNodeListFragment::parse(librevenge::RVNGInputStream *input)
   return;
 }
 
-void FileNodeListFragment::skip_padding(librevenge::RVNGInputStream *input)
+void FileNodeListFragment::skip_padding(const libone::RVNGInputStreamPtr_t &input)
 {
   int i;
   for (i=0;; i++)

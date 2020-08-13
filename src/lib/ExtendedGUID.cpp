@@ -22,7 +22,7 @@
 namespace libone
 {
 
-void ExtendedGUID::parse(librevenge::RVNGInputStream *input)
+void ExtendedGUID::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   guid.parse(input);
 

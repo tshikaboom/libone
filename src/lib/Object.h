@@ -38,7 +38,7 @@ class Object
 {
 
 public:
-  Object(librevenge::RVNGInputStream *input, struct object_header _header);
+  Object(const libone::RVNGInputStreamPtr_t &input, struct object_header _header);
   bool get_read_only();
   void set_read_only(bool new_);
   ExtendedGUID get_guid();
@@ -46,7 +46,7 @@ public:
   void to_document(librevenge::RVNGDrawingInterface *document, std::unordered_map<std::string, Object> objects);
 
 protected:
-  void parse_list(librevenge::RVNGInputStream *input, FileNodeChunkReference ref);
+  void parse_list(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref);
 
 private:
   FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);

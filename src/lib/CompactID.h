@@ -18,7 +18,7 @@ namespace libone
 class CompactID
 {
 public:
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string();
   ExtendedGUID to_EGUID();
 
