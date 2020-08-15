@@ -25,6 +25,12 @@ void CompactID::parse(const libone::RVNGInputStreamPtr_t &input)
   n = temp & 0xFF;
 }
 
+const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, CompactID &obj)
+{
+  obj.parse(input);
+  return input;
+}
+
 std::string CompactID::to_string()
 {
   std::stringstream stream;

@@ -22,6 +22,8 @@ public:
   std::string to_string();
   ExtendedGUID to_EGUID();
 
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, CompactID &obj);
+
 private:
   uint16_t n = 0;
   uint32_t guidIndex = 0; // 24 bits used only
