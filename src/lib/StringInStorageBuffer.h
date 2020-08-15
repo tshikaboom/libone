@@ -27,6 +27,8 @@ public:
   uint32_t length = 0;
   std::string to_string();
 
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, StringInStorageBuffer &obj);
+
 private:
   librevenge::RVNGString ustring = librevenge::RVNGString();
 };

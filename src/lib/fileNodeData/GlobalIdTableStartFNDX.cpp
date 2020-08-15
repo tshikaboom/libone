@@ -17,11 +17,12 @@ void GlobalIdTableStartFNDX::setReserved(const uint8_t &value)
 
 void GlobalIdTableStartFNDX::parse(const libone::RVNGInputStreamPtr_t &input)
 {
-  input >> m_ref;
+  input >> m_reserved;
 }
 
 std::string GlobalIdTableStartFNDX::to_string() const
 {
+  return "";
 }
 
 } // namespace libone

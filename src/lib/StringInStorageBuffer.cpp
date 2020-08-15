@@ -31,6 +31,12 @@ void StringInStorageBuffer::parse(const libone::RVNGInputStreamPtr_t &input)
   ONE_DEBUG_MSG(("read length1 %u length2 %u string1 %s string2 %s end\n", length, ustring.len(), &string[0], ustring.cstr()));
 }
 
+const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, StringInStorageBuffer &obj)
+{
+  obj.parse(input);
+  return input;
+}
+
 std::string StringInStorageBuffer::to_string()
 {
   return ustring.cstr();

@@ -13,6 +13,7 @@
 #include <string>
 #include <cstdint>
 #include <librevenge-stream/librevenge-stream.h>
+#include "libone_utils.h"
 
 namespace libone
 {
@@ -20,6 +21,7 @@ namespace libone
 class JCID
 {
 public:
+  JCID();
   JCID(uint32_t val)
   {
     value = val;
@@ -110,6 +112,12 @@ public:
     jcidParagraphStyleObjectForText = 0x0012004D,
     NIL = 0
   } JCID_types = NIL;
+
+
+  void parse(const libone::RVNGInputStreamPtr_t &input);
+
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, JCID &obj);
+
 private:
   uint32_t value = 0;
 };

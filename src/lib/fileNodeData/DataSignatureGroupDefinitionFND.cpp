@@ -23,4 +23,9 @@ void DataSignatureGroupDefinitionFND::parse(const libone::RVNGInputStreamPtr_t &
   input >> m_dataSignatureGroup;
 }
 
+std::string DataSignatureGroupDefinitionFND::to_string() const
+{
+  return "";
+}
+
 } // namespace libone

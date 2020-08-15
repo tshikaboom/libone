@@ -6,40 +6,43 @@ namespace libone
 {
 ObjectDataEncryptionKeyV2FNDX::ObjectDataEncryptionKeyV2FNDX(
   StpFormat stpFormat, CbFormat cbFormat)
-  : m_ref(stpFormat, cbFormat) {}
+  : m_ref(stpFormat, cbFormat), m_EncryptionData() {}
 
-ObjectDataEncryptionKeyV2FNDX::ObjectDataEncryptionKeyV2FNDX(const ObjectDataEncryptionKeyV2FNDX &source)
-  : m_ref(source.m_ref),
-{
-  std::copy(source.getEncryptionData(), source.getEncryptionData() + source.getEncryptionDataLength(), m_EncryptionData);
-}
+// ObjectDataEncryptionKeyV2FNDX::ObjectDataEncryptionKeyV2FNDX(const ObjectDataEncryptionKeyV2FNDX &source)
+//   : m_ref(source.m_ref),
+// {
+//   std::copy(source.getEncryptionData(), source.getEncryptionData() + source.getEncryptionDataLength(), m_EncryptionData);
+// }
 
 ObjectDataEncryptionKeyV2FNDX::~ObjectDataEncryptionKeyV2FNDX()
 {
-  delete[] m_EncryptionData;
 }
 
-ObjectDataEncryptionKeyV2FNDX &ObjectDataEncryptionKeyV2FNDX::operator=(const ObjectDataEncryptionKeyV2FNDX &rhs)
-{
-  if (this == &rhs)
-  {
-    return *this;
-  }
-
-  delete[] this->m_EncryptionData;
-  m_EncryptionData = new unsigned char[rhs.m_ref.cb()];
-  std::copy(rhs.m_EncryptionData, rhs.m_EncryptionData + rhs.m_ref.cb(), m_EncryptionData);
-  return *this;
-}
+// ObjectDataEncryptionKeyV2FNDX &ObjectDataEncryptionKeyV2FNDX::operator=(const ObjectDataEncryptionKeyV2FNDX &rhs)
+// {
+//   if (this == &rhs)
+//   {
+//     return *this;
+//   }
+//
+//   delete[] this->m_EncryptionData;
+//   m_EncryptionData = new unsigned char[rhs.m_ref.cb()];
+//   std::copy(rhs.m_EncryptionData, rhs.m_EncryptionData + rhs.m_ref.cb(), m_EncryptionData);
+//   return *this;
+// }
 
 unsigned char *ObjectDataEncryptionKeyV2FNDX::getEncryptionData() const
 {
-  return m_EncryptionData;
+  return m_EncryptionData.get();
 }
 
 void ObjectDataEncryptionKeyV2FNDX::setEncryptionData(const unsigned char *value, const uint64_t length)
 {
-  std::copy(value, value + length, m_EncryptionData);
+  if (0 < length)
+  {
+    m_EncryptionData.reset(new unsigned char[length]);
+    std::copy(value, value + length, m_EncryptionData.get());
+  }
 }
 
 FileNodeChunkReference ObjectDataEncryptionKeyV2FNDX::getRef() const
@@ -59,14 +62,19 @@ void ObjectDataEncryptionKeyV2FNDX::parse(const libone::RVNGInputStreamPtr_t &in
 
   uint64_t currentloc = input->tell();
 
-  input->seek(m_ref.stp());
-  uint64_t temp;
-  input >> temp;
+  seek(input,m_ref.stp());
+  // skip header
+  skip(input,8);
 
-  m_EncryptionData = readNBytes(input, m_ref.cb());
-  input >> temp;
+  const unsigned char *const temp = readNBytes(input, m_ref.cb());
+  m_EncryptionData.reset(new unsigned char[m_ref.cb()]);
+  std::copy(temp, temp + m_ref.cb(), m_EncryptionData.get());
+  delete temp;
 
-  input->seek(currentloc);
+  // skip footer
+  skip(input,8);
+
+  seek(input, currentloc);
 }
 
 std::string ObjectDataEncryptionKeyV2FNDX::to_string() const

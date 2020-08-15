@@ -15,13 +15,12 @@ private:
   static constexpr const uint64_t m_header = 0xFB6BA385DAD1A067;
   static constexpr const uint64_t m_footer = 0x2649294F8E198B3C;
 
-  unsigned char *m_EncryptionData = nullptr;
+  std::unique_ptr<unsigned char[]> m_EncryptionData;
 public:
   ObjectDataEncryptionKeyV2FNDX(const StpFormat stpFormat, const CbFormat cbFormat);
-  ObjectDataEncryptionKeyV2FNDX(const ObjectDataEncryptionKeyV2FNDX &source);
   ~ObjectDataEncryptionKeyV2FNDX();
 
-  ObjectDataEncryptionKeyV2FNDX &operator=(const ObjectDataEncryptionKeyV2FNDX &rhs);
+//   ObjectDataEncryptionKeyV2FNDX &operator=(const ObjectDataEncryptionKeyV2FNDX &rhs);
 
   FileNodeChunkReference getRef() const;
   void setRef(const FileNodeChunkReference &value);

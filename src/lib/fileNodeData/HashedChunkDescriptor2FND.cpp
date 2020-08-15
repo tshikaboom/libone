@@ -8,7 +8,7 @@ HashedChunkDescriptor2FND::HashedChunkDescriptor2FND(StpFormat stpFormat,
                                                      CbFormat cbFormat)
   : m_BlobRef(stpFormat, cbFormat) {}
 
-HashedChunkDescriptor2FND::HashedChunkDescriptor2FND(HashedChunkDescriptor2FND &source)
+HashedChunkDescriptor2FND::HashedChunkDescriptor2FND(const HashedChunkDescriptor2FND &source)
   : m_BlobRef(source.BlobRef()), m_guidHash(source.m_guidHash)
 {
 }
@@ -39,10 +39,9 @@ void HashedChunkDescriptor2FND::setGuidHash(std::array<unsigned char, 16> guidHa
 void HashedChunkDescriptor2FND::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   input >> m_BlobRef;
-  unsigned char *temp;
-  temp = readNBytes(input, m_guidHash_length);
+  const unsigned char *temp= readNBytes(input, m_guidHash_length);
 
-  std::copy_n(std::begin(temp), m_guidHash_length, std::begin(m_guidHash));
+  std::copy_n(temp, m_guidHash_length, std::begin(m_guidHash));
 }
 
 std::string HashedChunkDescriptor2FND::to_string() const

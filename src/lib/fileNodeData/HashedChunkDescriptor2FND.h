@@ -32,6 +32,7 @@ public:
   std::string to_string() const override;
 
 };
+
 } // namespace libone
 
 #endif // HASHEDCHUNKDESCRIPTOR2FND_H
