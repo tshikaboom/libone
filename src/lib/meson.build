@@ -64,6 +64,19 @@ libone_source_files = [
 	'fileNodeData/FileDataStoreListReferenceFND.cpp',
 	'fileNodeData/FileDataStoreObjectReferenceFND.h',
 	'fileNodeData/FileDataStoreObjectReferenceFND.cpp',
+	'fileNodeData/GlobalIdTableEntry2FNDX.h',
+	'fileNodeData/GlobalIdTableEntry2FNDX.cpp',
+	'fileNodeData/GlobalIdTableEntry3FNDX.h',
+	'fileNodeData/GlobalIdTableEntry3FNDX.cpp',
+	'fileNodeData/GlobalIdTableEntryFNDX.h',
+	'fileNodeData/GlobalIdTableEntryFNDX.cpp',
+	'fileNodeData/GlobalIdTableStartFNDX.cpp',
+	'fileNodeData/GlobalIdTableStartFNDX.h',
+	'fileNodeData/HashedChunkDescriptor2FND.cpp',
+	'fileNodeData/HashedChunkDescriptor2FND.h',
+	'fileNodeData/ObjectDataEncryptionKeyV2FNDX.h',
+	'fileNodeData/ObjectDataEncryptionKeyV2FNDX.cpp'
+
 
 ]
 
