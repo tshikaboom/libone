@@ -94,7 +94,7 @@ void Object::to_document(librevenge::RVNGDrawingInterface *document, std::unorde
   }
 }
 
-void Object::parse_list(libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
+void Object::parse_list(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
 {
   ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs(guid);
   ObjectSpaceStreamOfOSIDs osids = ObjectSpaceStreamOfOSIDs();

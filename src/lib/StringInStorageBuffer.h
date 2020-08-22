@@ -15,6 +15,8 @@
 #include <librevenge/librevenge.h>
 #include <vector>
 
+#include "libone_utils.h"
+
 namespace libone
 {
 
