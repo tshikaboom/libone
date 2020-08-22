@@ -52,7 +52,19 @@ libone_source_files = [
     'StringInStorageBuffer.h',
     'libone_utils.cpp',
     'libone_types.h',
-    'libone_utils.h'
+    'libone_utils.h',
+
+
+	'fileNodeData/FileNodeData.h',
+	'fileNodeData/IFileNodeData.h',
+	'fileNodeData/IFileNodeData.cpp',
+	'fileNodeData/DataSignatureGroupDefinitionFND.h',
+	'fileNodeData/DataSignatureGroupDefinitionFND.cpp',
+	'fileNodeData/FileDataStoreListReferenceFND.h',
+	'fileNodeData/FileDataStoreListReferenceFND.cpp',
+	'fileNodeData/FileDataStoreObjectReferenceFND.h',
+	'fileNodeData/FileDataStoreObjectReferenceFND.cpp',
+
 ]
 
 libone_source_dependencies = [
