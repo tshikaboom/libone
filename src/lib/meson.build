@@ -55,6 +55,8 @@ libone_source_files = [
     'libone_utils.h'
 ]
 
+subdir('FileNodeData')
+
 libone_source_dependencies = [
     librevenge_dep,
     librevenge_stream_dep,
@@ -74,5 +76,6 @@ libone_target = library(
   gnu_symbol_visibility : 'default',
   include_directories : libone_include_directory,
 )
+
 
 ## vim:set shiftwidth=4 tabstop=4 noexpandtab:
