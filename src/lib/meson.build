@@ -75,7 +75,9 @@ libone_source_files = [
 	'fileNodeData/HashedChunkDescriptor2FND.cpp',
 	'fileNodeData/HashedChunkDescriptor2FND.h',
 	'fileNodeData/ObjectDataEncryptionKeyV2FNDX.h',
-	'fileNodeData/ObjectDataEncryptionKeyV2FNDX.cpp'
+	'fileNodeData/ObjectDataEncryptionKeyV2FNDX.cpp',
+	'fileNodeData/ObjectDeclaration2LargeRefCountFND.h',
+	'fileNodeData/ObjectDeclaration2LargeRefCountFND.cpp',
 
 
 ]
