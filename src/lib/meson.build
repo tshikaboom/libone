@@ -75,4 +75,6 @@ libone_target = library(
   include_directories : libone_include_directory,
 )
 
+subdir('fileNodeData')
+
 ## vim:set shiftwidth=4 tabstop=4 noexpandtab:
