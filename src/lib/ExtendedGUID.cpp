@@ -22,7 +22,7 @@
 namespace libone
 {
 
-ExtendedGUID::ExtendedGUID() : guid(), n() {}
+ExtendedGUID::ExtendedGUID() : n(), guid() {}
 
 const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, ExtendedGUID &obj)
 {
