@@ -108,6 +108,13 @@ void seekRelative(std::shared_ptr<librevenge::RVNGInputStream> input, long pos);
 
 unsigned long getLength(std::shared_ptr<librevenge::RVNGInputStream> input);
 
+
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint8_t &val);
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint16_t &val);
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint32_t &val);
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint64_t &val);
+
+
 template <typename T>
 std::string int_to_hex(const T i);
 
