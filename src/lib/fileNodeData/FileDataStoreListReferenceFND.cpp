@@ -25,4 +25,9 @@ void FileDataStoreListReferenceFND::parse(const libone::RVNGInputStreamPtr_t &in
   input >> m_ref;
 }
 
+std::string FileDataStoreListReferenceFND::to_string() const
+{
+  return "";
+}
+
 } // namespace libone
