@@ -79,6 +79,11 @@ uint16_t readU16(librevenge::RVNGInputStream *input, bool bigEndian=false);
 uint32_t readU32(librevenge::RVNGInputStream *input, bool bigEndian=false);
 uint64_t readU64(librevenge::RVNGInputStream *input, bool bigEndian=false);
 
+int8_t read8(librevenge::RVNGInputStream *input, bool = false);
+int16_t read16(librevenge::RVNGInputStream *input, bool bigEndian=false);
+int32_t read32(librevenge::RVNGInputStream *input, bool bigEndian=false);
+int64_t read64(librevenge::RVNGInputStream *input, bool bigEndian=false);
+
 const unsigned char *readNBytes(librevenge::RVNGInputStream *input, unsigned long numBytes);
 
 std::string readCString(librevenge::RVNGInputStream *input);
@@ -95,6 +100,11 @@ uint8_t readU8(std::shared_ptr<librevenge::RVNGInputStream> input, bool = false)
 uint16_t readU16(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
 uint32_t readU32(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
 uint64_t readU64(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
+
+int8_t read8(std::shared_ptr<librevenge::RVNGInputStream> input, bool = false);
+int16_t read16(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
+int32_t read32(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
+int64_t read64(std::shared_ptr<librevenge::RVNGInputStream> input, bool bigEndian=false);
 
 const unsigned char *readNBytes(std::shared_ptr<librevenge::RVNGInputStream> input, unsigned long numBytes);
 
@@ -113,6 +123,10 @@ const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint8_
 const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint16_t &val);
 const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint32_t &val);
 const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint64_t &val);
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, int8_t &val);
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, int16_t &val);
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, int32_t &val);
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, int64_t &val);
 
 
 template <typename T>

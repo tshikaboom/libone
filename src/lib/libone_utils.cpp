@@ -89,6 +89,66 @@ uint64_t readU64(librevenge::RVNGInputStream *input, bool bigEndian)
   throw EndOfStreamException();
 }
 
+int8_t read8(librevenge::RVNGInputStream *input, bool /* bigEndian */)
+{
+  checkStream(input);
+
+  unsigned long numBytesRead;
+  uint8_t const *p = input->read(sizeof(int8_t), numBytesRead);
+
+  if (p && numBytesRead == sizeof(int8_t))
+    return static_cast<int8_t>(*(uint8_t const *)(p));
+  throw EndOfStreamException();
+}
+
+int16_t read16(librevenge::RVNGInputStream *input, bool bigEndian)
+{
+  checkStream(input);
+
+  unsigned long numBytesRead;
+  uint8_t const *p = input->read(sizeof(int16_t), numBytesRead);
+
+  if (p && numBytesRead == sizeof(int16_t))
+  {
+    if (bigEndian)
+      return static_cast<int16_t>((uint16_t)p[1]|((uint16_t)p[0]<<8));
+    return static_cast<int16_t>((uint16_t)p[0]|((uint16_t)p[1]<<8));
+  }
+  throw EndOfStreamException();
+}
+
+int32_t read32(librevenge::RVNGInputStream *input, bool bigEndian)
+{
+  checkStream(input);
+
+  unsigned long numBytesRead;
+  uint8_t const *p = input->read(sizeof(int32_t), numBytesRead);
+
+  if (p && numBytesRead == sizeof(int32_t))
+  {
+    if (bigEndian)
+      return static_cast<int32_t>((uint32_t)p[3]|((uint32_t)p[2]<<8)|((uint32_t)p[1]<<16)|((uint32_t)p[0]<<24));
+    return static_cast<int32_t>((uint32_t)p[0]|((uint32_t)p[1]<<8)|((uint32_t)p[2]<<16)|((uint32_t)p[3]<<24));
+  }
+  throw EndOfStreamException();
+}
+
+int64_t read64(librevenge::RVNGInputStream *input, bool bigEndian)
+{
+  checkStream(input);
+
+  unsigned long numBytesRead;
+  uint8_t const *p = input->read(sizeof(int64_t), numBytesRead);
+
+  if (p && numBytesRead == sizeof(int64_t))
+  {
+    if (bigEndian)
+      return static_cast<int64_t>((uint64_t)p[7]|((uint64_t)p[6]<<8)|((uint64_t)p[5]<<16)|((uint64_t)p[4]<<24)|((uint64_t)p[3]<<32)|((uint64_t)p[2]<<40)|((uint64_t)p[1]<<48)|((uint64_t)p[0]<<56));
+    return static_cast<int64_t>((uint64_t)p[0]|((uint64_t)p[1]<<8)|((uint64_t)p[2]<<16)|((uint64_t)p[3]<<24)|((uint64_t)p[4]<<32)|((uint64_t)p[5]<<40)|((uint64_t)p[6]<<48)|((uint64_t)p[7]<<56));
+  }
+  throw EndOfStreamException();
+}
+
 const unsigned char *readNBytes(librevenge::RVNGInputStream *const input, const unsigned long numBytes)
 {
   checkStream(input);
@@ -199,6 +259,26 @@ uint64_t readU64(const std::shared_ptr<librevenge::RVNGInputStream> input, const
   return readU64(input.get(), bigEndian);
 }
 
+int8_t read8(const std::shared_ptr<librevenge::RVNGInputStream> input, bool)
+{
+  return read8(input.get());
+}
+
+int16_t read16(const std::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
+{
+  return read16(input.get(), bigEndian);
+}
+
+int32_t read32(const std::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
+{
+  return read32(input.get(), bigEndian);
+}
+
+int64_t read64(const std::shared_ptr<librevenge::RVNGInputStream> input, const bool bigEndian)
+{
+  return read64(input.get(), bigEndian);
+}
+
 const unsigned char *readNBytes(const std::shared_ptr<librevenge::RVNGInputStream> input, const unsigned long numBytes)
 {
   return readNBytes(input.get(), numBytes);
@@ -256,6 +336,26 @@ const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, uint64
   return input;
 }
 
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, int8_t &val)
+{
+  val = read8(input, false);
+  return input;
+}
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, int16_t &val)
+{
+  val = read16(input, false);
+  return input;
+}
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, int32_t &val)
+{
+  val = read32(input, false);
+  return input;
+}
+const RVNGInputStreamPtr_t &operator>>(const RVNGInputStreamPtr_t &input, int64_t &val)
+{
+  val = read64(input, false);
+  return input;
+}
 
 
 template <typename T>
