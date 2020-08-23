@@ -15,7 +15,7 @@ namespace libone
 
 std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
 {
-  FileNodeList list(ref.get_location(), ref.get_size());
+  FileNodeList list(ref.stp(), ref.cb());
   std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();
   GUID temp = GUID();
   DBMSG << "GUID " << temp.to_string();

@@ -14,6 +14,7 @@
 #include <librevenge-stream/librevenge-stream.h>
 
 #include "libone_utils.h"
+#include "FileNodeChunkReference.h"
 
 
 namespace libone
@@ -81,37 +82,51 @@ public:
 
   void skip_node(const libone::RVNGInputStreamPtr_t &input);
 
-  FndId get_FileNodeID()
+  FndId get_FileNodeID() const
   {
     return m_fnd_id;
   }
-  uint32_t get_Size()
+
+  StpFormat get_stp_format() const
+  {
+    return m_fncr.get_stp_fmt();
+  }
+
+  CbFormat get_cb_format() const
+  {
+    return m_fncr.get_cb_fmt();
+  }
+
+  uint64_t get_Size() const
   {
     return m_size_in_file;
   }
-  enum fnd_basetype get_Basetype()
+
+  enum fnd_basetype get_Basetype() const
   {
     return m_base_type;
   }
-  FileNodeChunkReference get_fnd()
-  {
-    return m_fnd;
-  }
-  uint32_t get_location()
+
+  uint64_t get_location() const
   {
     return m_offset;
   }
 
-  static const uint32_t header_size = sizeof(uint32_t);
+  FileNodeChunkReference get_fncr() const
+  {
+    return m_fncr;
+  }
+
+  static constexpr const uint32_t header_size = sizeof(uint32_t);
+
 private:
   uint32_t m_offset = 0;
   uint32_t m_size_in_file = 0;
-  uint32_t m_header_size = 0;
+  FileNodeChunkReference m_fncr = FileNodeChunkReference();
 
   FndId m_fnd_id = FndId::fnd_invalid_id;
   enum fnd_basetype m_base_type = fnd_invalid_basetype;
   void parse_header(const libone::RVNGInputStreamPtr_t &input);
-  FileNodeChunkReference m_fnd = FileNodeChunkReference(stp_invalid, cb_invalid, 0);
 
   static const uint32_t mask_fnd_id        = 0x3FF;
   static const uint32_t mask_fnd_base_type = 0xF;

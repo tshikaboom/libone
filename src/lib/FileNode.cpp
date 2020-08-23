@@ -194,10 +194,10 @@ std::string FileNode::to_string()
     stream << "fnd_no_data";
     break;
   case fnd_ref_data:
-    stream << "fnd_ref_data@0x" << m_fnd.get_location();
+    stream << "fnd_ref_data@0x" << m_fncr.stp();
     break;
   case fnd_ref_filenodelist:
-    stream << "fnd_ref_filenodelist@0x" << m_fnd.get_location();
+    stream << "fnd_ref_filenodelist@0x" << m_fncr.stp();
     break;
   default:
     stream << "UNKNOWN BASETYPE";
@@ -211,14 +211,14 @@ std::string FileNode::to_string()
 void FileNode::parse_header(const libone::RVNGInputStreamPtr_t &input)
 {
   uint32_t temp;
-  enum stp_format format_stp;
-  enum cb_format format_cb;
   int d;
 
-  temp = readU32(input, false);
+  input >> temp;
+
   d = temp >> 31;
-  format_stp = static_cast<stp_format>((temp >> shift_format_stp) & mask_format_stp);
-  format_cb = static_cast<cb_format>((temp >> shift_format_cb) & mask_format_cb);
+
+  StpFormat stp_format = static_cast<StpFormat>((temp >> shift_format_stp) & mask_format_stp);
+  CbFormat cb_format = static_cast<CbFormat>((temp >> shift_format_cb) & mask_format_cb);
   m_base_type = static_cast<fnd_basetype>((temp >> shift_base_type) & mask_fnd_base_type);
   m_fnd_id = static_cast<FndId>(temp & mask_fnd_id);
   m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;
@@ -229,7 +229,7 @@ void FileNode::parse_header(const libone::RVNGInputStreamPtr_t &input)
     ONE_DEBUG_MSG(("warning: d is zero\n"));
   }
   assert(d == 1);
-  FileNodeChunkReference reference(format_stp, format_cb, input->tell());
+  FileNodeChunkReference reference(stp_format, cb_format);
 
   std::bitset<32> y(temp);
   ONE_DEBUG_MSG((" filenode bits %s\n", y.to_string().c_str()));
@@ -247,7 +247,7 @@ void FileNode::parse_header(const libone::RVNGInputStreamPtr_t &input)
     assert(false);
     break;
   }
-  m_fnd = reference;
+  m_fncr = reference;
 }
 
 void FileNode::skip_node(const libone::RVNGInputStreamPtr_t &input)

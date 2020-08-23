@@ -21,12 +21,12 @@ namespace libone
 
 void Revision::list_parse(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
 {
-  FileNodeList list(ref.get_location(), ref.get_size());
+  FileNodeList list(ref.stp(), ref.cb());
   FileNode node;
 //    ObjectGroup group;
   ExtendedGUID temp;
 //    Object object;
-  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+  input->seek(ref.stp(), librevenge::RVNG_SEEK_SET);
   ONE_DEBUG_MSG(("trying to revision at %lu\n", input->tell()));
 
   list.parse(input);
@@ -60,11 +60,11 @@ void Revision::parse_dependencies(const libone::RVNGInputStreamPtr_t &input, Fil
   (void) n_8bitoverrides;
   (void) n_32bitoverrides;
 
-  if (!node.get_fnd().is_fcrNil())
+  if (!node.get_fncr().is_fcrNil())
   {
     ONE_DEBUG_MSG((" for dependencies\n"));
     old = input->tell();
-    input->seek(node.get_fnd().get_location(), librevenge::RVNG_SEEK_SET);
+    input->seek(node.get_fncr().stp(), librevenge::RVNG_SEEK_SET);
   }
 
   n_8bitoverrides = readU32(input, false);
@@ -82,7 +82,7 @@ void Revision::parse_dependencies(const libone::RVNGInputStreamPtr_t &input, Fil
         ONE_DEBUG_MSG(("\n"));
       } */
 
-  if (!node.get_fnd().is_fcrNil())
+  if (!node.get_fncr().is_fcrNil())
     input->seek(old, librevenge::RVNG_SEEK_SET);
 
 }
