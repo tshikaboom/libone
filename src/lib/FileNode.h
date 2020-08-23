@@ -10,8 +10,10 @@
 #ifndef INCLUDED_LIBONE_FILENODE_H
 #define INCLUDED_LIBONE_FILENODE_H
 
-#include "FileNodeChunkReference.h"
+
+#include "fileNodeData/FileNodeData.h"
 #include <librevenge-stream/librevenge-stream.h>
+
 
 #include "libone_utils.h"
 #include "FileNodeChunkReference.h"
@@ -77,6 +79,8 @@ std::string fnd_id_to_string(FndId id_fnd);
 class FileNode
 {
 public:
+
+  ~FileNode();
   void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string();
 
@@ -107,6 +111,11 @@ public:
     return m_base_type;
   }
 
+  IFileNodeData *get_fnd()
+  {
+    return m_fnd;
+  }
+
   uint64_t get_location() const
   {
     return m_offset;
@@ -125,6 +134,7 @@ private:
   FndId m_fnd_id = FndId::fnd_invalid_id;
   enum fnd_basetype m_base_type = fnd_invalid_basetype;
   void parse_header(const libone::RVNGInputStreamPtr_t &input);
+  IFileNodeData *m_fnd = nullptr;
 
   static const uint32_t mask_fnd_id        = 0x3FF;
   static const uint32_t mask_fnd_base_type = 0xF;
