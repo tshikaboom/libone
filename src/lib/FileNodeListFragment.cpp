@@ -59,7 +59,7 @@ void FileNodeListFragment::parse(const libone::RVNGInputStreamPtr_t &input)
 
     DBMSG << "input@" << input->tell() << ", node " << node.to_string() << std::endl;
 
-    if (node.get_FileNodeID() != fnd_id::ChunkTerminatorFND)
+    if (node.get_FileNodeID() != FndId::ChunkTerminatorFND)
     {
       m_fnd_list.push_back(node);
       DBMSG << "Added node to node list of size " << m_fnd_list.size() << std::endl;
@@ -101,7 +101,7 @@ void FileNodeListFragment::skip_padding(const libone::RVNGInputStreamPtr_t &inpu
 /* TODO: not sure how to satisfy the 'Transaction' requirement */
 bool FileNodeListFragment::is_end_of_list(FileNode current_node, long current_offset)
 {
-  if (current_node.get_FileNodeID() == fnd_id::ChunkTerminatorFND)
+  if (current_node.get_FileNodeID() == FndId::ChunkTerminatorFND)
   {
     DBMSG << "Returning true because ChunkTerminatorFND" << std::endl;
     return true;

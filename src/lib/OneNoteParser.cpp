@@ -80,14 +80,14 @@ void OneNoteParser::parse_root_file_node_list(const libone::RVNGInputStreamPtr_t
 
     switch (node.get_FileNodeID())
     {
-    case ObjectSpaceManifestRootFND:
+    case FndId::ObjectSpaceManifestRootFND:
       input->seek(node.get_location() + node.header_size, librevenge::RVNG_SEEK_SET);
       root_object.parse(input);
       break;
-    case ObjectSpaceManifestListReferenceFND:
+    case FndId::ObjectSpaceManifestListReferenceFND:
       object_space.parse(input, node);
       break;
-    case FileDataStoreListReferenceFND:
+    case FndId::FileDataStoreListReferenceFND:
       break;
     default:
       assert(false);

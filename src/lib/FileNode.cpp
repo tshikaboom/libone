@@ -23,69 +23,69 @@
 namespace libone
 {
 
-std::string fnd_id_to_string(enum fnd_id id_fnd)
+std::string fnd_id_to_string(FndId id_fnd)
 {
   std::stringstream stream;
 
   switch (id_fnd)
   {
-  case fnd_id::ObjectSpaceManifestListStartFND:
+  case FndId::ObjectSpaceManifestListStartFND:
     stream << "ObjectSpaceManifestListStartFND";
     break;
-  case fnd_id::ChunkTerminatorFND:
+  case FndId::ChunkTerminatorFND:
     stream << "ChunkTerminatorFND";
     break;
-  case fnd_id::RevisionManifestListStartFND:
+  case FndId::RevisionManifestListStartFND:
     stream << "RevisionManifestListStart";
     break;
-  case fnd_id::RevisionManifestStart4FND:
+  case FndId::RevisionManifestStart4FND:
     stream << "RevisionManifestStart4FND";
     break;
-  case fnd_id::RevisionManifestStart6FND:
+  case FndId::RevisionManifestStart6FND:
     stream << "RevisionManifestStart6FND";
     break;
-  case fnd_id::RevisionManifestStart7FND:
+  case FndId::RevisionManifestStart7FND:
     stream << "RevisionManifestStart";
     break;
-  case fnd_id::RevisionManifestListReferenceFND:
+  case FndId::RevisionManifestListReferenceFND:
     stream << "RevisionManifestListReferenceFND";
     break;
-  case fnd_id::ObjectGroupListReferenceFND:
+  case FndId::ObjectGroupListReferenceFND:
     stream << "ObjectGroupListReferenceFND";
     break;
-  case fnd_id::ObjectSpaceManifestListReferenceFND:
+  case FndId::ObjectSpaceManifestListReferenceFND:
     stream << "ObjectSpaceManifestListReferenceFND";
     break;
-  case fnd_id::ObjectSpaceManifestRootFND:
+  case FndId::ObjectSpaceManifestRootFND:
     stream << "ObjectSpaceManifestListRootFND";
     break;
-  case fnd_id::FileDataStoreListReferenceFND:
+  case FndId::FileDataStoreListReferenceFND:
     stream << "FileDataStoreListReferenceFND";
     break;
-  case fnd_id::ObjectGroupStartFND:
+  case FndId::ObjectGroupStartFND:
     stream << "ObjectGroupStartFND";
     break;
-  case fnd_id::GlobalIdTableStart2FND:
+  case FndId::GlobalIdTableStart2FND:
     stream << "GlobalIdTableStart2FND";
     break;
-  case fnd_id::GlobalIdTableEntryFNDX:
+  case FndId::GlobalIdTableEntryFNDX:
     stream << "GlobalIdTableEntryFNDX";
     break;
-  case fnd_id::GlobalIdTableEndFNDX:
+  case FndId::GlobalIdTableEndFNDX:
     stream << "GlobalIdTableEndFNDX";
     break;
-  case fnd_id::DataSignatureGroupDefinitionFND:
+  case FndId::DataSignatureGroupDefinitionFND:
     stream << "DataSignatureGroupDefinitionFND";
     break;
-  case fnd_id::ObjectDeclaration2RefCountFND:
+  case FndId::ObjectDeclaration2RefCountFND:
     stream << "ObjectDeclaration2RefCountFND";
     break;
-  case fnd_id::ObjectGroupEndFND:
+  case FndId::ObjectGroupEndFND:
     stream << "ObjectGroupEndFND";
     break;
-  case fnd_id::fnd_invalid_id:
+  case FndId::fnd_invalid_id:
   default:
-    stream << "dunno but value is " << id_fnd;
+    stream << "Invalid FND";
     break;
   }
   return stream.str();
@@ -93,40 +93,88 @@ std::string fnd_id_to_string(enum fnd_id id_fnd)
 
 void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
 {
-  m_offset = input->tell();
-
-  DBMSG << "Will parse at " << m_offset << std::endl;
-
   parse_header(input);
+
   switch (m_fnd_id)
   {
-  case fnd_id::ObjectSpaceManifestListStartFND:
-  case fnd_id::RevisionManifestListStartFND:
-  case fnd_id::RevisionManifestStart4FND:
-  case fnd_id::RevisionManifestStart6FND:
-  case fnd_id::RevisionManifestStart7FND:
-  case fnd_id::RevisionManifestListReferenceFND:
-  case fnd_id::ObjectGroupListReferenceFND:
-  case fnd_id::ObjectSpaceManifestListReferenceFND:
-  case fnd_id::ObjectSpaceManifestRootFND:
-  case fnd_id::FileDataStoreListReferenceFND:
-  case fnd_id::ObjectGroupStartFND:
-  case fnd_id::GlobalIdTableStart2FND:
-  case fnd_id::GlobalIdTableEntryFNDX:
-  case fnd_id::GlobalIdTableEndFNDX:
-  case fnd_id::DataSignatureGroupDefinitionFND:
-  case fnd_id::ObjectDeclaration2RefCountFND:
-  case fnd_id::ObjectGroupEndFND:
-  case fnd_id::ObjectInfoDependencyOverridesFND:
-  case fnd_id::RootObjectReference3FND:
-  case fnd_id::RevisionManifestEndFND:
-  case fnd_id::ObjectDeclarationFileData3RefCountFND:
-  case fnd_id::ReadOnlyObjectDeclaration2RefCountFND:
-  case fnd_id::FileDataStoreObjectReferenceFND:
     break;
-  case fnd_id::fnd_invalid_id:
+  case FndId::DataSignatureGroupDefinitionFND:
+    break;
+  case FndId::FileDataStoreListReferenceFND:
+    break;
+  case FndId::FileDataStoreObjectReferenceFND:
+    break;
+  case FndId::GlobalIdTableEntry2FNDX:
+    break;
+  case FndId::GlobalIdTableEntry3FNDX:
+    break;
+  case FndId::GlobalIdTableEntryFNDX:
+    break;
+  case FndId::GlobalIdTableStartFNDX:
+    break;
+  case FndId::HashedChunkDescriptor2FND:
+    break;
+  case FndId::ObjectDataEncryptionKeyV2FNDX:
+    break;
+  case FndId::ObjectDeclaration2LargeRefCountFND:
+    break;
+  case FndId::ObjectDeclaration2RefCountFND:
+    break;
+  case FndId::ObjectDeclarationFileData3LargeRefCountFND:
+    break;
+  case FndId::ObjectDeclarationFileData3RefCountFND:
+    break;
+  case FndId::ObjectDeclarationWithRefCount2FNDX:
+    break;
+  case FndId::ObjectDeclarationWithRefCountFNDX:
+    break;
+  case FndId::ObjectGroupListReferenceFND:
+    break;
+  case FndId::ObjectGroupStartFND:
+    break;
+  case FndId::ObjectInfoDependencyOverridesFND:
+    break;
+  case FndId::ObjectRevisionWithRefCount2FNDX:
+    break;
+  case FndId::ObjectRevisionWithRefCountFNDX:
+    break;
+  case FndId::ObjectSpaceManifestListReferenceFND:
+    break;
+  case FndId::ObjectSpaceManifestListStartFND:
+    break;
+  case FndId::ObjectSpaceManifestRootFND:
+    break;
+  case FndId::ReadOnlyObjectDeclaration2LargeRefCountFND:
+    break;
+  case FndId::ReadOnlyObjectDeclaration2RefCountFND:
+    break;
+  case FndId::RevisionManifestListReferenceFND:
+    break;
+  case FndId::RevisionManifestListStartFND:
+    break;
+  case FndId::RevisionManifestStart4FND:
+    break;
+  case FndId::RevisionManifestStart6FND:
+    break;
+  case FndId::RevisionManifestStart7FND:
+    break;
+  case FndId::RevisionRoleAndContextDeclarationFND:
+    break;
+  case FndId::RevisionRoleDeclarationFND:
+    break;
+  case FndId::RootObjectReference2FNDX:
+    break;
+  case FndId::RootObjectReference3FND:
+    break;
+
+  // nodes without data
+  case FndId::RevisionManifestEndFND:
+  case FndId::GlobalIdTableStart2FND:
+  case FndId::GlobalIdTableEndFNDX:
+  case FndId::ObjectGroupEndFND:
+  case FndId::ChunkTerminatorFND:
+  case FndId::fnd_invalid_id:
   default:
-    DBMSG << "dunno but value is " << m_fnd_id << std::endl;
     assert(false);
     break;
   }
@@ -138,7 +186,6 @@ std::string FileNode::to_string()
 
   stream << fnd_id_to_string(m_fnd_id);
   stream << "; ";
-  stream << "size " << m_size_in_file << "; ";
 
   stream << std::hex << "base_type ";
   switch (m_base_type)
@@ -173,7 +220,7 @@ void FileNode::parse_header(const libone::RVNGInputStreamPtr_t &input)
   format_stp = static_cast<stp_format>((temp >> shift_format_stp) & mask_format_stp);
   format_cb = static_cast<cb_format>((temp >> shift_format_cb) & mask_format_cb);
   m_base_type = static_cast<fnd_basetype>((temp >> shift_base_type) & mask_fnd_base_type);
-  m_fnd_id = static_cast<fnd_id>(temp & mask_fnd_id);
+  m_fnd_id = static_cast<FndId>(temp & mask_fnd_id);
   m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;
   if (d == 0)
   {
