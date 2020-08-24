@@ -124,7 +124,7 @@ void GUID::zero()
   }
 }
 
-void GUID::parse(librevenge::RVNGInputStream *input)
+void GUID::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   Data1 = readU32(input, false);
   Data2 = readU16(input, false);
@@ -167,7 +167,7 @@ bool GUID::is_equal(const GUID other) const
   return false;
 }
 
-librevenge::RVNGInputStream *operator>>(librevenge::RVNGInputStream *input, GUID &obj)
+const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, GUID &obj)
 {
   obj.parse(input);
   return input;

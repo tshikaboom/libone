@@ -18,7 +18,10 @@ namespace libone
 class ExtendedGUID
 {
 public:
-  void parse(librevenge::RVNGInputStream *input);
+  ExtendedGUID();
+
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, ExtendedGUID &obj);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   void zero();
   std::string to_string();
   uint32_t get_n();

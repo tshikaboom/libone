@@ -25,14 +25,14 @@ class ObjectSpaceStream
 {
 public:
 
-  void parse_header(librevenge::RVNGInputStream *input);
+  void parse_header(const libone::RVNGInputStreamPtr_t &input);
   std::string header_string();
   virtual ~ObjectSpaceStream() { };
   uint16_t get_A();
   uint16_t get_B();
   uint32_t get_Count();
 
-  virtual std::vector<ExtendedGUID> parse(librevenge::RVNGInputStream *input) = 0;
+  virtual std::vector<ExtendedGUID> parse(const libone::RVNGInputStreamPtr_t &input) = 0;
 protected:
   uint32_t Count = 0;
   uint16_t a = 0;
@@ -46,7 +46,7 @@ public:
   {
     guid = new_guid;
   }
-  std::vector<ExtendedGUID> parse(librevenge::RVNGInputStream *input);
+  std::vector<ExtendedGUID> parse(const libone::RVNGInputStreamPtr_t &input);
 private:
   ExtendedGUID guid = ExtendedGUID();
 };
@@ -54,14 +54,14 @@ private:
 class ObjectSpaceStreamOfOSIDs: public ObjectSpaceStream
 {
 public:
-  std::vector<ExtendedGUID>  parse(librevenge::RVNGInputStream *input);
+  std::vector<ExtendedGUID>  parse(const libone::RVNGInputStreamPtr_t &input);
 private:
 };
 
 class ObjectSpaceStreamOfContextIDs: public ObjectSpaceStream
 {
 public:
-  std::vector<ExtendedGUID>  parse(librevenge::RVNGInputStream *input);
+  std::vector<ExtendedGUID>  parse(const libone::RVNGInputStreamPtr_t &input);
 private:
 };
 

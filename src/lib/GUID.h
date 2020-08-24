@@ -15,6 +15,8 @@
 #include <array>
 #include <librevenge-stream/librevenge-stream.h>
 
+#include "libone_utils.h"
+
 namespace libone
 {
 
@@ -39,7 +41,7 @@ public:
   GUID(const std::string str);
 
   /** Parse GUID's content from RVNGInputStream byte stream. */
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
 
   /** Converts GUID object to a string in this format: "{00000000-0000-0000-0000-000000000000}" */
   std::string to_string() const;
@@ -50,7 +52,7 @@ public:
   /** resets GUID to {00000000-0000-0000-0000-000000000000} */
   void zero();
 
-  friend librevenge::RVNGInputStream *operator>>(librevenge::RVNGInputStream *input, GUID &obj);
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, GUID &obj);
 
   friend bool operator==(const GUID &lhs, const GUID &rhs) noexcept;
   friend bool operator!=(const GUID &lhs, const GUID &rhs) noexcept;

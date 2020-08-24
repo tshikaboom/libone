@@ -26,8 +26,8 @@ class ObjectSpace
 {
 public:
   ObjectSpace();
-  void parse(librevenge::RVNGInputStream *input, FileNode &node);
-  void list_parse(librevenge::RVNGInputStream *input, ExtendedGUID guid, FileNodeChunkReference ref); // Assume we're at the beginning of a FileNode list
+  void parse(const libone::RVNGInputStreamPtr_t &input, FileNode &node);
+  void list_parse(const libone::RVNGInputStreamPtr_t &input, ExtendedGUID guid, FileNodeChunkReference ref); // Assume we're at the beginning of a FileNode list
 //    std::unordered_map<std::string, libone::Object> ObjectMap = std::unordered_map<std::string, libone::Object>();
   std::unordered_map<std::string, libone::Revision> RevisionMap = std::unordered_map<std::string, libone::Revision>();
   void to_document(librevenge::RVNGDrawingInterface *document);

@@ -20,7 +20,7 @@ namespace libone
 class PageMetaData: public Object
 {
 public:
-  PageMetaData(librevenge::RVNGInputStream *input, struct object_header _header);
+  PageMetaData(const libone::RVNGInputStreamPtr_t &input, struct object_header _header);
 };
 
 

@@ -25,7 +25,7 @@
 namespace libone
 {
 
-void Header::parse(librevenge::RVNGInputStream *input)
+void Header::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   input->seek(OFFSET_HEADER, librevenge::RVNG_SEEK_SET);
 

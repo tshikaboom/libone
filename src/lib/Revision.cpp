@@ -19,7 +19,7 @@
 namespace libone
 {
 
-void Revision::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref)
+void Revision::list_parse(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
 {
   FileNodeList list(ref.get_location(), ref.get_size());
   FileNode node;
@@ -46,7 +46,7 @@ std::string Revision::to_string()
   return stream.str();
 }
 
-void Revision::parse_dependencies(librevenge::RVNGInputStream *input, FileNode node)
+void Revision::parse_dependencies(const libone::RVNGInputStreamPtr_t &input, FileNode node)
 {
   CompactID temp;
   uint32_t n_8bitoverrides;

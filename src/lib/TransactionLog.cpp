@@ -28,7 +28,7 @@ TransactionLog::TransactionLog(uint64_t location, uint32_t size, uint32_t max_tr
 }
 
 
-void TransactionLog::parse(librevenge::RVNGInputStream *input)
+void TransactionLog::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   TransactionLogFragment fragment = TransactionLogFragment();
   uint64_t location = m_offset;

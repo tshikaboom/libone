@@ -13,7 +13,7 @@
 namespace libone
 {
 
-std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(librevenge::RVNGInputStream *input, FileNodeChunkReference ref)
+std::unordered_map<std::string, libone::Object> ObjectGroup::list_parse(libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
 {
   FileNodeList list(ref.get_location(), ref.get_size());
   std::unordered_map<std::string, libone::Object> object_map = std::unordered_map<std::string, libone::Object>();

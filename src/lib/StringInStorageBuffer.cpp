@@ -19,7 +19,7 @@
 namespace libone
 {
 
-void StringInStorageBuffer::parse(librevenge::RVNGInputStream *input)
+void StringInStorageBuffer::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   std::stringstream stream;
   length = readU32(input);

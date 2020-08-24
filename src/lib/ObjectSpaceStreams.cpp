@@ -23,7 +23,7 @@
 namespace libone
 {
 
-void ObjectSpaceStream::parse_header(librevenge::RVNGInputStream *input)
+void ObjectSpaceStream::parse_header(const libone::RVNGInputStreamPtr_t &input)
 {
   uint32_t temp = readU32(input);
   std::bitset<32> x(temp);
@@ -51,7 +51,7 @@ uint16_t ObjectSpaceStream::get_B()
   return b;
 }
 
-std::vector<ExtendedGUID> ObjectSpaceStreamOfOIDs::parse(librevenge::RVNGInputStream *input)
+std::vector<ExtendedGUID> ObjectSpaceStreamOfOIDs::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   std::vector<ExtendedGUID> ret = std::vector<ExtendedGUID>();
   parse_header(input);
@@ -73,7 +73,7 @@ std::vector<ExtendedGUID> ObjectSpaceStreamOfOIDs::parse(librevenge::RVNGInputSt
   return ret;
 }
 
-std::vector<ExtendedGUID> ObjectSpaceStreamOfOSIDs::parse(librevenge::RVNGInputStream *input)
+std::vector<ExtendedGUID> ObjectSpaceStreamOfOSIDs::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   std::vector<ExtendedGUID> ret = std::vector<ExtendedGUID>();
   parse_header(input);
@@ -86,7 +86,7 @@ std::vector<ExtendedGUID> ObjectSpaceStreamOfOSIDs::parse(librevenge::RVNGInputS
   return ret;
 }
 
-std::vector<ExtendedGUID> ObjectSpaceStreamOfContextIDs::parse(librevenge::RVNGInputStream *input)
+std::vector<ExtendedGUID> ObjectSpaceStreamOfContextIDs::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   std::vector<ExtendedGUID> ret = std::vector<ExtendedGUID>();
   parse_header(input);

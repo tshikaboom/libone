@@ -15,13 +15,15 @@
 #include <librevenge/librevenge.h>
 #include <vector>
 
+#include "libone_utils.h"
+
 namespace libone
 {
 
 class StringInStorageBuffer
 {
 public:
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   uint32_t length = 0;
   std::string to_string();
 

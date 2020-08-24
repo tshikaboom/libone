@@ -12,6 +12,8 @@
 
 #include <librevenge-stream/librevenge-stream.h>
 
+#include "libone_utils.h"
+
 namespace libone
 {
 
@@ -42,7 +44,7 @@ public:
   uint64_t get_location();
   uint64_t get_size();
   uint32_t get_size_in_file();
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   void set_zero();
   enum stp_format get_stp_fmt()
   {

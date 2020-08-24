@@ -29,7 +29,7 @@ class TransactionEntry
 {
 public:
   TransactionEntry();
-  void parse(librevenge::RVNGInputStream *input);
+  void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string();
   std::vector<struct fnd_list_change> get_changes()
   {
