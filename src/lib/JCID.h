@@ -22,7 +22,7 @@ namespace libone
 class JCID
 {
 public:
-  JCID(const uint32_t val)
+  JCID(const uint32_t val = 0)
   {
     value = val;
   }
