@@ -44,6 +44,7 @@ public:
   uint64_t get_location();
   uint64_t get_size();
   uint32_t get_size_in_file();
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference &obj);
   void parse(const libone::RVNGInputStreamPtr_t &input);
   void set_zero();
   enum stp_format get_stp_fmt()

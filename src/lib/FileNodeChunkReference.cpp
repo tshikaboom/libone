@@ -102,6 +102,13 @@ uint32_t FileNodeChunkReference::get_size_in_file()
   return ret;
 }
 
+const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference &obj)
+{
+  obj.parse(input);
+  return input;
+}
+
+
 void FileNodeChunkReference::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   input->seek(m_offset, librevenge::RVNG_SEEK_SET);

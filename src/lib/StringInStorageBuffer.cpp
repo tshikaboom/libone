@@ -18,6 +18,12 @@
 
 namespace libone
 {
+const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, StringInStorageBuffer &obj)
+{
+  obj.parse(input);
+  return input;
+}
+
 
 void StringInStorageBuffer::parse(const libone::RVNGInputStreamPtr_t &input)
 {

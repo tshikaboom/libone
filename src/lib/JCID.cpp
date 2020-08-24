@@ -16,6 +16,17 @@
 
 namespace libone
 {
+void JCID::parse(const libone::RVNGInputStreamPtr_t &input)
+{
+  input >> value;
+}
+
+const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, JCID &obj)
+{
+  obj.parse(input);
+  return input;
+}
+
 
 std::string JCID::to_string() const
 {
