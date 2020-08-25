@@ -186,12 +186,4 @@ void FileNodeChunkReference::parse(const libone::RVNGInputStreamPtr_t &input)
   return;
 }
 
-void FileNodeChunkReference::set_zero()
-{
-  m_stp = 0;
-  m_cb = 0;
-  m_format_stp = StpFormat::stp_invalid;
-  m_format_cb = CbFormat::cb_invalid;
-}
-
 }

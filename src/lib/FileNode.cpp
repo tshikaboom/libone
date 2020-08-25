@@ -249,6 +249,7 @@ void FileNode::parse_header(const libone::RVNGInputStreamPtr_t &input)
   }
   m_fncr = reference;
 }
+  m_fncr = FileNodeChunkReference(stp, cb, stp_format, cb_format);
 
 void FileNode::skip_node(const libone::RVNGInputStreamPtr_t &input)
 {

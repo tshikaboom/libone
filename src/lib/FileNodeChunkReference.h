@@ -44,7 +44,6 @@ public:
   friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference &obj);
 
   void parse(const libone::RVNGInputStreamPtr_t &input);
-  void set_zero();
 
   bool is_fcrNil() const;
   bool is_fcrZero() const;
