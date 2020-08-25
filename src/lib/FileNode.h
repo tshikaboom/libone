@@ -120,8 +120,6 @@ public:
   static constexpr const uint32_t header_size = sizeof(uint32_t);
 
 private:
-  uint32_t m_offset = 0;
-  uint32_t m_size_in_file = 0;
   FileNodeChunkReference m_fncr = FileNodeChunkReference();
 
   FndId m_fnd_id = FndId::fnd_invalid_id;

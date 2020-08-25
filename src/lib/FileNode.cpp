@@ -97,7 +97,6 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
 
   switch (m_fnd_id)
   {
-    break;
   case FndId::DataSignatureGroupDefinitionFND:
     break;
   case FndId::FileDataStoreListReferenceFND:
@@ -210,52 +209,28 @@ std::string FileNode::to_string()
 
 void FileNode::parse_header(const libone::RVNGInputStreamPtr_t &input)
 {
+  uint64_t stp = input->tell();
   uint32_t temp;
-  int d;
 
   input >> temp;
 
-  d = temp >> 31;
+
 
   StpFormat stp_format = static_cast<StpFormat>((temp >> shift_format_stp) & mask_format_stp);
   CbFormat cb_format = static_cast<CbFormat>((temp >> shift_format_cb) & mask_format_cb);
   m_base_type = static_cast<fnd_basetype>((temp >> shift_base_type) & mask_fnd_base_type);
   m_fnd_id = static_cast<FndId>(temp & mask_fnd_id);
-  m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;
-  if (d == 0)
-  {
-    std::bitset<13> z(m_size_in_file);
-    ONE_DEBUG_MSG(("%s\n", z.to_string().c_str()));
-    ONE_DEBUG_MSG(("warning: d is zero\n"));
-  }
-  assert(d == 1);
-  FileNodeChunkReference reference(stp_format, cb_format);
+  uint32_t cb  = (temp >> shift_fnd_size) & mask_fnd_size;
 
-  std::bitset<32> y(temp);
-  ONE_DEBUG_MSG((" filenode bits %s\n", y.to_string().c_str()));
-  switch (m_base_type)
-  {
-  case fnd_ref_data:
-  case fnd_ref_filenodelist:
-    reference.parse(input);
-    ONE_DEBUG_MSG(("\n"));
-    break;
-  case fnd_no_data:
-    reference.set_zero();
-    break;
-  default:
-    assert(false);
-    break;
-  }
-  m_fncr = reference;
-}
   m_fncr = FileNodeChunkReference(stp, cb, stp_format, cb_format);
+}
 
 void FileNode::skip_node(const libone::RVNGInputStreamPtr_t &input)
 {
   DBMSG << "Skipping file node by jumping over " << m_size_in_file << " bytes to " << m_offset + m_size_in_file << std::endl;
   input->seek(m_offset + m_size_in_file, librevenge::RVNG_SEEK_SET);
 }
+
 }
 
 
