@@ -110,7 +110,6 @@ private:
 
   FndId m_fnd_id = FndId::fnd_invalid_id;
   enum fnd_basetype m_base_type = fnd_invalid_basetype;
-  void parse_header(const libone::RVNGInputStreamPtr_t &input);
   FileNodeChunkReference m_fnd = FileNodeChunkReference(stp_invalid, cb_invalid, 0);
 
   static const uint32_t mask_fnd_id        = 0x3FF;
