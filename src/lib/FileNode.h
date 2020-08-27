@@ -80,6 +80,9 @@ class FileNode
 {
 public:
 
+  FileNode();
+  FileNode(const FileNode &source);
+  FileNode &operator=(const FileNode &source);
   ~FileNode();
   void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string();

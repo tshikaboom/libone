@@ -23,6 +23,33 @@
 
 namespace libone
 {
+FileNode::FileNode()
+  : m_offset(0), m_size_in_file(0), m_header_size(0), m_fncr(),
+    m_fnd_id(FndId::fnd_invalid_id),
+    m_base_type(fnd_basetype::fnd_invalid_basetype), m_fnd(nullptr) {}
+
+FileNode::FileNode(const FileNode &source)
+  : m_offset(source.m_offset), m_size_in_file(source.m_size_in_file),
+    m_header_size(source.m_header_size), m_fncr(source.m_fncr),
+    m_fnd_id(source.m_fnd_id), m_base_type(source.m_base_type),
+    m_fnd(nullptr)
+{
+  m_fnd = source.m_fnd->clone();
+}
+
+FileNode &FileNode::operator=(const FileNode &source)
+{
+  if (this == &source)
+  {
+    return *this;
+  }
+  delete m_fnd;
+
+  m_fnd = source.m_fnd->clone();
+
+  return *this;
+}
+
 
 FileNode::~FileNode()
 {
