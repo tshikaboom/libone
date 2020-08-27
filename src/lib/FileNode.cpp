@@ -106,22 +106,14 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
   uint32_t temp;
   StpFormat format_stp;
   CbFormat format_cb;
-  int d;
 
   temp = readU32(input, false);
-  d = temp >> 31;
   format_stp = static_cast<StpFormat>((temp >> shift_format_stp) & mask_format_stp);
   format_cb = static_cast<CbFormat>((temp >> shift_format_cb) & mask_format_cb);
   m_base_type = static_cast<fnd_basetype>((temp >> shift_base_type) & mask_fnd_base_type);
   m_fnd_id = static_cast<FndId>(temp & mask_fnd_id);
   m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;
-  if (d == 0)
-  {
-    std::bitset<13> z(m_size_in_file);
-    ONE_DEBUG_MSG(("%s\n", z.to_string().c_str()));
-    ONE_DEBUG_MSG(("warning: d is zero\n"));
-  }
-  assert(d == 1);
+
   FileNodeChunkReference reference(format_stp, format_cb);
 
   std::bitset<32> y(temp);
