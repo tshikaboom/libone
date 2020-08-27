@@ -11,6 +11,7 @@
 #include <cstring>
 #include <iostream>
 #include <iomanip>
+#include <vector>
 #include <libone/libone.h>
 
 
@@ -123,6 +124,36 @@ std::string FileNodeListFragment::to_string()
 {
   return std::string();
 }
+
+std::vector<FileNodeListFragment> parseFileNodeListFragments(const libone::RVNGInputStreamPtr_t &input, const FileChunkReference &ref)
+{
+  uint64_t originalLocation = input->tell();
+
+  std::vector<FileNodeListFragment> fragments {};
+
+
+  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+  FileNodeListFragment fragment(ref.get_location(), ref.get_size());
+
+  fragment.parse(input);
+  fragments.push_back(fragment);
+
+
+  FileChunkReference nextFragmentRef = fragment.get_next_fragment();
+
+  while (!nextFragmentRef.is_fcrNil() && !nextFragmentRef.is_fcrZero())
+  {
+    FileNodeListFragment nextFragment(nextFragmentRef.get_location(), nextFragmentRef.get_size());
+    input->seek(nextFragmentRef.get_location(), librevenge::RVNG_SEEK_SET);
+    fragment.parse(input);
+
+    nextFragmentRef = nextFragment.get_next_fragment();
+    fragments.push_back(fragment);
+  }
+
+
+  input->seek(originalLocation, librevenge::RVNG_SEEK_SET);
+  return fragments;
 }
 
-
+}

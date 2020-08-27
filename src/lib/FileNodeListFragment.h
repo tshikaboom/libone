@@ -22,6 +22,7 @@
 namespace libone
 {
 
+
 class FileNodeListFragment
 {
 public:
@@ -70,6 +71,7 @@ private:
   const size_t field_size_footer = sizeof(footer_magic_id);
 };
 
+std::vector<FileNodeListFragment> parseFileNodeListFragments(const libone::RVNGInputStreamPtr_t &input, const FileChunkReference &ref);
 
 }
 
