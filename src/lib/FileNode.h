@@ -71,7 +71,7 @@ enum class FndId
   ReadOnlyObjectDeclaration2RefCountFND       = 0x0C4,
   ReadOnlyObjectDeclaration2LargeRefCountFND  = 0x0F5,
   ChunkTerminatorFND                          = 0x0FF,
-  fnd_invalid_id
+  fnd_invalid_id                              = 0x0
 };
 
 std::string fnd_id_to_string(FndId id_fnd);
