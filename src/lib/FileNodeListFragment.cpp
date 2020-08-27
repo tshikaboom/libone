@@ -52,24 +52,45 @@ void FileNodeListFragment::parse(const libone::RVNGInputStreamPtr_t &input)
   m_fnd_list_id = readU32(input, false);
   m_fragment_sequence = readU32(input, false);
 
-  FileNode node;
-
+  uint32_t fileNodeCount = 0xFFFFFFFF;
+  /* TODO: not sure how to satisfy the 'Transaction' requirement */
+// TODO: set the Transaction's count to fileNodeCount, something like:
+//
+//  if (getFileNodeCountMapping().contains(m_fnd_list_id)) {
+//   fileNodeCount = getFileNodeCountMapping()[m_fnd_list_id];
+//   }
   do
   {
+    FileNode node;
     node.parse(input);
 
     DBMSG << "input@" << input->tell() << ", node " << node.to_string() << std::endl;
 
-    if (node.get_FileNodeID() != FndId::ChunkTerminatorFND)
+    if (node.get_FileNodeID() != FndId::fnd_invalid_id)
     {
-      m_fnd_list.push_back(node);
-      DBMSG << "Added node to node list of size " << m_fnd_list.size() << std::endl;
+      if (node.get_FileNodeID() != FndId::ChunkTerminatorFND)
+      {
+        fileNodeCount--;
+        m_fnd_list.push_back(node);
+        DBMSG << "Added node to node list of size " << m_fnd_list.size() << std::endl;
+      }
+      else
+      {
+        DBMSG << "Returning because ChunkTerminatorFND" << std::endl;
+        break;
+      }
     }
-
-    node.skip_node(input);
-    skip_padding(input);
+    else
+    {
+      DBMSG << "Returning because padding found" << std::endl;
+      break;
+    }
   }
-  while (!is_end_of_list(node, input->tell()));
+  while ((m_offset + m_size - input->tell() - 20 > 4) && (fileNodeCount > 0));
+  // the footer structure is 20 bytes long (FileChunkReference (12bytes), and magic (8bytes)
+
+  // skip padding and ChunkTerminatorFND
+  input->seek(m_offset + m_size - 20, librevenge::RVNG_SEEK_SET);
 
   m_next_fragment.parse(input);
 
@@ -85,40 +106,6 @@ void FileNodeListFragment::parse(const libone::RVNGInputStreamPtr_t &input)
   return;
 }
 
-void FileNodeListFragment::skip_padding(const libone::RVNGInputStreamPtr_t &input)
-{
-  int i;
-  for (i=0;; i++)
-  {
-    if (readU8(input, false) != 0)
-    {
-      input->seek(- sizeof(uint8_t), librevenge::RVNG_SEEK_CUR);
-      break;
-    }
-  }
-  DBMSG << "Skipped " << i << " bytes" << std::endl;
-}
-
-/* TODO: not sure how to satisfy the 'Transaction' requirement */
-bool FileNodeListFragment::is_end_of_list(FileNode current_node, long current_offset)
-{
-  if (current_node.get_FileNodeID() == FndId::ChunkTerminatorFND)
-  {
-    DBMSG << "Returning true because ChunkTerminatorFND" << std::endl;
-    return true;
-  }
-
-  if (m_next_fragment_offset - current_offset < 4)
-  {
-    DBMSG << "Returning true because < 4 bytes" << std::endl;
-    return true;
-  }
-
-  DBMSG << "Returning false (current_node " << fnd_id_to_string(current_node.get_FileNodeID())
-        << ", current_offset@" << current_offset << ", next_fragment@" << m_next_fragment_offset
-        << std::endl;
-  return false;
-}
 
 std::string FileNodeListFragment::to_string()
 {

@@ -262,7 +262,6 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
     break;
   case FndId::fnd_invalid_id:
   default:
-    assert(false);
     m_fnd = nullptr;
     break;
   }
