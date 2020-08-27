@@ -41,8 +41,14 @@ public:
   FileNodeChunkReference(enum stp_format format_stp, enum cb_format format_cb, long offset);
   bool is_fcrNil();
   bool is_fcrZero();
-  uint64_t get_location();
-  uint64_t get_size();
+  uint64_t stp() const
+  {
+    return m_stp;
+  }
+  uint64_t cb() const
+  {
+    return m_cb;
+  }
   uint32_t get_size_in_file();
   friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference &obj);
   void parse(const libone::RVNGInputStreamPtr_t &input);

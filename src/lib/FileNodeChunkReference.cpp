@@ -48,16 +48,6 @@ bool FileNodeChunkReference::is_fcrZero()
   return ((m_stp == 0) && (m_cb == 0));
 }
 
-uint64_t FileNodeChunkReference::get_location()
-{
-  return m_stp;
-}
-
-uint64_t FileNodeChunkReference::get_size()
-{
-  return m_cb;
-}
-
 uint32_t FileNodeChunkReference::get_size_in_file()
 {
   uint32_t ret = 0;

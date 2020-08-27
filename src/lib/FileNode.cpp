@@ -228,6 +228,7 @@ std::string FileNode::to_string()
 
   stream << fnd_id_to_string(m_fnd_id);
   stream << "; ";
+  stream << "size " << m_size_in_file << "; ";
 
   stream << std::hex << "base_type ";
   switch (m_base_type)
@@ -236,10 +237,10 @@ std::string FileNode::to_string()
     stream << "fnd_no_data";
     break;
   case fnd_ref_data:
-    stream << "fnd_ref_data@0x" << m_fnd.get_location();
+    stream << "fnd_ref_data@0x" << m_fnd.stp();
     break;
   case fnd_ref_filenodelist:
-    stream << "fnd_ref_filenodelist@0x" << m_fnd.get_location();
+    stream << "fnd_ref_filenodelist@0x" << m_fnd.stp();
     break;
   default:
     stream << "UNKNOWN BASETYPE";

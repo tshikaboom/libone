@@ -22,7 +22,7 @@ void ObjectSpace::parse(const libone::RVNGInputStreamPtr_t &input, FileNode &nod
 {
   m_fnd_list_ref = node.get_fnd();
 
-  FileNodeList list = FileNodeList(m_fnd_list_ref.get_location(), m_fnd_list_ref.get_size());
+  FileNodeList list = FileNodeList(m_fnd_list_ref.stp(), m_fnd_list_ref.cb());
 
   // We should then be at the 'gosid' field
   input->seek(node.get_location() + node.header_size + m_fnd_list_ref.get_size_in_file(),
@@ -40,7 +40,7 @@ void ObjectSpace::list_parse(const libone::RVNGInputStreamPtr_t &input, Extended
   Revision rev;
   FileNode node;
   FileNode node2;
-  FileNodeList list = FileNodeList(ref.get_location(), ref.get_size());
+  FileNodeList list = FileNodeList(ref.stp(), ref.cb());
   ExtendedGUID temp;
   temp.zero();
 

@@ -99,13 +99,13 @@ void Object::parse_list(const libone::RVNGInputStreamPtr_t &input, FileNodeChunk
   ObjectSpaceStreamOfOIDs oids = ObjectSpaceStreamOfOIDs(guid);
   ObjectSpaceStreamOfOSIDs osids = ObjectSpaceStreamOfOSIDs();
   ObjectSpaceStreamOfContextIDs contexts = ObjectSpaceStreamOfContextIDs();
-  FileNodeList list(ref.get_location(), ref.get_size());
+  FileNodeList list(ref.stp(), ref.cb());
   FileNode node;
 
   if (jcid.get_value() == 0) return;
 
   long old = input->tell();
-  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+  input->seek(ref.stp(), librevenge::RVNG_SEEK_SET);
 
   object_refs = oids.parse(input);
   if (!oids.get_B())
