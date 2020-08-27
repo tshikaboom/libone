@@ -98,14 +98,14 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
   DBMSG << "Will parse at " << m_offset << std::endl;
 
   uint32_t temp;
-  enum stp_format format_stp;
-  enum cb_format format_cb;
+  StpFormat format_stp;
+  CbFormat format_cb;
   int d;
 
   temp = readU32(input, false);
   d = temp >> 31;
-  format_stp = static_cast<stp_format>((temp >> shift_format_stp) & mask_format_stp);
-  format_cb = static_cast<cb_format>((temp >> shift_format_cb) & mask_format_cb);
+  format_stp = static_cast<StpFormat>((temp >> shift_format_stp) & mask_format_stp);
+  format_cb = static_cast<CbFormat>((temp >> shift_format_cb) & mask_format_cb);
   m_base_type = static_cast<fnd_basetype>((temp >> shift_base_type) & mask_fnd_base_type);
   m_fnd_id = static_cast<FndId>(temp & mask_fnd_id);
   m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;

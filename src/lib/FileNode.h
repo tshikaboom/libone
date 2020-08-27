@@ -110,7 +110,7 @@ private:
 
   FndId m_fnd_id = FndId::fnd_invalid_id;
   enum fnd_basetype m_base_type = fnd_invalid_basetype;
-  FileNodeChunkReference m_fnd = FileNodeChunkReference(stp_invalid, cb_invalid, 0);
+  FileNodeChunkReference m_fnd = FileNodeChunkReference(StpFormat::stp_invalid, CbFormat::cb_invalid, 0);
 
   static const uint32_t mask_fnd_id        = 0x3FF;
   static const uint32_t mask_fnd_base_type = 0xF;

@@ -17,7 +17,7 @@
 namespace libone
 {
 
-enum stp_format
+enum class StpFormat
 {
   stp_uncompressed_8 = 0,
   stp_uncompressed_4 = 1,
@@ -26,7 +26,7 @@ enum stp_format
   stp_invalid
 };
 
-enum cb_format
+enum class CbFormat
 {
   cb_uncompressed_4 = 0,
   cb_uncompressed_8 = 1,
@@ -38,7 +38,7 @@ enum cb_format
 class FileNodeChunkReference
 {
 public:
-  FileNodeChunkReference(enum stp_format format_stp, enum cb_format format_cb, long offset);
+  FileNodeChunkReference(StpFormat format_stp, CbFormat format_cb, long offset);
   bool is_fcrNil();
   bool is_fcrZero();
   uint64_t stp() const
@@ -53,11 +53,11 @@ public:
   friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference &obj);
   void parse(const libone::RVNGInputStreamPtr_t &input);
   void set_zero();
-  enum stp_format get_stp_fmt()
+  StpFormat get_stp_fmt()
   {
     return m_format_stp;
   }
-  enum cb_format get_cb_fmt()
+  CbFormat get_cb_fmt()
   {
     return m_format_cb;
   }
@@ -66,8 +66,8 @@ private:
   uint64_t m_offset;
   uint64_t m_stp;
   uint64_t m_cb;
-  enum stp_format m_format_stp;
-  enum cb_format m_format_cb;
+  StpFormat m_format_stp;
+  CbFormat m_format_cb;
 };
 
 }
