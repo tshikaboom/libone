@@ -116,7 +116,7 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
     ONE_DEBUG_MSG(("warning: d is zero\n"));
   }
   assert(d == 1);
-  FileNodeChunkReference reference(format_stp, format_cb, input->tell());
+  FileNodeChunkReference reference(format_stp, format_cb);
 
   std::bitset<32> y(temp);
   ONE_DEBUG_MSG((" filenode bits %s\n", y.to_string().c_str()));
@@ -124,7 +124,7 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
   {
   case fnd_ref_data:
   case fnd_ref_filenodelist:
-    reference.parse(input);
+    reference.parse(input, input->tell());
     ONE_DEBUG_MSG(("\n"));
     break;
   case fnd_no_data:

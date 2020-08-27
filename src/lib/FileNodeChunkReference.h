@@ -38,7 +38,8 @@ enum class CbFormat
 class FileNodeChunkReference
 {
 public:
-  FileNodeChunkReference(StpFormat format_stp, CbFormat format_cb, long offset);
+  FileNodeChunkReference(const StpFormat format_stp = StpFormat::stp_invalid, const CbFormat format_cb = CbFormat::cb_invalid);
+  FileNodeChunkReference(const uint64_t stp, const uint64_t cb, const StpFormat format_stp = StpFormat::stp_uncompressed_8, const CbFormat format_cb = CbFormat::cb_uncompressed_8);
   bool is_fcrNil();
   bool is_fcrZero();
   uint64_t stp() const
@@ -52,6 +53,7 @@ public:
   uint32_t get_size_in_file();
   friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference &obj);
   void parse(const libone::RVNGInputStreamPtr_t &input);
+  void parse(const libone::RVNGInputStreamPtr_t &input, const uint64_t offset);
   void set_zero();
   StpFormat get_stp_fmt()
   {

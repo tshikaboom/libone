@@ -15,10 +15,18 @@
 namespace libone
 {
 
-FileNodeChunkReference::FileNodeChunkReference(StpFormat format_stp, CbFormat format_cb, long offset) :
-  m_offset(offset),
+FileNodeChunkReference::FileNodeChunkReference(const StpFormat format_stp, const CbFormat format_cb) :
+  m_offset(0),
   m_stp(0),
   m_cb(0),
+  m_format_stp(format_stp),
+  m_format_cb(format_cb)
+{}
+
+FileNodeChunkReference::FileNodeChunkReference(const uint64_t stp, const uint64_t cb, const StpFormat format_stp, const CbFormat format_cb) :
+  m_offset(0),
+  m_stp(stp),
+  m_cb(cb),
   m_format_stp(format_stp),
   m_format_cb(format_cb)
 {}
@@ -99,9 +107,19 @@ const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_
 }
 
 
+void FileNodeChunkReference::parse(const libone::RVNGInputStreamPtr_t &input, const uint64_t offset)
+{
+  const uint64_t origLocation = input->tell();
+  input->seek(offset, librevenge::RVNG_SEEK_SET);
+
+  parse(input);
+
+  input->seek(origLocation, librevenge::RVNG_SEEK_SET);
+}
+
 void FileNodeChunkReference::parse(const libone::RVNGInputStreamPtr_t &input)
 {
-  input->seek(m_offset, librevenge::RVNG_SEEK_SET);
+  m_offset = input->tell();
 
   switch (m_format_stp)
   {

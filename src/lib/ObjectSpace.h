@@ -35,7 +35,7 @@ public:
 
 private:
   uint64_t m_offset = 0;
-  FileNodeChunkReference m_fnd_list_ref = FileNodeChunkReference(StpFormat::stp_invalid, CbFormat::cb_invalid, 0);
+  FileNodeChunkReference m_fnd_list_ref = FileNodeChunkReference(StpFormat::stp_invalid, CbFormat::cb_invalid);
   ExtendedGUID guid = ExtendedGUID();
   ExtendedGUID context = ExtendedGUID();
   std::vector<Revision> revisions = std::vector<Revision>();
