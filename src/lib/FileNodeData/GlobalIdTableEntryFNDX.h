@@ -26,7 +26,12 @@ public:
 
   std::string to_string() const override;
 
+  IFileNodeData *clone() const override
+  {
+    return new GlobalIdTableEntryFNDX(*this);
+  }
 };
+
 } //namespace libone
 
 #endif // GLOBALIDTABLEENTRYFNDX_H

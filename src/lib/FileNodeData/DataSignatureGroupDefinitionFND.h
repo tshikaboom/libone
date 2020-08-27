@@ -21,6 +21,11 @@ public:
 
   std::string to_string() const override;
 
+  IFileNodeData *clone() const override
+  {
+    return new DataSignatureGroupDefinitionFND(*this);
+  }
+
 };
 
 } // namespace libone

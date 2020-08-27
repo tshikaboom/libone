@@ -8,15 +8,17 @@ ObjectDataEncryptionKeyV2FNDX::ObjectDataEncryptionKeyV2FNDX(
   StpFormat stpFormat, CbFormat cbFormat)
   : m_ref(stpFormat, cbFormat), m_EncryptionData() {}
 
-// ObjectDataEncryptionKeyV2FNDX::ObjectDataEncryptionKeyV2FNDX(const ObjectDataEncryptionKeyV2FNDX &source)
-//   : m_ref(source.m_ref),
-// {
-//   std::copy(source.getEncryptionData(), source.getEncryptionData() + source.getEncryptionDataLength(), m_EncryptionData);
-// }
-
-ObjectDataEncryptionKeyV2FNDX::~ObjectDataEncryptionKeyV2FNDX()
+ObjectDataEncryptionKeyV2FNDX::ObjectDataEncryptionKeyV2FNDX(const ObjectDataEncryptionKeyV2FNDX &source)
+  : m_ref(source.m_ref), m_EncryptionData(std::unique_ptr<unsigned char[]>
 {
+  new unsigned char[source.getEncryptionDataLength()]
+})
+{
+  std::copy(source.getEncryptionData(), source.getEncryptionData() + source.getEncryptionDataLength(), m_EncryptionData.get());
 }
+
+ObjectDataEncryptionKeyV2FNDX::~ObjectDataEncryptionKeyV2FNDX() = default;
+
 
 // ObjectDataEncryptionKeyV2FNDX &ObjectDataEncryptionKeyV2FNDX::operator=(const ObjectDataEncryptionKeyV2FNDX &rhs)
 // {
@@ -34,6 +36,11 @@ ObjectDataEncryptionKeyV2FNDX::~ObjectDataEncryptionKeyV2FNDX()
 unsigned char *ObjectDataEncryptionKeyV2FNDX::getEncryptionData() const
 {
   return m_EncryptionData.get();
+}
+
+uint64_t ObjectDataEncryptionKeyV2FNDX::getEncryptionDataLength() const
+{
+  return m_ref.cb();
 }
 
 void ObjectDataEncryptionKeyV2FNDX::setEncryptionData(const unsigned char *value, const uint64_t length)

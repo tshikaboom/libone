@@ -29,6 +29,10 @@ public:
 
   std::string to_string() const override;
 
+  IFileNodeData *clone() const override
+  {
+    return new GlobalIdTableEntry3FNDX(*this);
+  }
 };
 
 } // namespace libone

@@ -23,7 +23,10 @@ public:
 
   virtual std::string to_string() const = 0;
 
+  virtual IFileNodeData *clone() const = 0;
+
 };
+
 
 } // namespace libone
 

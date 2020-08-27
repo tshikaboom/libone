@@ -22,6 +22,10 @@ public:
 
   std::string to_string() const override;
 
+  IFileNodeData *clone() const override
+  {
+    return new FileDataStoreListReferenceFND(*this);
+  }
 };
 
 } // namespace libone
