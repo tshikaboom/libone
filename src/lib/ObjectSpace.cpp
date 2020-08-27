@@ -20,7 +20,7 @@ ObjectSpace::ObjectSpace()
 
 void ObjectSpace::parse(const libone::RVNGInputStreamPtr_t &input, FileNode &node)
 {
-  m_fnd_list_ref = node.get_fnd();
+  m_fnd_list_ref = node.fncr();
 
   FileNodeList list = FileNodeList(m_fnd_list_ref.stp(), m_fnd_list_ref.cb());
 
@@ -49,7 +49,7 @@ void ObjectSpace::list_parse(const libone::RVNGInputStreamPtr_t &input, Extended
   list.parse(input);
 
   ONE_DEBUG_MSG(("trying to parse last revision\n"));
-  rev.list_parse(input, node2.get_fnd());
+  rev.list_parse(input, node2.fncr());
   revisions.push_back(rev);
   ONE_DEBUG_MSG(("\n"));
 }

@@ -19,9 +19,15 @@
 #include <bitset>
 
 #include "FileNode.h"
+#include "FileNodeData/FileNodeData.h"
 
 namespace libone
 {
+
+FileNode::~FileNode()
+{
+  delete m_fnd;
+}
 
 std::string fnd_id_to_string(FndId id_fnd)
 {
@@ -134,7 +140,7 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
     assert(false);
     break;
   }
-  m_fnd = reference;
+  m_fncr = reference;
 
   switch (m_fnd_id)
   {
@@ -218,8 +224,15 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
   case FndId::fnd_invalid_id:
   default:
     assert(false);
+    m_fnd = nullptr;
     break;
   }
+
+  if (m_fnd != nullptr)
+  {
+    input >> *m_fnd;
+  }
+
 }
 
 std::string FileNode::to_string()
@@ -237,10 +250,10 @@ std::string FileNode::to_string()
     stream << "fnd_no_data";
     break;
   case fnd_ref_data:
-    stream << "fnd_ref_data@0x" << m_fnd.stp();
+    stream << "fnd_ref_data@0x" << m_fncr.stp();
     break;
   case fnd_ref_filenodelist:
-    stream << "fnd_ref_filenodelist@0x" << m_fnd.stp();
+    stream << "fnd_ref_filenodelist@0x" << m_fncr.stp();
     break;
   default:
     stream << "UNKNOWN BASETYPE";
