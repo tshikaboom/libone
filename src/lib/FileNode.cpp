@@ -141,25 +141,7 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
   m_fnd_id = static_cast<FndId>(temp & mask_fnd_id);
   m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;
 
-  FileNodeChunkReference reference(format_stp, format_cb);
-
-  std::bitset<32> y(temp);
-  ONE_DEBUG_MSG((" filenode bits %s\n", y.to_string().c_str()));
-  switch (m_base_type)
-  {
-  case fnd_ref_data:
-  case fnd_ref_filenodelist:
-    reference.parse(input, input->tell());
-    ONE_DEBUG_MSG(("\n"));
-    break;
-  case fnd_no_data:
-    reference.set_zero();
-    break;
-  default:
-    assert(false);
-    break;
-  }
-  m_fncr = reference;
+  m_fncr = FileNodeChunkReference(m_offset, m_size_in_file, format_stp, format_cb);
 
   switch (m_fnd_id)
   {
