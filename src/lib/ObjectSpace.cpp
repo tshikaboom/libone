@@ -10,6 +10,7 @@
 #include "libone_utils.h"
 
 #include "ObjectSpace.h"
+#include "FileNodeData/FileNodeData.h"
 
 namespace libone
 {
@@ -20,7 +21,7 @@ ObjectSpace::ObjectSpace()
 
 void ObjectSpace::parse(const libone::RVNGInputStreamPtr_t &input, FileNode &node)
 {
-  m_fnd_list_ref = node.fncr();
+  m_fnd_list_ref = static_cast<ObjectSpaceManifestListReferenceFND *>(node.get_fnd())->getRef();
 
   FileNodeList list = FileNodeList(m_fnd_list_ref.stp(), m_fnd_list_ref.cb());
 
