@@ -28,15 +28,13 @@ class FileChunkReference
 {
 public:
   FileChunkReference(const enum FileChunkReferenceSize fcr_size);
-  FileChunkReference(const uint64_t stp, const uint64_t cb, const enum FileChunkReferenceSize fcr_size = Size64x64);
+  FileChunkReference(const uint64_t stp, const uint64_t cb, const enum FileChunkReferenceSize fcr_size = fcr_size_invalid);
 
 
   void parse(const libone::RVNGInputStreamPtr_t &input);
   std::string to_string() const;
   uint64_t get_location() const;
-  void set_location(const uint64_t stp);
   uint64_t get_size() const;
-  void set_size(const uint64_t cb);
   bool is_fcrNil() const;
   bool is_fcrZero() const;
   void set_zero();
@@ -45,9 +43,11 @@ public:
 private:
   enum FileChunkReferenceSize m_type;
   uint64_t m_offset;
-  uint64_t m_size_in_file;
   uint64_t m_stp;
   uint64_t m_cb;
+
+  void set_location(const uint64_t stp);
+  void set_size(const uint64_t cb);
 };
 
 }

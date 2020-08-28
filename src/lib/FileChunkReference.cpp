@@ -22,7 +22,6 @@ namespace libone
 FileChunkReference::FileChunkReference(const enum FileChunkReferenceSize fcr_size) :
   m_type(fcr_size),
   m_offset(0),
-  m_size_in_file(0),
   m_stp(0),
   m_cb(0)
 {}
@@ -30,7 +29,6 @@ FileChunkReference::FileChunkReference(const enum FileChunkReferenceSize fcr_siz
 FileChunkReference::FileChunkReference(const uint64_t stp, const uint64_t cb, const enum FileChunkReferenceSize fcr_size) :
   m_type(fcr_size),
   m_offset(0),
-  m_size_in_file(0),
   m_stp(0),
   m_cb(0)
 {
@@ -56,6 +54,7 @@ void FileChunkReference::parse(const libone::RVNGInputStreamPtr_t &input)
     m_stp = readU64(input, false);
     m_cb = readU32(input, false);
     break;
+  case fcr_size_invalid:
   default:
     ONE_DEBUG_MSG(("FileChunkReference: not good!\n"));
     break;
@@ -170,13 +169,30 @@ void FileChunkReference::set_zero()
 {
   m_stp = 0;
   m_cb = 0;
-  m_size_in_file = 0;
   m_type = fcr_size_invalid;
 }
 
 // Size of the structure in bytes. Used for seeking
 uint64_t FileChunkReference::get_size_in_file() const
 {
-  return m_size_in_file;
+  uint64_t size = 0;
+  switch (m_type)
+  {
+  case Size32x32:
+    size += 8;
+    break;
+  case Size64x32:
+    size += 12;
+    break;
+  case Size64x64:
+    size += 16;
+    break;
+  case fcr_size_invalid:
+  default:
+    break;
+  }
+
+  return size;
 }
+
 }
