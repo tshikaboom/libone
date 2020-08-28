@@ -17,7 +17,7 @@
 namespace libone
 {
 
-std::string JCID::to_string()
+std::string JCID::to_string() const
 {
   std::stringstream stream;
   switch (get_value())

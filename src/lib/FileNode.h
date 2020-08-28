@@ -27,7 +27,7 @@ enum fnd_basetype
   fnd_invalid_basetype
 };
 
-enum fnd_id
+enum class FndId
 {
   ObjectSpaceManifestRootFND                  = 0x004,
   ObjectSpaceManifestListReferenceFND         = 0x008,
@@ -71,7 +71,7 @@ enum fnd_id
   fnd_invalid_id
 };
 
-std::string fnd_id_to_string(enum fnd_id id_fnd);
+std::string fnd_id_to_string(FndId id_fnd);
 
 class FileNode
 {
@@ -81,7 +81,7 @@ public:
 
   void skip_node(const libone::RVNGInputStreamPtr_t &input);
 
-  enum fnd_id get_FileNodeID()
+  FndId get_FileNodeID()
   {
     return m_fnd_id;
   }
@@ -107,7 +107,8 @@ private:
   uint32_t m_offset = 0;
   uint32_t m_size_in_file = 0;
   uint32_t m_header_size = 0;
-  enum fnd_id m_fnd_id = fnd_invalid_id;
+
+  FndId m_fnd_id = FndId::fnd_invalid_id;
   enum fnd_basetype m_base_type = fnd_invalid_basetype;
   void parse_header(const libone::RVNGInputStreamPtr_t &input);
   FileNodeChunkReference m_fnd = FileNodeChunkReference(stp_invalid, cb_invalid, 0);
