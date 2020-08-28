@@ -7,6 +7,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+#include <cassert>
 #include <cstddef>
 #include <cstring>
 #include <iostream>
@@ -57,6 +58,7 @@ void FileChunkReference::parse(const libone::RVNGInputStreamPtr_t &input)
   case fcr_size_invalid:
   default:
     ONE_DEBUG_MSG(("FileChunkReference: not good!\n"));
+    assert(false);
     break;
   }
 }
