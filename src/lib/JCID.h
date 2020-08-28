@@ -20,63 +20,63 @@ namespace libone
 class JCID
 {
 public:
-  JCID(uint32_t val)
+  JCID(const uint32_t val)
   {
     value = val;
   }
-  uint32_t get_value()
+  uint32_t get_value() const
   {
     return value;
   }
-  uint16_t index()
+  uint16_t index() const
   {
     return (value & 0xFFFF);
   }
-  uint16_t IsBinary()
+  uint16_t IsBinary() const
   {
     return (value & 0x10000) >> 16;
   }
-  uint16_t IsPropertySet()
+  uint16_t IsPropertySet() const
   {
     return (value & 0x20000) >> 17;
   }
-  uint16_t IsGraphNode()
+  uint16_t IsGraphNode() const
   {
     return (value & 0x40000) >> 18;
   }
-  uint16_t IsFileData()
+  uint16_t IsFileData() const
   {
     return (value & 0x80000) >> 19;
   }
-  uint16_t IsReadOnly()
+  uint16_t IsReadOnly() const
   {
     return (value & 0x100000) >> 20;
   }
-  void set_IsReadOnly(bool val)
+  void set_IsReadOnly(const bool val)
   {
     value |= (val << 20);
   }
-  void set_IsFileData(bool val)
+  void set_IsFileData(const bool val)
   {
     value |= (val << 19);
   }
-  void set_IsGraphNode(bool val)
+  void set_IsGraphNode(const bool val)
   {
     value |= (val << 18);
   }
-  void set_IsPropertySet(bool val)
+  void set_IsPropertySet(const bool val)
   {
     value |= (val << 17);
   }
-  void set_IsBinary(bool val)
+  void set_IsBinary(const bool val)
   {
     value |= (val << 16);
   }
-  void set_index(uint16_t val)
+  void set_index(const uint16_t val)
   {
     value |= val;
   }
-  std::string to_string();
+  std::string to_string() const;
 
   enum
   {
