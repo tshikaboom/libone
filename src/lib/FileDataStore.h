@@ -21,7 +21,7 @@ class FileDataStore
 {
 public:
 
-  void parse(libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref);
+  void parse(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref);
   std::string to_string();
 
 

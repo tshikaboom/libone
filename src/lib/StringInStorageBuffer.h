@@ -23,6 +23,7 @@ namespace libone
 class StringInStorageBuffer
 {
 public:
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, StringInStorageBuffer &obj);
   void parse(const libone::RVNGInputStreamPtr_t &input);
   uint32_t length = 0;
   std::string to_string();

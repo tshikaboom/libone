@@ -18,12 +18,11 @@
 
 namespace libone
 {
-
-void FileDataStore::parse(libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
+void FileDataStore::parse(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref)
 {
-  FileNodeList list(ref.get_location(), ref.get_size());
+  FileNodeList list(ref.stp(), ref.cb());
   FileNode node;
-  input->seek(ref.get_location(), librevenge::RVNG_SEEK_SET);
+  input->seek(ref.stp(), librevenge::RVNG_SEEK_SET);
   list.parse(input);
 
   ONE_DEBUG_MSG(("\n"));

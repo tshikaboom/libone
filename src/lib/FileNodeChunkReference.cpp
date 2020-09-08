@@ -15,10 +15,18 @@
 namespace libone
 {
 
-FileNodeChunkReference::FileNodeChunkReference(enum stp_format format_stp, enum cb_format format_cb, long offset) :
-  m_offset(offset),
+FileNodeChunkReference::FileNodeChunkReference(const StpFormat format_stp, const CbFormat format_cb) :
+  m_offset(0),
   m_stp(0),
   m_cb(0),
+  m_format_stp(format_stp),
+  m_format_cb(format_cb)
+{}
+
+FileNodeChunkReference::FileNodeChunkReference(const uint64_t stp, const uint64_t cb, const StpFormat format_stp, const CbFormat format_cb) :
+  m_offset(0),
+  m_stp(stp),
+  m_cb(cb),
   m_format_stp(format_stp),
   m_format_cb(format_cb)
 {}
@@ -28,14 +36,14 @@ bool FileNodeChunkReference::is_fcrNil()
   bool cbval = (m_cb == 0);
   switch (m_format_stp)
   {
-  case stp_uncompressed_8:
+  case StpFormat::stp_uncompressed_8:
     return (cbval && (m_stp & 0xFFFFFFFFFFFFFFFF));
 
-  case stp_uncompressed_4:
-  case stp_compressed_4:
+  case StpFormat::stp_uncompressed_4:
+  case StpFormat::stp_compressed_4:
     return (cbval && (m_stp & 0xFFFFFFFF));
 
-  case stp_compressed_2:
+  case StpFormat::stp_compressed_2:
     return (cbval && (m_stp & 0xFFFF));
 
   default:
@@ -48,32 +56,22 @@ bool FileNodeChunkReference::is_fcrZero()
   return ((m_stp == 0) && (m_cb == 0));
 }
 
-uint64_t FileNodeChunkReference::get_location()
-{
-  return m_stp;
-}
-
-uint64_t FileNodeChunkReference::get_size()
-{
-  return m_cb;
-}
-
 uint32_t FileNodeChunkReference::get_size_in_file()
 {
   uint32_t ret = 0;
   switch (m_format_stp)
   {
-  case stp_uncompressed_8:
+  case StpFormat::stp_uncompressed_8:
     ret += sizeof(uint64_t);
     break;
-  case stp_uncompressed_4:
-  case stp_compressed_4:
+  case StpFormat::stp_uncompressed_4:
+  case StpFormat::stp_compressed_4:
     ret += sizeof(uint32_t);
     break;
-  case stp_compressed_2:
+  case StpFormat::stp_compressed_2:
     ret += sizeof(uint16_t);
     break;
-  case stp_invalid:
+  case StpFormat::stp_invalid:
   default:
     // size would be 0
     break;
@@ -81,19 +79,19 @@ uint32_t FileNodeChunkReference::get_size_in_file()
 
   switch (m_format_cb)
   {
-  case cb_uncompressed_8:
+  case CbFormat::cb_uncompressed_8:
     ret += sizeof(uint64_t);
     break;
-  case cb_uncompressed_4:
+  case CbFormat::cb_uncompressed_4:
     ret += sizeof(uint32_t);
     break;
-  case cb_compressed_2:
+  case CbFormat::cb_compressed_2:
     ret += sizeof(uint16_t);
     break;
-  case cb_compressed_1:
+  case CbFormat::cb_compressed_1:
     ret += sizeof(uint8_t);
     break;
-  case cb_invalid:
+  case CbFormat::cb_invalid:
   default:
     // size would be 0
     break;
@@ -102,25 +100,42 @@ uint32_t FileNodeChunkReference::get_size_in_file()
   return ret;
 }
 
+const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference &obj)
+{
+  obj.parse(input);
+  return input;
+}
+
+
+void FileNodeChunkReference::parse(const libone::RVNGInputStreamPtr_t &input, const uint64_t offset)
+{
+  const uint64_t origLocation = input->tell();
+  input->seek(offset, librevenge::RVNG_SEEK_SET);
+
+  parse(input);
+
+  input->seek(origLocation, librevenge::RVNG_SEEK_SET);
+}
+
 void FileNodeChunkReference::parse(const libone::RVNGInputStreamPtr_t &input)
 {
-  input->seek(m_offset, librevenge::RVNG_SEEK_SET);
+  m_offset = input->tell();
 
   switch (m_format_stp)
   {
-  case stp_uncompressed_8:
+  case StpFormat::stp_uncompressed_8:
     m_stp = readU64(input, false);
     break;
-  case stp_uncompressed_4:
+  case StpFormat::stp_uncompressed_4:
     m_stp = readU32(input, false);
     break;
-  case stp_compressed_2:
+  case StpFormat::stp_compressed_2:
     m_stp = readU16(input, false) * 8;
     break;
-  case stp_compressed_4:
+  case StpFormat::stp_compressed_4:
     m_stp = readU32(input, false) * 8;
     break;
-  case stp_invalid:
+  case StpFormat::stp_invalid:
   default:
     assert(false);
     break;
@@ -128,19 +143,19 @@ void FileNodeChunkReference::parse(const libone::RVNGInputStreamPtr_t &input)
 
   switch (m_format_cb)
   {
-  case cb_uncompressed_4:
+  case CbFormat::cb_uncompressed_4:
     m_cb = readU32(input, false);
     break;
-  case cb_uncompressed_8:
+  case CbFormat::cb_uncompressed_8:
     m_cb = readU64(input, false);
     break;
-  case cb_compressed_1:
+  case CbFormat::cb_compressed_1:
     m_cb = readU8(input) * 8;
     break;
-  case cb_compressed_2:
-    m_cb = readU16(input, false);
+  case CbFormat::cb_compressed_2:
+    m_cb = readU16(input, false) * 8;
     break;
-  case cb_invalid:
+  case CbFormat::cb_invalid:
   default:
     assert(false);
     break;
@@ -153,8 +168,8 @@ void FileNodeChunkReference::set_zero()
 {
   m_stp = 0;
   m_cb = 0;
-  m_format_stp = stp_invalid;
-  m_format_cb = cb_invalid;
+  m_format_stp = StpFormat::stp_invalid;
+  m_format_cb = CbFormat::cb_invalid;
 }
 
 }

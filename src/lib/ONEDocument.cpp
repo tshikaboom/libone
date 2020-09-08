@@ -70,9 +70,10 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
 
 ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const input, librevenge::RVNGDrawingInterface *const document, const ONEDocument::Type type, const char *const) try
 {
-  /// \todo parsing the header doesn't seem to do anything here, also needs shared_ptr now
-//  Header header;
-//  header.parse(input);
+  const RVNGInputStreamPtr_t input_(input, ONEDummyDeleter());
+
+  Header header;
+  header.parse(input_);
 
   (void) document;
   // sanity check
@@ -81,7 +82,6 @@ ONEAPI ONEDocument::Result ONEDocument::parse(librevenge::RVNGInputStream *const
   if (ONEDocument::TYPE_RESERVED1 <= type)
     return ONEDocument::RESULT_UNSUPPORTED_FORMAT;
 
-  const RVNGInputStreamPtr_t input_(input, ONEDummyDeleter());
 
   OneNoteParser parser = OneNoteParser(input_, document);
   (void) parser;

@@ -17,7 +17,7 @@
 namespace libone
 {
 
-enum stp_format
+enum class StpFormat
 {
   stp_uncompressed_8 = 0,
   stp_uncompressed_4 = 1,
@@ -26,7 +26,7 @@ enum stp_format
   stp_invalid
 };
 
-enum cb_format
+enum class CbFormat
 {
   cb_uncompressed_4 = 0,
   cb_uncompressed_8 = 1,
@@ -38,19 +38,28 @@ enum cb_format
 class FileNodeChunkReference
 {
 public:
-  FileNodeChunkReference(enum stp_format format_stp, enum cb_format format_cb, long offset);
+  FileNodeChunkReference(const StpFormat format_stp = StpFormat::stp_invalid, const CbFormat format_cb = CbFormat::cb_invalid);
+  FileNodeChunkReference(const uint64_t stp, const uint64_t cb, const StpFormat format_stp = StpFormat::stp_uncompressed_8, const CbFormat format_cb = CbFormat::cb_uncompressed_8);
   bool is_fcrNil();
   bool is_fcrZero();
-  uint64_t get_location();
-  uint64_t get_size();
+  uint64_t stp() const
+  {
+    return m_stp;
+  }
+  uint64_t cb() const
+  {
+    return m_cb;
+  }
   uint32_t get_size_in_file();
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference &obj);
   void parse(const libone::RVNGInputStreamPtr_t &input);
+  void parse(const libone::RVNGInputStreamPtr_t &input, const uint64_t offset);
   void set_zero();
-  enum stp_format get_stp_fmt()
+  StpFormat get_stp_fmt()
   {
     return m_format_stp;
   }
-  enum cb_format get_cb_fmt()
+  CbFormat get_cb_fmt()
   {
     return m_format_cb;
   }
@@ -59,8 +68,8 @@ private:
   uint64_t m_offset;
   uint64_t m_stp;
   uint64_t m_cb;
-  enum stp_format m_format_stp;
-  enum cb_format m_format_cb;
+  StpFormat m_format_stp;
+  CbFormat m_format_cb;
 };
 
 }

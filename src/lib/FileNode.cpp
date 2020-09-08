@@ -19,9 +19,42 @@
 #include <bitset>
 
 #include "FileNode.h"
+#include "FileNodeData/FileNodeData.h"
 
 namespace libone
 {
+FileNode::FileNode()
+  : m_offset(0), m_size_in_file(0), m_header_size(0), m_fncr(),
+    m_fnd_id(FndId::fnd_invalid_id),
+    m_base_type(fnd_basetype::fnd_invalid_basetype), m_fnd(nullptr) {}
+
+FileNode::FileNode(const FileNode &source)
+  : m_offset(source.m_offset), m_size_in_file(source.m_size_in_file),
+    m_header_size(source.m_header_size), m_fncr(source.m_fncr),
+    m_fnd_id(source.m_fnd_id), m_base_type(source.m_base_type),
+    m_fnd(nullptr)
+{
+  m_fnd = source.m_fnd->clone();
+}
+
+FileNode &FileNode::operator=(const FileNode &source)
+{
+  if (this == &source)
+  {
+    return *this;
+  }
+  delete m_fnd;
+
+  m_fnd = source.m_fnd->clone();
+
+  return *this;
+}
+
+
+FileNode::~FileNode()
+{
+  delete m_fnd;
+}
 
 std::string fnd_id_to_string(FndId id_fnd)
 {
@@ -95,78 +128,130 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
 {
   m_offset = input->tell();
 
-  parse_header(input);
+  DBMSG << "Will parse at " << m_offset << std::endl;
+
+  uint32_t temp;
+  StpFormat format_stp;
+  CbFormat format_cb;
+
+  temp = readU32(input, false);
+  format_stp = static_cast<StpFormat>((temp >> shift_format_stp) & mask_format_stp);
+  format_cb = static_cast<CbFormat>((temp >> shift_format_cb) & mask_format_cb);
+  m_base_type = static_cast<fnd_basetype>((temp >> shift_base_type) & mask_fnd_base_type);
+  m_fnd_id = static_cast<FndId>(temp & mask_fnd_id);
+  m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;
+
+  m_fncr = FileNodeChunkReference(m_offset, m_size_in_file, format_stp, format_cb);
 
   switch (m_fnd_id)
   {
-    break;
   case FndId::DataSignatureGroupDefinitionFND:
+    m_fnd = new DataSignatureGroupDefinitionFND();
     break;
   case FndId::FileDataStoreListReferenceFND:
+    m_fnd = new FileDataStoreListReferenceFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::FileDataStoreObjectReferenceFND:
+    m_fnd = new FileDataStoreObjectReferenceFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::GlobalIdTableEntry2FNDX:
+    m_fnd = new GlobalIdTableEntry2FNDX();
     break;
   case FndId::GlobalIdTableEntry3FNDX:
+    m_fnd = new GlobalIdTableEntry3FNDX();
     break;
   case FndId::GlobalIdTableEntryFNDX:
+    m_fnd = new GlobalIdTableEntryFNDX();
     break;
   case FndId::GlobalIdTableStartFNDX:
+    m_fnd = new GlobalIdTableStartFNDX();
     break;
   case FndId::HashedChunkDescriptor2FND:
+    m_fnd = new HashedChunkDescriptor2FND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectDataEncryptionKeyV2FNDX:
+    m_fnd = new ObjectDataEncryptionKeyV2FNDX(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectDeclaration2LargeRefCountFND:
+    m_fnd =
+      new ObjectDeclaration2LargeRefCountFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectDeclaration2RefCountFND:
+    m_fnd = new ObjectDeclaration2RefCountFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectDeclarationFileData3LargeRefCountFND:
+    m_fnd = new ObjectDeclarationFileData3LargeRefCountFND();
     break;
   case FndId::ObjectDeclarationFileData3RefCountFND:
+    m_fnd = new ObjectDeclarationFileData3RefCountFND();
     break;
   case FndId::ObjectDeclarationWithRefCount2FNDX:
+    m_fnd =
+      new ObjectDeclarationWithRefCount2FNDX(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectDeclarationWithRefCountFNDX:
+    m_fnd =
+      new ObjectDeclarationWithRefCountFNDX(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectGroupListReferenceFND:
+    m_fnd = new ObjectGroupListReferenceFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectGroupStartFND:
+    m_fnd = new ObjectGroupStartFND();
     break;
   case FndId::ObjectInfoDependencyOverridesFND:
+    m_fnd = new ObjectInfoDependencyOverridesFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectRevisionWithRefCount2FNDX:
+    m_fnd = new ObjectRevisionWithRefCount2FNDX(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectRevisionWithRefCountFNDX:
+    m_fnd = new ObjectRevisionWithRefCountFNDX(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectSpaceManifestListReferenceFND:
+    m_fnd =
+      new ObjectSpaceManifestListReferenceFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::ObjectSpaceManifestListStartFND:
+    m_fnd = new ObjectSpaceManifestListStartFND();
     break;
   case FndId::ObjectSpaceManifestRootFND:
+    m_fnd = new ObjectSpaceManifestRootFND();
     break;
   case FndId::ReadOnlyObjectDeclaration2LargeRefCountFND:
+    m_fnd = new ReadOnlyObjectDeclaration2LargeRefCountFND(m_fncr.get_stp_fmt(),
+                                                           m_fncr.get_cb_fmt());
     break;
   case FndId::ReadOnlyObjectDeclaration2RefCountFND:
+    m_fnd =
+      new ReadOnlyObjectDeclaration2RefCountFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::RevisionManifestListReferenceFND:
+    m_fnd = new RevisionManifestListReferenceFND(m_fncr.get_stp_fmt(), m_fncr.get_cb_fmt());
     break;
   case FndId::RevisionManifestListStartFND:
+    m_fnd = new RevisionManifestListStartFND();
     break;
   case FndId::RevisionManifestStart4FND:
+    m_fnd = new RevisionManifestStart4FND();
     break;
   case FndId::RevisionManifestStart6FND:
+    m_fnd = new RevisionManifestStart6FND();
     break;
   case FndId::RevisionManifestStart7FND:
+    m_fnd = new RevisionManifestStart7FND();
     break;
   case FndId::RevisionRoleAndContextDeclarationFND:
+    m_fnd = new RevisionRoleAndContextDeclarationFND();
     break;
   case FndId::RevisionRoleDeclarationFND:
+    m_fnd = new RevisionRoleDeclarationFND();
     break;
   case FndId::RootObjectReference2FNDX:
+    m_fnd = new RootObjectReference2FNDX();
     break;
   case FndId::RootObjectReference3FND:
+    m_fnd = new RootObjectReference3FND();
     break;
 
   // nodes without data
@@ -178,9 +263,15 @@ void FileNode::parse(const libone::RVNGInputStreamPtr_t &input)
     break;
   case FndId::fnd_invalid_id:
   default:
-    assert(false);
+    m_fnd = nullptr;
     break;
   }
+
+  if (m_fnd != nullptr)
+  {
+    input >> *m_fnd;
+  }
+
 }
 
 std::string FileNode::to_string()
@@ -189,6 +280,7 @@ std::string FileNode::to_string()
 
   stream << fnd_id_to_string(m_fnd_id);
   stream << "; ";
+  stream << "size " << m_size_in_file << "; ";
 
   stream << std::hex << "base_type ";
   switch (m_base_type)
@@ -197,10 +289,10 @@ std::string FileNode::to_string()
     stream << "fnd_no_data";
     break;
   case fnd_ref_data:
-    stream << "fnd_ref_data@0x" << m_fnd.get_location();
+    stream << "fnd_ref_data@0x" << m_fncr.stp();
     break;
   case fnd_ref_filenodelist:
-    stream << "fnd_ref_filenodelist@0x" << m_fnd.get_location();
+    stream << "fnd_ref_filenodelist@0x" << m_fncr.stp();
     break;
   default:
     stream << "UNKNOWN BASETYPE";
@@ -209,48 +301,6 @@ std::string FileNode::to_string()
   }
 
   return stream.str();
-}
-
-void FileNode::parse_header(const libone::RVNGInputStreamPtr_t &input)
-{
-  uint32_t temp;
-  enum stp_format format_stp;
-  enum cb_format format_cb;
-  int d;
-
-  temp = readU32(input, false);
-  d = temp >> 31;
-  format_stp = static_cast<stp_format>((temp >> shift_format_stp) & mask_format_stp);
-  format_cb = static_cast<cb_format>((temp >> shift_format_cb) & mask_format_cb);
-  m_base_type = static_cast<fnd_basetype>((temp >> shift_base_type) & mask_fnd_base_type);
-  m_fnd_id = static_cast<FndId>(temp & mask_fnd_id);
-  m_size_in_file = (temp >> shift_fnd_size) & mask_fnd_size;
-  if (d == 0)
-  {
-    std::bitset<13> z(m_size_in_file);
-    ONE_DEBUG_MSG(("%s\n", z.to_string().c_str()));
-    ONE_DEBUG_MSG(("warning: d is zero\n"));
-  }
-  assert(d == 1);
-  FileNodeChunkReference reference(format_stp, format_cb, input->tell());
-
-  std::bitset<32> y(temp);
-  ONE_DEBUG_MSG((" filenode bits %s\n", y.to_string().c_str()));
-  switch (m_base_type)
-  {
-  case fnd_ref_data:
-  case fnd_ref_filenodelist:
-    reference.parse(input);
-    ONE_DEBUG_MSG(("\n"));
-    break;
-  case fnd_no_data:
-    reference.set_zero();
-    break;
-  default:
-    assert(false);
-    break;
-  }
-  m_fnd = reference;
 }
 
 void FileNode::skip_node(const libone::RVNGInputStreamPtr_t &input)

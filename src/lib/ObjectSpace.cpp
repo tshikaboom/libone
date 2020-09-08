@@ -10,6 +10,7 @@
 #include "libone_utils.h"
 
 #include "ObjectSpace.h"
+#include "FileNodeData/FileNodeData.h"
 
 namespace libone
 {
@@ -20,9 +21,9 @@ ObjectSpace::ObjectSpace()
 
 void ObjectSpace::parse(const libone::RVNGInputStreamPtr_t &input, FileNode &node)
 {
-  m_fnd_list_ref = node.get_fnd();
+  m_fnd_list_ref = static_cast<ObjectSpaceManifestListReferenceFND *>(node.get_fnd())->getRef();
 
-  FileNodeList list = FileNodeList(m_fnd_list_ref.get_location(), m_fnd_list_ref.get_size());
+  FileNodeList list = FileNodeList(m_fnd_list_ref.stp(), m_fnd_list_ref.cb());
 
   // We should then be at the 'gosid' field
   input->seek(node.get_location() + node.header_size + m_fnd_list_ref.get_size_in_file(),
@@ -40,7 +41,7 @@ void ObjectSpace::list_parse(const libone::RVNGInputStreamPtr_t &input, Extended
   Revision rev;
   FileNode node;
   FileNode node2;
-  FileNodeList list = FileNodeList(ref.get_location(), ref.get_size());
+  FileNodeList list = FileNodeList(ref.stp(), ref.cb());
   ExtendedGUID temp;
   temp.zero();
 
@@ -49,7 +50,7 @@ void ObjectSpace::list_parse(const libone::RVNGInputStreamPtr_t &input, Extended
   list.parse(input);
 
   ONE_DEBUG_MSG(("trying to parse last revision\n"));
-  rev.list_parse(input, node2.get_fnd());
+  rev.list_parse(input, node2.fncr());
   revisions.push_back(rev);
   ONE_DEBUG_MSG(("\n"));
 }

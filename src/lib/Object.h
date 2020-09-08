@@ -27,7 +27,7 @@ namespace libone
 struct object_header
 {
   ExtendedGUID guid = ExtendedGUID();
-  FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
+  FileNodeChunkReference body = FileNodeChunkReference(StpFormat::stp_invalid, CbFormat::cb_invalid);
   JCID jcid = JCID(0);
   uint32_t ref_count = 0;
   uint16_t fHasOidReferences = 0;
@@ -49,7 +49,7 @@ protected:
   void parse_list(const libone::RVNGInputStreamPtr_t &input, FileNodeChunkReference ref);
 
 private:
-  FileNodeChunkReference body = FileNodeChunkReference(stp_format::stp_invalid, cb_format::cb_invalid, 0);
+  FileNodeChunkReference body = FileNodeChunkReference(StpFormat::stp_invalid, CbFormat::cb_invalid);
   PropertySet set = PropertySet();
 
   bool read_only = false;

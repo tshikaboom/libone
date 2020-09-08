@@ -14,16 +14,22 @@
 #include <cstdint>
 #include <librevenge-stream/librevenge-stream.h>
 
+#include "libone_utils.h"
+
 namespace libone
 {
 
 class JCID
 {
 public:
-  JCID(const uint32_t val)
+  JCID(const uint32_t val = 0)
   {
     value = val;
   }
+  void parse(const libone::RVNGInputStreamPtr_t &input);
+
+  friend const libone::RVNGInputStreamPtr_t &operator>>(const libone::RVNGInputStreamPtr_t &input, JCID &obj);
+
   uint32_t get_value() const
   {
     return value;
